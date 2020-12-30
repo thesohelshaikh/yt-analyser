@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         Date date = UtilitiesManger.parseTime(response);
                         if (date == null) {
                             Toast.makeText(MainActivity.this, "Could not parse date", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                         Toast.makeText(MainActivity.this, "" + date.getTime(), Toast.LENGTH_SHORT).show();
                     }

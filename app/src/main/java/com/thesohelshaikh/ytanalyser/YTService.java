@@ -33,7 +33,9 @@ public class YTService {
             public void onResponse(JSONObject response) {
                 try {
                     String duration = response.getJSONArray("items").getJSONObject(0).getJSONObject("contentDetails").getString("duration");
-                    listener.onResponse(duration);
+                    String id = response.getJSONArray("items").getJSONObject(0).getString("id");
+                    VideoModel video = new VideoModel(id, duration);
+                    listener.onResponse(video.getDuration());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
