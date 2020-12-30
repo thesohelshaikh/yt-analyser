@@ -1,5 +1,7 @@
 package com.thesohelshaikh.ytanalyser;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,5 +44,32 @@ public class UtilitiesManger {
             return 0;
         }
         return Long.parseLong(parsed);
+    }
+
+    public static String getIDfromURL(String url) {
+        if (url.startsWith("http")) {
+            try {
+                URL originalURL = new URL(url);
+                String id = originalURL.getQuery();
+                if (id == null) {
+                    id = originalURL.getPath();
+                }
+                return cleanID(id);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static String cleanID(String id) {
+        // desktop url
+        if (id.startsWith("v")) {
+            id = id.substring(2);
+        } else {
+            // mobile url, remove extra forward slash
+            id = id.replaceAll("\\/", "");
+        }
+        return id;
     }
 }

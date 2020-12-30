@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         btnAnalyse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                service.getDuration(edURL.getText().toString(), new YTService.VolleyResponseListener() {
+                String iDfromURL = UtilitiesManger.getIDfromURL(edURL.getText().toString());
+                service.getDuration(iDfromURL, new YTService.VolleyResponseListener() {
                     @Override
                     public void onError(String errorMessage) {
                         Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
