@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -20,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText edURL;
     private Button btnAnalyse;
     private ClipboardManager clipboardManager;
+    TextView videoTitleTextView;
+    TextView channelTitleTextView;
+    TextView durationTextView;
+    ImageView thumbnailImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         edURL = findViewById(R.id.ed_url);
         btnAnalyse = findViewById(R.id.btn_analyse);
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        videoTitleTextView = findViewById(R.id.tv_videoTitle);
+        channelTitleTextView = findViewById(R.id.tv_channelTitle);
+        durationTextView = findViewById(R.id.tv_duration);
+        thumbnailImageView = findViewById(R.id.iv_thumbnail);
+
         getStringFromClipboard();
 
 
@@ -42,13 +55,30 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onResponse(String response) {
-                        Date date = UtilitiesManger.parseTime(response);
-                        if (date == null) {
-                            Toast.makeText(MainActivity.this, "Could not parse date", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Toast.makeText(MainActivity.this, "" + date.getTime(), Toast.LENGTH_SHORT).show();
+                    public void onResponse(final VideoModel videoModel) {
+
+                        service.getVideoDetails(videoModel.getId(), videoModel, new YTService.VideoDetailsListener() {
+                            @Override
+                            public void onError(String errorMessage) {
+
+                            }
+
+                            @Override
+                            public void onResponse(VideoModel model) {
+                                Toast.makeText(MainActivity.this, model.getTitle(), Toast.LENGTH_SHORT).show();
+                                videoTitleTextView.setText(model.getTitle());
+                                channelTitleTextView.setText(model.getChannelTitle());
+                                durationTextView.setText(UtilitiesManger.parseTime(model.getDuration()).getTime() + "");
+                                Picasso.get().load(videoModel.getThumbnailURL()).into(thumbnailImageView);
+                            }
+                        });
+//                        Date date = UtilitiesManger.parseTime(response);
+//
+//                        if (date == null) {
+//                            Toast.makeText(MainActivity.this, "Could not parse date", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        Toast.makeText(MainActivity.this, "" + date.getTime(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

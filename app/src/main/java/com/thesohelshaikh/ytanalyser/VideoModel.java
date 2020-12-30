@@ -3,10 +3,43 @@ package com.thesohelshaikh.ytanalyser;
 public class VideoModel {
     String id;
     String duration;
+    String title;
+    String thumbnailURL;
+    String channelTitle;
 
-    public VideoModel(String id, String duration) {
+    public VideoModel() {
+    }
+
+    public VideoModel(String id, String duration, String title, String thumbnailURL, String channelTitle) {
         this.id = id;
         this.duration = duration;
+        this.title = title;
+        this.thumbnailURL = thumbnailURL;
+        this.channelTitle = channelTitle;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
+    }
+
+    public String getChannelTitle() {
+        return channelTitle;
+    }
+
+    public void setChannelTitle(String channelTitle) {
+        this.channelTitle = channelTitle;
     }
 
     public String getId() {
