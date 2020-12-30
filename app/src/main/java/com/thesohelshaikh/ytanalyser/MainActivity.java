@@ -10,12 +10,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     private final String API_KEY = "AIzaSyDR6pW44r1itzKNBJg3U0mXOkbZCoXhkhE";
     private final String code = "-QMg39gK624";
+    private final YTService service = new YTService(MainActivity.this);
+
     private EditText edURL;
     private Button btnAnalyse;
-    private final YTService service = new YTService(MainActivity.this);
     private ClipboardManager clipboardManager;
 
     @Override
@@ -40,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                        Date date = UtilitiesManger.parseTime(response);
+                        if (date == null) {
+                            Toast.makeText(MainActivity.this, "Could not parse date", Toast.LENGTH_SHORT).show();
+                        }
+                        Toast.makeText(MainActivity.this, "" + date.getTime(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getStringFromClipboard() {
+        //TODO: verify this works
         ClipData primaryClip = clipboardManager.getPrimaryClip();
         if (primaryClip != null) {
             return primaryClip.getItemAt(0).getText().toString();
@@ -55,9 +63,6 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
-    public static void parseTime(String time) {
-        // TODO
-    }
 
     @Override
     protected void onResume() {
