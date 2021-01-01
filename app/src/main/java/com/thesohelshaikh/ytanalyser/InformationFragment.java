@@ -16,8 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,16 +80,14 @@ public class InformationFragment extends Fragment {
 
                             @Override
                             public void onResponse(VideoModel model) {
-                                HashMap<String, Long> durations =
+                                ArrayList<Long> durations =
                                         UtilitiesManger.parseTime(model.getDuration());
                                 videoTitleTextView.setText(model.getTitle());
                                 channelTitleTextView.setText(model.getChannelTitle());
-                                durationTextView.setText(durations.get("1") + "");
+                                durationTextView.setText(UtilitiesManger.getPrettyDuration(durations.get(0)));
                                 Picasso.get().load(videoModel.getThumbnailURL()).into(thumbnailImageView);
-                                List<Long> dlist = new ArrayList<>(durations.values());
-                                List<String> plist = new ArrayList<>(durations.keySet());
                                 DurationsAdapter adapter = new DurationsAdapter(getContext()
-                                        , plist, dlist);
+                                        , durations);
                                 durationsListView.setAdapter(adapter);
                             }
                         });

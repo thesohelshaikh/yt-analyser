@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DurationsAdapter extends ArrayAdapter<Long> {
@@ -16,11 +17,16 @@ public class DurationsAdapter extends ArrayAdapter<Long> {
     private List<Long> durations;
     private List<String> playbacks;
 
-    public DurationsAdapter(Context context, List<String> playbacks, List<Long> durations) {
+    public DurationsAdapter(Context context, List<Long> durations) {
         super(context, R.layout.duration_layout, durations);
         this.context = context;
         this.durations = durations;
-        this.playbacks = playbacks;
+        this.playbacks = new ArrayList<>();
+        this.playbacks.add("At 1x");
+        this.playbacks.add("At 1.25x");
+        this.playbacks.add("At 1.5x");
+        this.playbacks.add("At 1.75x");
+        this.playbacks.add("At 2x");
     }
 
     @NonNull
@@ -37,8 +43,9 @@ public class DurationsAdapter extends ArrayAdapter<Long> {
         } else {
             holder = (DurationViewHolder) root.getTag();
         }
-        holder.duration.setText(durations.get(position).toString());
-        holder.playbackTextView.setText(playbacks.get(position).toString());
+        holder.playbackTextView.setText(playbacks.get(position));
+        holder.duration.setText(UtilitiesManger.getPrettyDuration(durations.get(position)));
+        holder.completeByTextView.setText(UtilitiesManger.getDateAfter(durations.get(position)));
         return root;
     }
 }

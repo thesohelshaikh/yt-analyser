@@ -2,23 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="3">
 
     <TextView
         android:id="@+id/tv_playback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="1x"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-    <TextView
-        android:id="@+id/tv_updated_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="12345" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="to complete" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="complete by" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_updated_duration"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="12345" />
+
+        <TextView
+            android:id="@+id/tv_complete_by"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="12345" />
+
+    </LinearLayout>
 
 </LinearLayout>
