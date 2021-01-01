@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_navigation"
+    app:startDestination="@id/analyseFragment">
+
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.thesohelshaikh.ytanalyser.InformationFragment"
+        android:label="fragment_information"
+        tools:layout="@layout/fragment_information">
+        <argument
+            android:name="videoID"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/analyseFragment"
+        android:name="com.thesohelshaikh.ytanalyser.AnalyseFragment"
+        android:label="fragment_analyse"
+        tools:layout="@layout/fragment_analyse">
+        <action
+            android:id="@+id/to_informationFragment"
+            app:destination="@id/informationFragment" />
+    </fragment>
+</navigation>

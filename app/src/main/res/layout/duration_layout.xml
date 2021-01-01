@@ -8,17 +8,17 @@
         android:id="@+id/tv_playback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_weight="1"
+        android:gravity="center"
         android:text="1x"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
         android:id="@+id/tv_updated_duration"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_weight="1"
+        android:gravity="center"
         android:text="12345" />
 
 </LinearLayout>
