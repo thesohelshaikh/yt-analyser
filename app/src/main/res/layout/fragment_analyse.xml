@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:hint="Playlist id or url"
+        android:hint="Playlist id/ video id/ url"
         app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -29,6 +29,5 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="Analyse" />
-
 
 </LinearLayout>

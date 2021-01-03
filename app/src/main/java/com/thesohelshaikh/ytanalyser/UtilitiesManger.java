@@ -1,18 +1,21 @@
 package com.thesohelshaikh.ytanalyser;
 
+import android.annotation.SuppressLint;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class UtilitiesManger {
 
     /**
-     * Youtube date is on ISO 8061 format. Could have used Duration but did manually since there
-     * is API restriction.
+     * Youtube date is on ISO 8061 format.
      *
      * @param text duration string from youtube API
      * @return Date object from the parse time
@@ -27,6 +30,7 @@ public class UtilitiesManger {
         return calculateAlternateDurations(new Date(millis));
     }
 
+    @SuppressLint("SimpleDateFormat")
     public static String getDateAfter(long millis) {
         Calendar cal = Calendar.getInstance();
         int todayDate = cal.get(Calendar.DATE);
@@ -86,6 +90,9 @@ public class UtilitiesManger {
             // mobile url, remove extra forward slash
             id = id.replaceAll("\\/", "");
         }
+        if (id.startsWith("list")) {
+            id = id.substring(5);
+        }
         return id;
     }
 
@@ -97,7 +104,22 @@ public class UtilitiesManger {
         durations.add((long) (time / 1.75));
         durations.add((long) (time / 1.5));
         durations.add((time / 2));
+        Collections.sort(durations, new Comparator<Long>() {
+            @Override
+            public int compare(Long o1, Long o2) {
+                return o2.compareTo(o1);
+            }
+        });
         return durations;
+    }
+
+    public static long parsePlaylistDurations(ArrayList<String> durations) {
+        long totalMillis = 0;
+        for (String duration : durations) {
+            long millis = Duration.parse(duration).getSeconds() * 1000;
+            totalMillis += millis;
+        }
+        return totalMillis;
     }
 
 }

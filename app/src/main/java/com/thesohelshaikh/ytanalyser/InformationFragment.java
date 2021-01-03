@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +59,13 @@ public class InformationFragment extends Fragment {
 
         String videoID = InformationFragmentArgs.fromBundle(getArguments()).getVideoID();
 
-        getInformation(videoID);
+        // checks if it is playlist or video
+        if (videoID.startsWith("PL")) {
+            getPlaylistInformation(videoID);
+        } else {
+            getInformation(videoID);
+        }
+
         return root;
     }
 
@@ -94,4 +101,30 @@ public class InformationFragment extends Fragment {
             }
         });
     }
+
+    private void getPlaylistInformation(String videoID) {
+        service.getPlaylistDetails(videoID, new YTService.PlaylistDetailsListener() {
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+
+            @Override
+            public void onResponse(final PlaylistModel playlist) {
+                Picasso.get().load(playlist.getThumbnailURL()).into(thumbnailImageView);
+                videoTitleTextView.setText(playlist.getTitle());
+                channelTitleTextView.setText(playlist.getCreatedBy());
+
+                ArrayList<Long> durations = UtilitiesManger.calculateAlternateDurations
+                        (new Date(playlist.getTotalDuration()));
+                durationTextView.setText(UtilitiesManger.getPrettyDuration(durations
+                        .get(0)));
+                DurationsAdapter adapter = new DurationsAdapter(getContext()
+                        , durations);
+                durationsListView.setAdapter(adapter);
+
+            }
+        });
+    }
+
 }

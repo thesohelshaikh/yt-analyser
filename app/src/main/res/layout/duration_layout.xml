@@ -10,7 +10,8 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
         android:text="1x"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -23,11 +24,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingVertical="4dp"
             android:text="to complete" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingVertical="4dp"
             android:text="complete by" />
 
     </LinearLayout>
@@ -42,12 +45,14 @@
             android:id="@+id/tv_updated_duration"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingVertical="4dp"
             android:text="12345" />
 
         <TextView
             android:id="@+id/tv_complete_by"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingVertical="4dp"
             android:text="12345" />
 
     </LinearLayout>
