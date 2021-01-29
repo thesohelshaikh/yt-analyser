@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
@@ -30,6 +32,9 @@ public class InformationFragment extends Fragment {
     TextView durationTextView;
     ImageView thumbnailImageView;
     ListView durationsListView;
+
+    Group mainLayout;
+    ProgressBar progressBar;
 
     public InformationFragment() {
         // Required empty public constructor
@@ -57,6 +62,9 @@ public class InformationFragment extends Fragment {
         thumbnailImageView = root.findViewById(R.id.iv_thumbnail);
         durationsListView = root.findViewById(R.id.lv_durations);
 
+        mainLayout = root.findViewById(R.id.groupMain);
+        progressBar = root.findViewById(R.id.progressGetData);
+
         String videoID = InformationFragmentArgs.fromBundle(getArguments()).getVideoID();
 
         // checks if it is playlist or video
@@ -70,6 +78,7 @@ public class InformationFragment extends Fragment {
     }
 
     private void getInformation(String videoID) {
+        showProgressBar();
         service.getDuration(videoID, new YTService.VolleyResponseListener() {
             @Override
             public void onError(String errorMessage) {
@@ -87,6 +96,7 @@ public class InformationFragment extends Fragment {
 
                             @Override
                             public void onResponse(VideoModel model) {
+                                hideProgressBar();
                                 ArrayList<Long> durations =
                                         UtilitiesManger.parseTime(model.getDuration());
                                 videoTitleTextView.setText(model.getTitle());
@@ -103,6 +113,7 @@ public class InformationFragment extends Fragment {
     }
 
     private void getPlaylistInformation(String videoID) {
+        showProgressBar();
         service.getPlaylistDetails(videoID, new YTService.PlaylistDetailsListener() {
             @Override
             public void onError(String errorMessage) {
@@ -111,6 +122,7 @@ public class InformationFragment extends Fragment {
 
             @Override
             public void onResponse(final PlaylistModel playlist) {
+                hideProgressBar();
                 Picasso.get().load(playlist.getThumbnailURL()).into(thumbnailImageView);
                 videoTitleTextView.setText(playlist.getTitle());
                 channelTitleTextView.setText(playlist.getCreatedBy());
@@ -125,6 +137,16 @@ public class InformationFragment extends Fragment {
 
             }
         });
+    }
+
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        mainLayout.setVisibility(View.GONE);
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        mainLayout.setVisibility(View.VISIBLE);
     }
 
 }
