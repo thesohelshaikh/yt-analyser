@@ -1,8 +1,12 @@
 package com.thesohelshaikh.ytanalyser;
 
 import android.os.Bundle;
+import android.text.Html;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,6 +14,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(
+                HtmlCompat.fromHtml(
+                        "<font color=\"#FFFFFF\">" + getString(R.string.app_name) + "</font>",
+                        HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+//        getSupportActionBar().setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.app_name) + "</font>", 0));
     }
 
     @Override

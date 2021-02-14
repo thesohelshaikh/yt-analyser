@@ -97,12 +97,21 @@ public class YTService {
 
                     String title = snippet.getString("title");
                     String channelTitle = snippet.getString("channelTitle");
-                    String url =
-                            snippet.getJSONObject("thumbnails").getJSONObject("maxres").getString("url");
-
+                    JSONObject thumbnails = snippet.getJSONObject("thumbnails");
+                    String thumbnailURL;
+                    if (thumbnails.has("maxres")) {
+                        thumbnailURL =
+                                snippet.getJSONObject("thumbnails").getJSONObject("maxres").getString("url");
+                    } else if (thumbnails.has("high")) {
+                        thumbnailURL =
+                                snippet.getJSONObject("thumbnails").getJSONObject("high").getString("url");
+                    } else {
+                        thumbnailURL =
+                                snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
+                    }
                     video.setTitle(title);
                     video.setChannelTitle(channelTitle);
-                    video.setThumbnailURL(url);
+                    video.setThumbnailURL(thumbnailURL);
 
                     listener.onResponse(video);
                 } catch (JSONException e) {
