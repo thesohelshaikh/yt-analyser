@@ -11,8 +11,8 @@
         android:id="@+id/ed_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:hint="Playlist id/ video id/ url"
+        android:layout_margin="16dp"
+        android:hint="@string/hint_playlist_id_video_id_url"
         app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -23,14 +23,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        style="@style/TextAppearance.MaterialComponents.Button"
         android:id="@+id/btn_analyse"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@color/white"
+        style="@style/TextAppearance.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="Analyse" />
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/button_analyse"
+        android:textColor="@color/white" />
 
 </LinearLayout>

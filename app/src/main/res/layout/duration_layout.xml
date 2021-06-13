@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -10,10 +11,10 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/colorAccent"
-        android:text="1x"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        tools:text="1x" />
 
     <LinearLayout
         android:layout_width="0px"
@@ -25,13 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingVertical="4dp"
-            android:text="to complete" />
+            android:text="@string/label_to_complete" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingVertical="4dp"
-            android:text="complete by" />
+            android:text="@string/label_complete_by" />
 
     </LinearLayout>
 
@@ -46,14 +47,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingVertical="4dp"
-            android:text="12345" />
+            tools:text="12345" />
 
         <TextView
             android:id="@+id/tv_complete_by"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingVertical="4dp"
-            android:text="12345" />
+            tools:text="12345" />
 
     </LinearLayout>
 

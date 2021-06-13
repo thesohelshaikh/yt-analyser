@@ -23,6 +23,8 @@ public class RequestManager {
             instance = new RequestManager(context);
         }
         return instance;
+        // this is a comment
+        // 
     }
 
     public RequestQueue getRequestQueue() {
