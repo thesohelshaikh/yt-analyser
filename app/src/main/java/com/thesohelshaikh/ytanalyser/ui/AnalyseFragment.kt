@@ -1,20 +1,16 @@
 package com.thesohelshaikh.ytanalyser.ui
 
-import com.thesohelshaikh.ytanalyser.UtilitiesManger.getIDfromURL
-import android.widget.EditText
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import com.thesohelshaikh.ytanalyser.R
-import com.thesohelshaikh.ytanalyser.UtilitiesManger
-import androidx.navigation.NavDirections
-import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import com.thesohelshaikh.ytanalyser.UtilitiesManger.getIDfromURL
+import com.thesohelshaikh.ytanalyser.databinding.FragmentAnalyseBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -22,27 +18,26 @@ import androidx.navigation.Navigation
  */
 class AnalyseFragment : Fragment() {
     var clipboardManager: ClipboardManager? = null
-    var analyseButton: Button? = null
-    var edURL: EditText? = null
+    private lateinit var binding: FragmentAnalyseBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_analyse, container, false)
-        analyseButton = root.findViewById(R.id.btn_analyse)
-        edURL = root.findViewById(R.id.ed_url)
+        binding = FragmentAnalyseBinding.inflate(layoutInflater)
+
         clipboardManager =
             requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val stringFromClipboard = stringFromClipboard
-        edURL!!.setText(stringFromClipboard)
-        analyseButton!!.setOnClickListener {
-            val iDfromURL = getIDfromURL(edURL!!.getText().toString())
-            Navigation.findNavController(root)
+        binding.edUrl.setText(stringFromClipboard)
+
+        binding.btnAnalyse.setOnClickListener {
+            val iDfromURL = getIDfromURL(binding.edUrl.text.toString())
+            Navigation.findNavController(binding.root)
                 .navigate((AnalyseFragmentDirections.toInformationFragment(iDfromURL) as NavDirections))
         }
-        return root
+        return binding.root
     }
 
     //TODO: verify this works

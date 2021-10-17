@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.constraintlayout.widget.Group
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
-import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.calculateAlternateDurations
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.parseTime
 import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter
+import com.thesohelshaikh.ytanalyser.databinding.FragmentInformationBinding
 import com.thesohelshaikh.ytanalyser.model.PlaylistModel
 import com.thesohelshaikh.ytanalyser.model.VideoModel
 import com.thesohelshaikh.ytanalyser.network.YTService
@@ -26,13 +25,7 @@ import java.util.*
  */
 class InformationFragment : Fragment() {
     private var service: YTService? = null
-    var videoTitleTextView: TextView? = null
-    var channelTitleTextView: TextView? = null
-    var durationTextView: TextView? = null
-    var thumbnailImageView: ImageView? = null
-    var durationsListView: ListView? = null
-    var mainLayout: Group? = null
-    var progressBar: ProgressBar? = null
+    private lateinit var binding: FragmentInformationBinding
     override fun onAttach(context: Context) {
         super.onAttach(context)
         service = YTService(context)
@@ -41,16 +34,9 @@ class InformationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_information, container, false)
-        videoTitleTextView = root.findViewById(R.id.tv_videoTitle)
-        channelTitleTextView = root.findViewById(R.id.tv_channelTitle)
-        durationTextView = root.findViewById(R.id.tv_duration)
-        thumbnailImageView = root.findViewById(R.id.iv_thumbnail)
-        durationsListView = root.findViewById(R.id.lv_durations)
-        mainLayout = root.findViewById(R.id.groupMain)
-        progressBar = root.findViewById(R.id.progressGetData)
+         binding = FragmentInformationBinding.inflate(layoutInflater)
         val videoID = InformationFragmentArgs.fromBundle(
             requireArguments()
         ).videoID
@@ -61,7 +47,7 @@ class InformationFragment : Fragment() {
         } else {
             getInformation(videoID)
         }
-        return root
+        return binding.root
     }
 
     private fun getInformation(videoID: String) {
@@ -78,14 +64,14 @@ class InformationFragment : Fragment() {
                         override fun onResponse(model: VideoModel) {
                             hideProgressBar()
                             val durations = parseTime(model.duration)
-                            videoTitleTextView!!.text = model.title
-                            channelTitleTextView!!.text = model.channelTitle
-                            durationTextView!!.text = getPrettyDuration(durations[0])
-                            Picasso.get().load(videoModel.thumbnailURL).into(thumbnailImageView)
+                            binding.tvVideoTitle.text = model.title
+                            binding.tvChannelTitle.text = model.channelTitle
+                            binding.tvDuration.text = getPrettyDuration(durations[0])
+                            Picasso.get().load(videoModel.thumbnailURL).into(binding.ivThumbnail)
                             val adapter = DurationsAdapter(
                                 context!!, durations
                             )
-                            durationsListView!!.adapter = adapter
+                            binding.lvDurations.adapter = adapter
                         }
                     })
             }
@@ -98,26 +84,26 @@ class InformationFragment : Fragment() {
             override fun onError(errorMessage: String) {}
             override fun onResponse(playlist: PlaylistModel) {
                 hideProgressBar()
-                Picasso.get().load(playlist.thumbnailURL).into(thumbnailImageView)
-                videoTitleTextView!!.text = playlist.title
-                channelTitleTextView!!.text = playlist.createdBy
+                Picasso.get().load(playlist.thumbnailURL).into(binding.ivThumbnail)
+                binding.tvVideoTitle.text = playlist.title
+                binding.tvChannelTitle.text = playlist.createdBy
                 val durations = calculateAlternateDurations(Date(playlist.totalDuration))
-                durationTextView!!.text = getPrettyDuration(durations[0])
+                binding.tvDuration.text = getPrettyDuration(durations[0])
                 val adapter = DurationsAdapter(
                     context!!, durations
                 )
-                durationsListView!!.adapter = adapter
+                binding.lvDurations.adapter = adapter
             }
         })
     }
 
     private fun showProgressBar() {
-        progressBar!!.visibility = View.VISIBLE
-        mainLayout!!.visibility = View.GONE
+        binding.progressGetData.visibility = View.VISIBLE
+        binding.groupMain.visibility = View.GONE
     }
 
     private fun hideProgressBar() {
-        progressBar!!.visibility = View.GONE
-        mainLayout!!.visibility = View.VISIBLE
+        binding.progressGetData.visibility = View.GONE
+        binding.groupMain.visibility = View.VISIBLE
     }
 }

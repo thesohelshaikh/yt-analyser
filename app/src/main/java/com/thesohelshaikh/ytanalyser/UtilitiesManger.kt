@@ -80,9 +80,9 @@ object UtilitiesManger {
         return url
     }
 
-    fun cleanID(id: String?): String {
+    private fun cleanID(idToClean: String?): String {
         // desktop url
-        var id = id
+        var id = idToClean
         id = if (id!!.startsWith("v")) {
             id.substring(2)
         } else {

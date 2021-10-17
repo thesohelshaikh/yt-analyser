@@ -19,7 +19,7 @@ class DurationsAdapter(private val ctx: Context, private val durations: List<Lon
     private val playbacks: MutableList<String>
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var root = convertView
-        var holder: DurationViewHolder? = null
+        val holder: DurationViewHolder?
         if (root == null) {
             val inflater =
                 ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -30,7 +30,7 @@ class DurationsAdapter(private val ctx: Context, private val durations: List<Lon
             holder = root.tag as DurationViewHolder
         }
         holder.playbackTextView.text = playbacks[position]
-        holder!!.duration.text = getPrettyDuration(durations[position])
+        holder.duration.text = getPrettyDuration(durations[position])
         holder.completeByTextView.text = getDateAfter(durations[position])
         return root!!
     }
