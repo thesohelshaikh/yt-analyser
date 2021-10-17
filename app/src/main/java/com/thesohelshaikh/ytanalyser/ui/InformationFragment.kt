@@ -1,158 +1,123 @@
-package com.thesohelshaikh.ytanalyser.ui;
+package com.thesohelshaikh.ytanalyser.ui
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.Group;
-import androidx.fragment.app.Fragment;
-
-import com.squareup.picasso.Picasso;
-import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter;
-import com.thesohelshaikh.ytanalyser.model.PlaylistModel;
-import com.thesohelshaikh.ytanalyser.R;
-import com.thesohelshaikh.ytanalyser.UtilitiesManger;
-import com.thesohelshaikh.ytanalyser.model.VideoModel;
-import com.thesohelshaikh.ytanalyser.network.YTService;
-
-import java.util.ArrayList;
-import java.util.Date;
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.constraintlayout.widget.Group
+import androidx.fragment.app.Fragment
+import com.squareup.picasso.Picasso
+import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.UtilitiesManger.calculateAlternateDurations
+import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
+import com.thesohelshaikh.ytanalyser.UtilitiesManger.parseTime
+import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter
+import com.thesohelshaikh.ytanalyser.model.PlaylistModel
+import com.thesohelshaikh.ytanalyser.model.VideoModel
+import com.thesohelshaikh.ytanalyser.network.YTService
+import com.thesohelshaikh.ytanalyser.network.YTService.*
+import java.util.*
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple [Fragment] subclass.
  * create an instance of this fragment.
  */
-public class InformationFragment extends Fragment {
-
-    private YTService service;
-    TextView videoTitleTextView;
-    TextView channelTitleTextView;
-    TextView durationTextView;
-    ImageView thumbnailImageView;
-    ListView durationsListView;
-
-    Group mainLayout;
-    ProgressBar progressBar;
-
-    public InformationFragment() {
-        // Required empty public constructor
+class InformationFragment : Fragment() {
+    private var service: YTService? = null
+    var videoTitleTextView: TextView? = null
+    var channelTitleTextView: TextView? = null
+    var durationTextView: TextView? = null
+    var thumbnailImageView: ImageView? = null
+    var durationsListView: ListView? = null
+    var mainLayout: Group? = null
+    var progressBar: ProgressBar? = null
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        service = YTService(context)
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        service = new YTService(context);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_information, container, false);
-        videoTitleTextView = root.findViewById(R.id.tv_videoTitle);
-        channelTitleTextView = root.findViewById(R.id.tv_channelTitle);
-        durationTextView = root.findViewById(R.id.tv_duration);
-        thumbnailImageView = root.findViewById(R.id.iv_thumbnail);
-        durationsListView = root.findViewById(R.id.lv_durations);
-
-        mainLayout = root.findViewById(R.id.groupMain);
-        progressBar = root.findViewById(R.id.progressGetData);
-
-        String videoID = InformationFragmentArgs.fromBundle(getArguments()).getVideoID();
+        val root = inflater.inflate(R.layout.fragment_information, container, false)
+        videoTitleTextView = root.findViewById(R.id.tv_videoTitle)
+        channelTitleTextView = root.findViewById(R.id.tv_channelTitle)
+        durationTextView = root.findViewById(R.id.tv_duration)
+        thumbnailImageView = root.findViewById(R.id.iv_thumbnail)
+        durationsListView = root.findViewById(R.id.lv_durations)
+        mainLayout = root.findViewById(R.id.groupMain)
+        progressBar = root.findViewById(R.id.progressGetData)
+        val videoID = InformationFragmentArgs.fromBundle(
+            requireArguments()
+        ).videoID
 
         // checks if it is playlist or video
         if (videoID.startsWith("PL")) {
-            getPlaylistInformation(videoID);
+            getPlaylistInformation(videoID)
         } else {
-            getInformation(videoID);
+            getInformation(videoID)
         }
-
-        return root;
+        return root
     }
 
-    private void getInformation(String videoID) {
-        showProgressBar();
-        service.getDuration(videoID, new YTService.VolleyResponseListener() {
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+    private fun getInformation(videoID: String) {
+        showProgressBar()
+        service!!.getDuration(videoID, object : VolleyResponseListener {
+            override fun onError(errorMessage: String) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
             }
 
-            @Override
-            public void onResponse(final VideoModel videoModel) {
-                service.getVideoDetails(videoModel.getId(), videoModel,
-                        new YTService.VideoDetailsListener() {
-                            @Override
-                            public void onError(String errorMessage) {
-
-                            }
-
-                            @Override
-                            public void onResponse(VideoModel model) {
-                                hideProgressBar();
-                                ArrayList<Long> durations =
-                                        UtilitiesManger.parseTime(model.getDuration());
-                                videoTitleTextView.setText(model.getTitle());
-                                channelTitleTextView.setText(model.getChannelTitle());
-                                durationTextView.setText(UtilitiesManger.getPrettyDuration(durations.get(0)));
-                                Picasso.get().load(videoModel.getThumbnailURL()).into(thumbnailImageView);
-                                DurationsAdapter adapter = new DurationsAdapter(getContext()
-                                        , durations);
-                                durationsListView.setAdapter(adapter);
-                            }
-                        });
+            override fun onResponse(videoModel: VideoModel) {
+                service!!.getVideoDetails(videoModel.id, videoModel,
+                    object : VideoDetailsListener {
+                        override fun onError(errorMessage: String) {}
+                        override fun onResponse(model: VideoModel) {
+                            hideProgressBar()
+                            val durations = parseTime(model.duration)
+                            videoTitleTextView!!.text = model.title
+                            channelTitleTextView!!.text = model.channelTitle
+                            durationTextView!!.text = getPrettyDuration(durations[0])
+                            Picasso.get().load(videoModel.thumbnailURL).into(thumbnailImageView)
+                            val adapter = DurationsAdapter(
+                                context!!, durations
+                            )
+                            durationsListView!!.adapter = adapter
+                        }
+                    })
             }
-        });
+        })
     }
 
-    private void getPlaylistInformation(String videoID) {
-        showProgressBar();
-        service.getPlaylistDetails(videoID, new YTService.PlaylistDetailsListener() {
-            @Override
-            public void onError(String errorMessage) {
-
+    private fun getPlaylistInformation(videoID: String) {
+        showProgressBar()
+        service!!.getPlaylistDetails(videoID, object : PlaylistDetailsListener {
+            override fun onError(errorMessage: String) {}
+            override fun onResponse(playlist: PlaylistModel) {
+                hideProgressBar()
+                Picasso.get().load(playlist.thumbnailURL).into(thumbnailImageView)
+                videoTitleTextView!!.text = playlist.title
+                channelTitleTextView!!.text = playlist.createdBy
+                val durations = calculateAlternateDurations(Date(playlist.totalDuration))
+                durationTextView!!.text = getPrettyDuration(durations[0])
+                val adapter = DurationsAdapter(
+                    context!!, durations
+                )
+                durationsListView!!.adapter = adapter
             }
-
-            @Override
-            public void onResponse(final PlaylistModel playlist) {
-                hideProgressBar();
-                Picasso.get().load(playlist.getThumbnailURL()).into(thumbnailImageView);
-                videoTitleTextView.setText(playlist.getTitle());
-                channelTitleTextView.setText(playlist.getCreatedBy());
-
-                ArrayList<Long> durations = UtilitiesManger.calculateAlternateDurations
-                        (new Date(playlist.getTotalDuration()));
-                durationTextView.setText(UtilitiesManger.getPrettyDuration(durations
-                        .get(0)));
-                DurationsAdapter adapter = new DurationsAdapter(getContext()
-                        , durations);
-                durationsListView.setAdapter(adapter);
-
-            }
-        });
+        })
     }
 
-    private void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
-        mainLayout.setVisibility(View.GONE);
+    private fun showProgressBar() {
+        progressBar!!.visibility = View.VISIBLE
+        mainLayout!!.visibility = View.GONE
     }
 
-    private void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
-        mainLayout.setVisibility(View.VISIBLE);
+    private fun hideProgressBar() {
+        progressBar!!.visibility = View.GONE
+        mainLayout!!.visibility = View.VISIBLE
     }
-
 }

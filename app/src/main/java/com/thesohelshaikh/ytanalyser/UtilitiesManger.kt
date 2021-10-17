@@ -1,19 +1,15 @@
-package com.thesohelshaikh.ytanalyser;
+package com.thesohelshaikh.ytanalyser
 
-import android.annotation.SuppressLint;
+import com.thesohelshaikh.ytanalyser.UtilitiesManger
+import android.annotation.SuppressLint
+import java.lang.StringBuilder
+import java.net.MalformedURLException
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.util.*
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-
-public class UtilitiesManger {
-
+object UtilitiesManger {
     /**
      * Youtube date is on ISO 8061 format.
      *
@@ -21,105 +17,106 @@ public class UtilitiesManger {
      * @return Date object from the parse time
      * @see java.time.Duration
      */
-    public static ArrayList<Long> parseTime(String text) {
-        Duration currentDuration = Duration.parse(text);
-        long millis = currentDuration.toMillis();
-        currentDuration.plus(currentDuration);
-        Calendar afterCal = Calendar.getInstance();
-        afterCal.add(Calendar.MILLISECOND, Math.toIntExact(millis));
-        return calculateAlternateDurations(new Date(millis));
+    @JvmStatic
+    fun parseTime(text: String?): ArrayList<Long> {
+        val currentDuration = Duration.parse(text)
+        val millis = currentDuration.toMillis()
+        currentDuration.plus(currentDuration)
+        val afterCal = Calendar.getInstance()
+        afterCal.add(Calendar.MILLISECOND, Math.toIntExact(millis))
+        return calculateAlternateDurations(Date(millis))
     }
 
+    @JvmStatic
     @SuppressLint("SimpleDateFormat")
-    public static String getDateAfter(long millis) {
-        Calendar cal = Calendar.getInstance();
-        int todayDate = cal.get(Calendar.DATE);
-        cal.add(Calendar.MILLISECOND, (int) millis);
-        SimpleDateFormat sdf;
-        if (todayDate == cal.get(Calendar.DATE)) {
-            sdf = new SimpleDateFormat("HH:mm:ss");
+    fun getDateAfter(millis: Long): String {
+        val cal = Calendar.getInstance()
+        val todayDate = cal[Calendar.DATE]
+        cal.add(Calendar.MILLISECOND, millis.toInt())
+        val sdf: SimpleDateFormat
+        sdf = if (todayDate == cal[Calendar.DATE]) {
+            SimpleDateFormat("HH:mm:ss")
         } else {
-            sdf = new SimpleDateFormat("HH:mm:ss, dd-MM-yy");
+            SimpleDateFormat("HH:mm:ss, dd-MM-yy")
         }
-        cal.get(Calendar.DATE);
-        Date time = cal.getTime();
-        return sdf.format(time);
+        cal[Calendar.DATE]
+        val time = cal.time
+        return sdf.format(time)
     }
 
-    public static String getPrettyDuration(long millis) {
-        Duration timeLeft = Duration.ofMillis(millis);
-        long hours = timeLeft.toHours();
-        timeLeft = timeLeft.minusHours(hours);
-        long minutes = timeLeft.toMinutes();
-        timeLeft = timeLeft.minusMinutes(minutes);
-        long seconds = timeLeft.getSeconds();
-        StringBuilder sb = new StringBuilder();
+    @JvmStatic
+    fun getPrettyDuration(millis: Long): String {
+        var timeLeft = Duration.ofMillis(millis)
+        val hours = timeLeft.toHours()
+        timeLeft = timeLeft.minusHours(hours)
+        val minutes = timeLeft.toMinutes()
+        timeLeft = timeLeft.minusMinutes(minutes)
+        val seconds = timeLeft.seconds
+        val sb = StringBuilder()
         if (hours > 0) {
-            sb.append(hours).append("h ");
+            sb.append(hours).append("h ")
         }
         if (minutes > 0) {
-            sb.append(minutes).append("m ");
+            sb.append(minutes).append("m ")
         }
         if (seconds > 0) {
-            sb.append(seconds).append("s");
+            sb.append(seconds).append("s")
         }
-        return sb.toString();
+        return sb.toString()
     }
 
-    public static String getIDfromURL(String url) {
+    @JvmStatic
+    fun getIDfromURL(url: String): String {
         if (url.startsWith("http")) {
             try {
-                URL originalURL = new URL(url);
-                String id = originalURL.getQuery();
+                val originalURL = URL(url)
+                var id = originalURL.query
                 if (id == null) {
-                    id = originalURL.getPath();
+                    id = originalURL.path
                 }
-                return cleanID(id);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                return cleanID(id)
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
             }
         }
-        return url;
+        return url
     }
 
-    public static String cleanID(String id) {
+    fun cleanID(id: String?): String {
         // desktop url
-        if (id.startsWith("v")) {
-            id = id.substring(2);
+        var id = id
+        id = if (id!!.startsWith("v")) {
+            id.substring(2)
         } else {
             // mobile url, remove extra forward slash
-            id = id.replaceAll("\\/", "");
+            id.replace("\\/".toRegex(), "")
         }
         if (id.startsWith("list")) {
-            id = id.substring(5);
+            id = id.substring(5)
         }
-        return id;
+        return id
     }
 
-    public static ArrayList<Long> calculateAlternateDurations(Date actualDuration) {
-        long time = actualDuration.getTime();
-        ArrayList<Long> durations = new ArrayList<>();
-        durations.add(time);
-        durations.add((long) (time / 1.25));
-        durations.add((long) (time / 1.75));
-        durations.add((long) (time / 1.5));
-        durations.add((time / 2));
-        Collections.sort(durations, new Comparator<Long>() {
-            @Override
-            public int compare(Long o1, Long o2) {
-                return o2.compareTo(o1);
-            }
-        });
-        return durations;
+    @JvmStatic
+    fun calculateAlternateDurations(actualDuration: Date): ArrayList<Long> {
+        val time = actualDuration.time
+        val durations = ArrayList<Long>()
+        durations.add(time)
+        durations.add((time / 1.25).toLong())
+        durations.add((time / 1.75).toLong())
+        durations.add((time / 1.5).toLong())
+        durations.add(time / 2)
+        durations.sortWith { o1, o2 -> o2.compareTo(o1) }
+        return durations
     }
 
-    public static long parsePlaylistDurations(ArrayList<String> durations) {
-        long totalMillis = 0;
-        for (String duration : durations) {
-            long millis = Duration.parse(duration).getSeconds() * 1000;
-            totalMillis += millis;
+    @JvmStatic
+    fun parsePlaylistDurations(durations: ArrayList<String?>): Long {
+        var totalMillis: Long = 0
+        for (duration in durations) {
+            val millis = Duration.parse(duration).seconds * 1000
+            totalMillis += millis
         }
-        return totalMillis;
+        return totalMillis
     }
-
 }
