@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/informationFragment"
-        android:name="com.thesohelshaikh.ytanalyser.InformationFragment"
+        android:name="com.thesohelshaikh.ytanalyser.ui.InformationFragment"
         android:label="fragment_information"
         tools:layout="@layout/fragment_information">
         <argument
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/analyseFragment"
-        android:name="com.thesohelshaikh.ytanalyser.AnalyseFragment"
+        android:name="com.thesohelshaikh.ytanalyser.ui.AnalyseFragment"
         android:label="fragment_analyse"
         tools:layout="@layout/fragment_analyse">
         <action

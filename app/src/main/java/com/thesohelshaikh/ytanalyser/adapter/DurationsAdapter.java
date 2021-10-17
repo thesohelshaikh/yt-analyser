@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser;
+package com.thesohelshaikh.ytanalyser.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.thesohelshaikh.ytanalyser.R;
+import com.thesohelshaikh.ytanalyser.UtilitiesManger;
 
 import java.util.ArrayList;
 import java.util.List;

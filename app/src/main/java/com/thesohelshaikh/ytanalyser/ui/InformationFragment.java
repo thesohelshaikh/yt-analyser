@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser;
+package com.thesohelshaikh.ytanalyser.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,6 +16,12 @@ import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
+import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter;
+import com.thesohelshaikh.ytanalyser.model.PlaylistModel;
+import com.thesohelshaikh.ytanalyser.R;
+import com.thesohelshaikh.ytanalyser.UtilitiesManger;
+import com.thesohelshaikh.ytanalyser.model.VideoModel;
+import com.thesohelshaikh.ytanalyser.network.YTService;
 
 import java.util.ArrayList;
 import java.util.Date;

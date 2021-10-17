@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser;
+package com.thesohelshaikh.ytanalyser.model;
 
 import java.util.ArrayList;
 

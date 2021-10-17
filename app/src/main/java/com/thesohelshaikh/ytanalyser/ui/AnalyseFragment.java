@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser;
+package com.thesohelshaikh.ytanalyser.ui;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.thesohelshaikh.ytanalyser.R;
+import com.thesohelshaikh.ytanalyser.UtilitiesManger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

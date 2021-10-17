@@ -1,10 +1,12 @@
-package com.thesohelshaikh.ytanalyser;
+package com.thesohelshaikh.ytanalyser.ui;
 
 import android.os.Bundle;
 import android.text.Html;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
+
+import com.thesohelshaikh.ytanalyser.R;
 
 import java.util.Objects;
 

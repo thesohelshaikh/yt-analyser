@@ -1,7 +1,9 @@
-package com.thesohelshaikh.ytanalyser;
+package com.thesohelshaikh.ytanalyser.adapter;
 
 import android.view.View;
 import android.widget.TextView;
+
+import com.thesohelshaikh.ytanalyser.R;
 
 public class DurationViewHolder {
     TextView playbackTextView;
