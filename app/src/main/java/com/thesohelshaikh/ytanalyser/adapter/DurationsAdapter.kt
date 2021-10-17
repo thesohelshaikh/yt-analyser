@@ -1,16 +1,15 @@
 package com.thesohelshaikh.ytanalyser.adapter
 
 import android.content.Context
-import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
-import com.thesohelshaikh.ytanalyser.UtilitiesManger.getDateAfter
-import android.widget.ArrayAdapter
-import com.thesohelshaikh.ytanalyser.R
-import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.thesohelshaikh.ytanalyser.UtilitiesManger
-import java.util.ArrayList
+import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.UtilitiesManger.getDateAfter
+import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
+import java.util.*
 
 class DurationsAdapter(private val ctx: Context, private val durations: List<Long>) :
     ArrayAdapter<Long?>(
