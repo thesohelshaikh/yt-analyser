@@ -1,8 +1,6 @@
 package com.thesohelshaikh.ytanalyser
 
-import com.thesohelshaikh.ytanalyser.UtilitiesManger
 import android.annotation.SuppressLint
-import java.lang.StringBuilder
 import java.net.MalformedURLException
 import java.net.URL
 import java.text.SimpleDateFormat
