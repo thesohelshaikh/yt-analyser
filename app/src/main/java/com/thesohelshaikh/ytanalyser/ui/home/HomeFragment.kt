@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser.ui
+package com.thesohelshaikh.ytanalyser.ui.home
 
 import android.content.ClipboardManager
 import android.content.Context
@@ -10,22 +10,22 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.getIDfromURL
-import com.thesohelshaikh.ytanalyser.databinding.FragmentAnalyseBinding
+import com.thesohelshaikh.ytanalyser.databinding.FragmentHomeBinding
 
 /**
  * A simple [Fragment] subclass.
  * create an instance of this fragment.
  */
-class AnalyseFragment : Fragment() {
+class HomeFragment : Fragment() {
     var clipboardManager: ClipboardManager? = null
-    private lateinit var binding: FragmentAnalyseBinding
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentAnalyseBinding.inflate(layoutInflater)
+        binding = FragmentHomeBinding.inflate(layoutInflater)
 
         clipboardManager =
             requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -35,7 +35,11 @@ class AnalyseFragment : Fragment() {
         binding.btnAnalyse.setOnClickListener {
             val iDfromURL = getIDfromURL(binding.edUrl.text.toString())
             Navigation.findNavController(binding.root)
-                .navigate((AnalyseFragmentDirections.toInformationFragment(iDfromURL) as NavDirections))
+                .navigate(
+                    (HomeFragmentDirections.toInformationFragment(
+                        iDfromURL
+                    ) as NavDirections)
+                )
         }
         return binding.root
     }

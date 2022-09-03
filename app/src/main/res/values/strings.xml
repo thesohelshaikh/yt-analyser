@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">YT Analyser</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="label_to_complete">to complete</string>
-    <string name="label_complete_by">complete by</string>
+
+    <!--Home-->
     <string name="hint_playlist_id_video_id_url">Playlist id/ video id/ url</string>
     <string name="button_analyse">Analyse</string>
+
+    <!--Details-->
+    <string name="label_details_title">Details</string>
+    <string name="label_to_complete">to complete</string>
+    <string name="label_complete_by">complete by</string>
+
 </resources>
