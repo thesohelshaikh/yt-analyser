@@ -7,15 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.squareup.picasso.Picasso
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.calculateAlternateDurations
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.parseTime
 import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter
 import com.thesohelshaikh.ytanalyser.databinding.FragmentInformationBinding
-import com.thesohelshaikh.ytanalyser.model.PlaylistModel
 import com.thesohelshaikh.ytanalyser.network.YTService
-import com.thesohelshaikh.ytanalyser.network.YTService.PlaylistDetailsListener
 import java.util.*
 
 /**
@@ -45,8 +44,24 @@ class InformationFragment : Fragment() {
 
         videoID = InformationFragmentArgs.fromBundle(requireArguments()).videoID
 
-        fetchDetails()
+        lifecycleScope.launchWhenCreated {
+            fetchDetails()
+        }
         observeVideoDetailResponse()
+        observePlaylistResponse()
+    }
+
+    private fun observePlaylistResponse() {
+        viewModel.playlistResponse.observe(viewLifecycleOwner) {
+            hideProgressBar()
+            Picasso.get().load(it.thumbnailUrl).into(binding.ivThumbnail)
+            binding.tvVideoTitle.text = it.title
+            binding.tvChannelTitle.text = it.channelTitle
+            val durations = calculateAlternateDurations(Date(it.duration))
+            binding.tvDuration.text = getPrettyDuration(durations[0])
+            val adapter = DurationsAdapter(requireContext(), durations)
+            binding.lvDurations.adapter = adapter
+        }
     }
 
     private fun fetchDetails() {
@@ -66,7 +81,7 @@ class InformationFragment : Fragment() {
                 val snippet = response.items?.get(0)?.snippet
                 val contentDetails = response.items?.get(0)?.contentDetails
 
-                val thumbnails = snippet?.thumbnails?.maxres?.url
+                val thumbnails = snippet?.thumbnails?.getThumbnailUrl()
 
                 Picasso.get().load(thumbnails).into(binding.ivThumbnail)
 
@@ -82,21 +97,7 @@ class InformationFragment : Fragment() {
 
     private fun getPlaylistInformation(videoID: String) {
         showProgressBar()
-        service!!.getPlaylistDetails(videoID, object : PlaylistDetailsListener {
-            override fun onError(errorMessage: String) {}
-            override fun onResponse(playlist: PlaylistModel) {
-                hideProgressBar()
-                Picasso.get().load(playlist.thumbnailURL).into(binding.ivThumbnail)
-                binding.tvVideoTitle.text = playlist.title
-                binding.tvChannelTitle.text = playlist.createdBy
-                val durations = calculateAlternateDurations(Date(playlist.totalDuration))
-                binding.tvDuration.text = getPrettyDuration(durations[0])
-                val adapter = DurationsAdapter(
-                    context!!, durations
-                )
-                binding.lvDurations.adapter = adapter
-            }
-        })
+        viewModel.getPlaylistVideoIds(playlistId = videoID)
     }
 
     private fun showProgressBar() {

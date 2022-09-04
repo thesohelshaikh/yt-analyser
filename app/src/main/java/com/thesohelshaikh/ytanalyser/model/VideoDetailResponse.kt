@@ -60,9 +60,9 @@ data class VideoDetailResponse(
             @SerialName("channelTitle")
             val channelTitle: String?,
             @SerialName("defaultAudioLanguage")
-            val defaultAudioLanguage: String?,
+            val defaultAudioLanguage: String? = null,
             @SerialName("defaultLanguage")
-            val defaultLanguage: String?,
+            val defaultLanguage: String? = null,
             @SerialName("description")
             val description: String?,
             @SerialName("liveBroadcastContent")
@@ -85,70 +85,6 @@ data class VideoDetailResponse(
                 @SerialName("title")
                 val title: String?
             )
-
-            @Serializable
-            data class Thumbnails(
-                @SerialName("default")
-                val default: Default?,
-                @SerialName("high")
-                val high: High?,
-                @SerialName("maxres")
-                val maxres: Maxres?,
-                @SerialName("medium")
-                val medium: Medium?,
-                @SerialName("standard")
-                val standard: Standard?
-            ) {
-                @Serializable
-                data class Default(
-                    @SerialName("height")
-                    val height: Int?,
-                    @SerialName("url")
-                    val url: String?,
-                    @SerialName("width")
-                    val width: Int?
-                )
-
-                @Serializable
-                data class High(
-                    @SerialName("height")
-                    val height: Int?,
-                    @SerialName("url")
-                    val url: String?,
-                    @SerialName("width")
-                    val width: Int?
-                )
-
-                @Serializable
-                data class Maxres(
-                    @SerialName("height")
-                    val height: Int?,
-                    @SerialName("url")
-                    val url: String?,
-                    @SerialName("width")
-                    val width: Int?
-                )
-
-                @Serializable
-                data class Medium(
-                    @SerialName("height")
-                    val height: Int?,
-                    @SerialName("url")
-                    val url: String?,
-                    @SerialName("width")
-                    val width: Int?
-                )
-
-                @Serializable
-                data class Standard(
-                    @SerialName("height")
-                    val height: Int?,
-                    @SerialName("url")
-                    val url: String?,
-                    @SerialName("width")
-                    val width: Int?
-                )
-            }
         }
 
         @Serializable

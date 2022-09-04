@@ -1,6 +1,9 @@
 package com.thesohelshaikh.ytanalyser.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.thesohelshaikh.ytanalyser.model.PlaylistDetailResponse
+import com.thesohelshaikh.ytanalyser.model.PlaylistVideoDetailResponse
+import com.thesohelshaikh.ytanalyser.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.model.VideoDetailResponse
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -46,6 +49,28 @@ interface YoutubeApi {
         @Query("id") videoId: String,
         @Query("part") part: String = "contentDetails, snippet, statistics",
     ): VideoDetailResponse
+
+    @GET("playlistItems")
+    suspend fun getPlaylistDetails(
+        @Query("playlistId") playlistId: String,
+        @Query("part") part: String = "snippet",
+    ): PlaylistDetailResponse
+
+    @GET("playlistItems")
+    suspend fun getPlaylistVideoIds(
+        @Query("playlistId") playlistId: String,
+        @Query("part") part: String = "contentDetails",
+        @Query("maxResults") maxResults: Int = 50,
+        @Query("fields") fields: String = "items/contentDetails/videoId, nextPageToken",
+        @Query("pageToken") pageToken: String? = "",
+    ): PlaylistVideoIdResponse
+
+    @GET("videos")
+    suspend fun getPlaylistVideoDetails(
+        @Query("id") videoId: String,
+        @Query("part") part: String = "contentDetails",
+        @Query("fields") fields: String = "items/contentDetails/duration",
+    ): PlaylistVideoDetailResponse
 }
 
 class YoutubeNetwork : YoutubeApi {
@@ -60,5 +85,30 @@ class YoutubeNetwork : YoutubeApi {
 
     override suspend fun getVideoDetails(videoId: String, part: String): VideoDetailResponse {
         return youtubeApi.getVideoDetails(videoId)
+    }
+
+    override suspend fun getPlaylistDetails(
+        playlistId: String,
+        part: String
+    ): PlaylistDetailResponse {
+        return youtubeApi.getPlaylistDetails(playlistId)
+    }
+
+    override suspend fun getPlaylistVideoIds(
+        playlistId: String,
+        part: String,
+        maxResults: Int,
+        fields: String,
+        pageToken: String?
+    ): PlaylistVideoIdResponse {
+        return youtubeApi.getPlaylistVideoIds(playlistId = playlistId, pageToken = pageToken)
+    }
+
+    override suspend fun getPlaylistVideoDetails(
+        videoId: String,
+        part: String,
+        fields: String
+    ): PlaylistVideoDetailResponse {
+        return youtubeApi.getPlaylistVideoDetails(videoId)
     }
 }

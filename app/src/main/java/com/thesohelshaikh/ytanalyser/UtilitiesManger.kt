@@ -108,7 +108,7 @@ object UtilitiesManger {
     }
 
     @JvmStatic
-    fun parsePlaylistDurations(durations: ArrayList<String?>): Long {
+    fun parsePlaylistDurations(durations: ArrayList<String>): Long {
         var totalMillis: Long = 0
         for (duration in durations) {
             val millis = Duration.parse(duration).seconds * 1000
