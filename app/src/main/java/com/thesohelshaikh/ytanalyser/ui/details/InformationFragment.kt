@@ -1,6 +1,5 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.thesohelshaikh.ytanalyser.UtilitiesManger.calculateAlternateDurations
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
 import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter
 import com.thesohelshaikh.ytanalyser.databinding.FragmentInformationBinding
-import com.thesohelshaikh.ytanalyser.network.YTService
 import com.thesohelshaikh.ytanalyser.ui.details.InformationViewModel.DetailsScreenState
 import java.util.*
 
@@ -23,14 +21,9 @@ import java.util.*
  * create an instance of this fragment.
  */
 class InformationFragment : Fragment() {
-    private var service: YTService? = null
     private lateinit var binding: FragmentInformationBinding
     private var videoID: String = ""
     private val viewModel by viewModels<InformationViewModel>()
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        service = YTService(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
