@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.squareup.picasso.Picasso
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.calculateAlternateDurations
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
-import com.thesohelshaikh.ytanalyser.UtilitiesManger.parseTime
 import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter
 import com.thesohelshaikh.ytanalyser.databinding.FragmentInformationBinding
 import com.thesohelshaikh.ytanalyser.network.YTService
+import com.thesohelshaikh.ytanalyser.ui.details.InformationViewModel.DetailsScreenState
 import java.util.*
 
 /**
@@ -47,20 +48,31 @@ class InformationFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             fetchDetails()
         }
-        observeVideoDetailResponse()
-        observePlaylistResponse()
+        observeDetailsResponse()
     }
 
-    private fun observePlaylistResponse() {
-        viewModel.playlistResponse.observe(viewLifecycleOwner) {
-            hideProgressBar()
-            Picasso.get().load(it.thumbnailUrl).into(binding.ivThumbnail)
-            binding.tvVideoTitle.text = it.title
-            binding.tvChannelTitle.text = it.channelTitle
-            val durations = calculateAlternateDurations(Date(it.duration))
-            binding.tvDuration.text = getPrettyDuration(durations[0])
-            val adapter = DurationsAdapter(requireContext(), durations)
-            binding.lvDurations.adapter = adapter
+    private fun observeDetailsResponse() {
+        viewModel.detailsScreenState.observe(viewLifecycleOwner) {
+
+            when (it) {
+                is DetailsScreenState.SuccessState -> {
+                    hideProgressBar()
+                    Picasso.get().load(it.thumbnailUrl).into(binding.ivThumbnail)
+                    binding.tvVideoTitle.text = it.title
+                    binding.tvChannelTitle.text = it.channelTitle
+                    val durations = calculateAlternateDurations(Date(it.duration))
+                    binding.tvDuration.text = getPrettyDuration(durations.first())
+                    val adapter = DurationsAdapter(requireContext(), durations)
+                    binding.lvDurations.adapter = adapter
+                }
+                is DetailsScreenState.ErrorState -> {
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+                is DetailsScreenState.LoadingState -> {
+                    showProgressBar()
+                }
+            }
         }
     }
 
@@ -70,28 +82,6 @@ class InformationFragment : Fragment() {
             getPlaylistInformation(videoID)
         } else {
             viewModel.getVideoDetails(videoID)
-        }
-    }
-
-    private fun observeVideoDetailResponse() {
-        viewModel.videoResponse.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                hideProgressBar()
-
-                val snippet = response.items?.get(0)?.snippet
-                val contentDetails = response.items?.get(0)?.contentDetails
-
-                val thumbnails = snippet?.thumbnails?.getThumbnailUrl()
-
-                Picasso.get().load(thumbnails).into(binding.ivThumbnail)
-
-                binding.tvVideoTitle.text = snippet?.title
-                binding.tvChannelTitle.text = snippet?.channelTitle
-                val durations = parseTime(contentDetails?.duration)
-                binding.tvDuration.text = getPrettyDuration(durations.first())
-                val adapter = DurationsAdapter(requireContext(), durations)
-                binding.lvDurations.adapter = adapter
-            }
         }
     }
 
