@@ -1,10 +1,10 @@
-package com.thesohelshaikh.ytanalyser.network
+package com.thesohelshaikh.ytanalyser.data.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.thesohelshaikh.ytanalyser.model.PlaylistDetailResponse
-import com.thesohelshaikh.ytanalyser.model.PlaylistVideoDetailResponse
-import com.thesohelshaikh.ytanalyser.model.PlaylistVideoIdResponse
-import com.thesohelshaikh.ytanalyser.model.VideoDetailResponse
+import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistDetailResponse
+import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoDetailResponse
+import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
+import com.thesohelshaikh.ytanalyser.data.network.model.VideoDetailResponse
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.HttpUrl

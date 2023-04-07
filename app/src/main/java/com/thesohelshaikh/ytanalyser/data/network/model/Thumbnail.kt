@@ -1,19 +1,19 @@
-package com.thesohelshaikh.ytanalyser.model
+package com.thesohelshaikh.ytanalyser.data.network.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Thumbnails(
-    @SerialName("default")
+        @SerialName("default")
     val default: Default?,
-    @SerialName("high")
+        @SerialName("high")
     val high: High?,
-    @SerialName("maxres")
+        @SerialName("maxres")
     val maxres: Maxres? = null,
-    @SerialName("medium")
+        @SerialName("medium")
     val medium: Medium?,
-    @SerialName("standard")
+        @SerialName("standard")
     val standard: Standard? = null
 ) {
     @Serializable

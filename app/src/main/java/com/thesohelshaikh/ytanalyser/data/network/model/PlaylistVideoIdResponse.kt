@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser.model
+package com.thesohelshaikh.ytanalyser.data.network.model
 
 
 import kotlinx.serialization.SerialName
@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaylistVideoIdResponse(
-    @SerialName("items")
+        @SerialName("items")
     val items: List<Item?>?,
-    @SerialName("nextPageToken")
+        @SerialName("nextPageToken")
     val nextPageToken: String? = null
 ) {
     @Serializable

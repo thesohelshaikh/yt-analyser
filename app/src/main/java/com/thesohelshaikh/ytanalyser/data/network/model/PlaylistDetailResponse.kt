@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser.model
+package com.thesohelshaikh.ytanalyser.data.network.model
 
 
 import kotlinx.serialization.SerialName
@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaylistDetailResponse(
-    @SerialName("etag")
+        @SerialName("etag")
     val etag: String?,
-    @SerialName("items")
+        @SerialName("items")
     val items: List<Item?>?,
-    @SerialName("kind")
+        @SerialName("kind")
     val kind: String?,
-    @SerialName("pageInfo")
+        @SerialName("pageInfo")
     val pageInfo: PageInfo?
 ) {
     @Serializable
@@ -28,19 +28,19 @@ data class PlaylistDetailResponse(
     ) {
         @Serializable
         data class Snippet(
-            @SerialName("channelId")
+                @SerialName("channelId")
             val channelId: String?,
-            @SerialName("channelTitle")
+                @SerialName("channelTitle")
             val channelTitle: String?,
-            @SerialName("description")
+                @SerialName("description")
             val description: String?,
-            @SerialName("localized")
+                @SerialName("localized")
             val localized: Localized? = null,
-            @SerialName("publishedAt")
+                @SerialName("publishedAt")
             val publishedAt: String?,
-            @SerialName("thumbnails")
+                @SerialName("thumbnails")
             val thumbnails: Thumbnails?,
-            @SerialName("title")
+                @SerialName("title")
             val title: String?
         ) {
             @Serializable

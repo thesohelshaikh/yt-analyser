@@ -1,16 +1,17 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
-import com.thesohelshaikh.ytanalyser.model.PlaylistVideoIdResponse
-import com.thesohelshaikh.ytanalyser.network.YoutubeNetwork
+import com.thesohelshaikh.ytanalyser.data.local.VideoDao
+import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
+import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetwork
+import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
 import kotlinx.coroutines.launch
 
-class InformationViewModel : ViewModel() {
+class InformationViewModel(
+        private val videoDao: VideoDao
+) : ViewModel() {
 
     private val youtubeNetwork = YoutubeNetwork()
 
@@ -34,17 +35,40 @@ class InformationViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = youtubeNetwork.getVideoDetails(id)
-                val snippet = response.items?.get(0)?.snippet
-                val contentDetails = response.items?.get(0)?.contentDetails
-                val thumbnail = snippet?.thumbnails?.getThumbnailUrl()
-                val durations = UtilitiesManger.parseTime(contentDetails?.duration)
-                _detailsScreenState.value = DetailsScreenState.SuccessState(
-                    thumbnailUrl = thumbnail,
-                    title = snippet?.title,
-                    channelTitle = snippet?.channelTitle,
-                    duration = durations.first()
-                )
+
+                val localVideo = videoDao.get(id)
+
+                if (localVideo != null) {
+                    val snippet = localVideo.snippet
+                    val contentDetails = localVideo.contentDetails
+                    val thumbnail = snippet?.thumbnail
+                    val durations = UtilitiesManger.parseTime(contentDetails?.duration)
+
+                    _detailsScreenState.value = DetailsScreenState.SuccessState(
+                            thumbnailUrl = thumbnail,
+                            title = snippet?.title,
+                            channelTitle = snippet?.channelTitle,
+                            duration = durations.first()
+                    )
+                } else {
+                    val response = youtubeNetwork.getVideoDetails(id)
+
+                    val video = response.items?.get(0)
+                    val snippet = video?.snippet
+                    val contentDetails = video?.contentDetails
+                    val thumbnail = snippet?.thumbnails?.getThumbnailUrl()
+                    val durations = UtilitiesManger.parseTime(contentDetails?.duration)
+
+                    video?.asEntity()?.let { videoDao.upsert(it) }
+
+                    _detailsScreenState.value = DetailsScreenState.SuccessState(
+                            thumbnailUrl = thumbnail,
+                            title = snippet?.title,
+                            channelTitle = snippet?.channelTitle,
+                            duration = durations.first()
+                    )
+                }
+
             } catch (e: Exception) {
                 Log.e("TAG", "getVideoDetails: $e")
                 _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
@@ -103,5 +127,15 @@ class InformationViewModel : ViewModel() {
                 _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
             }
         }
+    }
+}
+
+class InformationViewModelFactory(private val dao: VideoDao) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(InformationViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return InformationViewModel(dao) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

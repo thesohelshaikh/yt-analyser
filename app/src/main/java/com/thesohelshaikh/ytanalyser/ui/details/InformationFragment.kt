@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.squareup.picasso.Picasso
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.calculateAlternateDurations
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
+import com.thesohelshaikh.ytanalyser.YTApplication
 import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter
 import com.thesohelshaikh.ytanalyser.databinding.FragmentInformationBinding
 import com.thesohelshaikh.ytanalyser.ui.details.InformationViewModel.DetailsScreenState
@@ -23,11 +24,13 @@ import java.util.*
 class InformationFragment : Fragment() {
     private lateinit var binding: FragmentInformationBinding
     private var videoID: String = ""
-    private val viewModel by viewModels<InformationViewModel>()
+    private val viewModel by viewModels<InformationViewModel> {
+        InformationViewModelFactory((requireActivity().application as YTApplication).videoDao)
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentInformationBinding.inflate(layoutInflater)
         return binding.root

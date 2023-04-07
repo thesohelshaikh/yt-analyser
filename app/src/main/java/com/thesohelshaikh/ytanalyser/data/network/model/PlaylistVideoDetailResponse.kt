@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser.model
+package com.thesohelshaikh.ytanalyser.data.network.model
 
 
 import kotlinx.serialization.SerialName
