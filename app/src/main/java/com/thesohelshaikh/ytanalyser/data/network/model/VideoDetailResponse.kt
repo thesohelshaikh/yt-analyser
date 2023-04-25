@@ -76,7 +76,7 @@ data class VideoDetailResponse(
                 @SerialName("publishedAt")
             val publishedAt: String?,
                 @SerialName("tags")
-            val tags: List<String?>?,
+            val tags: List<String?>? = null,
                 @SerialName("thumbnails")
             val thumbnails: Thumbnails?,
                 @SerialName("title")
@@ -94,7 +94,7 @@ data class VideoDetailResponse(
         @Serializable
         data class Statistics(
             @SerialName("commentCount")
-            val commentCount: String?,
+            val commentCount: String? = null,
             @SerialName("favoriteCount")
             val favoriteCount: String?,
             @SerialName("likeCount")
