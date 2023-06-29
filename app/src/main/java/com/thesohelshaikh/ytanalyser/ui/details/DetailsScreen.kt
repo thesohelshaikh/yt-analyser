@@ -3,12 +3,14 @@ package com.thesohelshaikh.ytanalyser.ui.details
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -102,19 +104,26 @@ private fun Details(
     playbacks.add("At 1.5x")
     playbacks.add("At 1.75x")
     playbacks.add("At 2x")
+    
+    Spacer(modifier = Modifier.height(16.dp))
 
     LazyColumn {
         itemsIndexed(alternateDurations) {  index, alternateDuration ->
             DurationRow(alternateDuration, playbacks[index])
+            if (index != alternateDurations.lastIndex) {
+                Divider()
+            }
         }
     }
 }
 
 @Composable
 private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
+    Spacer(modifier = Modifier.height(8.dp))
     Text(text = playbackSpeed)
     Text(text = "To complete ${UtilitiesManger.getPrettyDuration(alternateDuration)}")
     Text(text = "Complete by ${UtilitiesManger.getDateAfter(alternateDuration)}")
+    Spacer(modifier = Modifier.height(8.dp))
 }
 
 @Preview
