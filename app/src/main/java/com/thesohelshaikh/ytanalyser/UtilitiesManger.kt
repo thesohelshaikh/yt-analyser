@@ -32,9 +32,9 @@ object UtilitiesManger {
         val todayDate = cal[Calendar.DATE]
         cal.add(Calendar.MILLISECOND, millis.toInt())
         val sdf = if (todayDate == cal[Calendar.DATE]) {
-            SimpleDateFormat("HH:mm:ss")
+            SimpleDateFormat("HH:mm:ss a")
         } else {
-            SimpleDateFormat("HH:mm:ss, dd-MM-yy")
+            SimpleDateFormat("HH:mm:ss a, dd-MM-yy")
         }
         cal[Calendar.DATE]
         val time = cal.time
