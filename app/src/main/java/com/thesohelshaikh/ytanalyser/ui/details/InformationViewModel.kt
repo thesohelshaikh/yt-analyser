@@ -1,8 +1,15 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
+import com.thesohelshaikh.ytanalyser.YTApplication
 import com.thesohelshaikh.ytanalyser.data.local.VideoDao
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetwork
@@ -31,6 +38,7 @@ class InformationViewModel(
     }
 
     fun getVideoDetails(id: String) {
+        Log.d("TAG", "getVideoDetails: ")
         _detailsScreenState.value = DetailsScreenState.LoadingState
 
         viewModelScope.launch {
@@ -125,6 +133,15 @@ class InformationViewModel(
             } catch (e: Exception) {
                 Log.e("TAG", "Error", e)
                 _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val videoDao = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as YTApplication).videoDao
+                InformationViewModel(videoDao)
             }
         }
     }
