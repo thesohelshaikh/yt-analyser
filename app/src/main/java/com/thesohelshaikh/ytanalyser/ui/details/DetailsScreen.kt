@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
+import java.util.ArrayList
 import java.util.Date
 
 @Composable
@@ -94,15 +96,23 @@ private fun Details(
     )
 
     val alternateDurations = UtilitiesManger.calculateAlternateDurations(Date(duration))
+    val playbacks = mutableListOf<String>()
+    playbacks.add("At 1x")
+    playbacks.add("At 1.25x")
+    playbacks.add("At 1.5x")
+    playbacks.add("At 1.75x")
+    playbacks.add("At 2x")
+
     LazyColumn {
-        items(alternateDurations) { alternateDuration ->
-            DurationRow(alternateDuration)
+        itemsIndexed(alternateDurations) {  index, alternateDuration ->
+            DurationRow(alternateDuration, playbacks[index])
         }
     }
 }
 
 @Composable
-private fun DurationRow(alternateDuration: Long) {
+private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
+    Text(text = playbackSpeed)
     Text(text = "To complete ${UtilitiesManger.getPrettyDuration(alternateDuration)}")
     Text(text = "Complete by ${UtilitiesManger.getDateAfter(alternateDuration)}")
 }
