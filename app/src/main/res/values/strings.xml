@@ -4,8 +4,10 @@
     <!--Home-->
     <string name="hint_playlist_id_video_id_url">Playlist id/ video id/ url</string>
     <string name="button_analyse">Analyse</string>
+    <string name="screen_home">Home</string>
 
     <!--Details-->
+    <string name="screen_details">Details</string>
     <string name="label_details_title">Details</string>
     <string name="label_to_complete">to complete</string>
     <string name="label_complete_by">complete by</string>
