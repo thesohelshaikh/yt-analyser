@@ -7,7 +7,7 @@ import com.thesohelshaikh.ytanalyser.data.local.entities.VideoEntity
 interface VideoDao {
 
     @Query("SELECT * FROM videos")
-    fun getAll(): List<VideoEntity>
+    suspend fun getAll(): List<VideoEntity>
 
     @Query("SELECT * FROM videos WHERE id=:id")
     suspend fun get(id : String): VideoEntity?

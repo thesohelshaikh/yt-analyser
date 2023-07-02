@@ -50,8 +50,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
-import com.thesohelshaikh.ytanalyser.ui.HistoryScreen
 import com.thesohelshaikh.ytanalyser.ui.details.DetailsScreen
+import com.thesohelshaikh.ytanalyser.ui.history.HistoryScreen
 
 @Composable
 fun MyApp(
@@ -125,7 +125,9 @@ private fun AppNavHost(
             )
         }
         composable(Screen.History.route) {
-            HistoryScreen()
+            HistoryScreen(onVideoClick = {
+                navController.navigate("details/$it")
+            })
         }
     }
 }
