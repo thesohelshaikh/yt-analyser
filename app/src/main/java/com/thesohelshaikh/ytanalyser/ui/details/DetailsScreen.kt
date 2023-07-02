@@ -33,7 +33,11 @@ fun DetailsScreen(
     informationViewModel: InformationViewModel = viewModel(factory = InformationViewModel.Factory)
 ) {
     LaunchedEffect(key1 = Unit, block = {
-        informationViewModel.getVideoDetails(videoId)
+        if (videoId.startsWith("PL")) {
+            informationViewModel.getPlaylistVideoIds(videoId)
+        } else {
+            informationViewModel.getVideoDetails(videoId)
+        }
     })
 
     val state by informationViewModel.detailsScreenState.observeAsState()
