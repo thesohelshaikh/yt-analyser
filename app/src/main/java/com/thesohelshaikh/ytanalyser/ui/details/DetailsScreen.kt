@@ -50,14 +50,12 @@ fun DetailsScreen(
         is InformationViewModel.DetailsScreenState.SuccessState -> {
             val successState = state as InformationViewModel.DetailsScreenState.SuccessState
             Log.d("TAG", "DetailsScreen: $state")
-            Column {
-                Details(
-                    successState.thumbnailUrl,
-                    successState.title,
-                    successState.channelTitle,
-                    successState.duration
-                )
-            }
+            DurationsList(
+                successState.thumbnailUrl,
+                successState.title,
+                successState.channelTitle,
+                successState.duration
+            )
         }
 
         null -> {
@@ -68,28 +66,12 @@ fun DetailsScreen(
 }
 
 @Composable
-private fun Details(
+private fun DurationsList(
     thumbnailUrl: String?,
     title: String?,
     channelTitle: String?,
     duration: Long
 ) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(thumbnailUrl)
-            .crossfade(true)
-            .build(), contentDescription = "Thumbnail",
-        modifier = Modifier.aspectRatio(16f / 9f),
-        contentScale = ContentScale.Crop
-    )
-    Spacer(modifier = Modifier.height(4.dp))
-    Text(text = title ?: "", style = MaterialTheme.typography.titleLarge)
-    Text(text = channelTitle ?: "", style = MaterialTheme.typography.titleMedium)
-    Text(
-        text = UtilitiesManger.getPrettyDuration(duration),
-        style = MaterialTheme.typography.bodyMedium
-    )
-
     val alternateDurations = UtilitiesManger.calculateAlternateDurations(Date(duration))
     val playbacks = mutableListOf<String>()
     playbacks.add("1x")
@@ -98,17 +80,25 @@ private fun Details(
     playbacks.add("1.75x")
     playbacks.add("2x")
 
-    Spacer(modifier = Modifier.height(16.dp))
-
-    DurationsList(alternateDurations, playbacks)
-}
-
-@Composable
-private fun DurationsList(
-    alternateDurations: ArrayList<Long>,
-    playbacks: MutableList<String>
-) {
     LazyColumn {
+        item {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .crossfade(true)
+                    .build(), contentDescription = "Thumbnail",
+                modifier = Modifier.aspectRatio(16f / 9f),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = title ?: "", style = MaterialTheme.typography.titleLarge)
+            Text(text = channelTitle ?: "", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = UtilitiesManger.getPrettyDuration(duration),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         item {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -155,7 +145,7 @@ private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
 @Preview
 @Composable
 fun DetailsScreenPreview() {
-    Column() {
-        Details("123412314343", "", "", 123123L)
+    Column {
+        DurationsList("123412314343", "", "", 123123L)
     }
 }
