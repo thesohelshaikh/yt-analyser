@@ -50,9 +50,9 @@ interface YoutubeApi {
         @Query("part") part: String = "contentDetails, snippet, statistics",
     ): VideoDetailResponse
 
-    @GET("playlistItems")
+    @GET("playlists")
     suspend fun getPlaylistDetails(
-        @Query("playlistId") playlistId: String,
+        @Query("id") playlistId: String,
         @Query("part") part: String = "snippet",
     ): PlaylistDetailResponse
 
