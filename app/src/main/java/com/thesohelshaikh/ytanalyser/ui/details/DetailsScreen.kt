@@ -1,34 +1,30 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.thesohelshaikh.ytanalyser.R
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
-import java.util.ArrayList
 import java.util.Date
 
 @Composable
@@ -71,10 +67,6 @@ fun DetailsScreen(
 
 }
 
-fun observeState() {
-
-}
-
 @Composable
 private fun Details(
     thumbnailUrl: String?,
@@ -99,16 +91,41 @@ private fun Details(
 
     val alternateDurations = UtilitiesManger.calculateAlternateDurations(Date(duration))
     val playbacks = mutableListOf<String>()
-    playbacks.add("At 1x")
-    playbacks.add("At 1.25x")
-    playbacks.add("At 1.5x")
-    playbacks.add("At 1.75x")
-    playbacks.add("At 2x")
-    
+    playbacks.add("1x")
+    playbacks.add("1.25x")
+    playbacks.add("1.5x")
+    playbacks.add("1.75x")
+    playbacks.add("2x")
+
     Spacer(modifier = Modifier.height(16.dp))
 
+    DurationsList(alternateDurations, playbacks)
+}
+
+@Composable
+private fun DurationsList(
+    alternateDurations: ArrayList<Long>,
+    playbacks: MutableList<String>
+) {
     LazyColumn {
-        itemsIndexed(alternateDurations) {  index, alternateDuration ->
+        item {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Playback\nSpeed",
+                    modifier = Modifier
+                        .fillParentMaxWidth(0.3f)
+                )
+                Text(
+                    text = "To complete", modifier = Modifier
+                        .fillParentMaxWidth(0.3f)
+                )
+                Text(
+                    text = "Complete by", modifier = Modifier
+                        .fillParentMaxWidth(0.4f)
+                )
+            }
+        }
+        itemsIndexed(alternateDurations) { index, alternateDuration ->
             DurationRow(alternateDuration, playbacks[index])
             if (index != alternateDurations.lastIndex) {
                 Divider()
@@ -120,9 +137,17 @@ private fun Details(
 @Composable
 private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
     Spacer(modifier = Modifier.height(8.dp))
-    Text(text = playbackSpeed)
-    Text(text = "To complete ${UtilitiesManger.getPrettyDuration(alternateDuration)}")
-    Text(text = "Complete by ${UtilitiesManger.getDateAfter(alternateDuration)}")
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Text(text = playbackSpeed, modifier = Modifier.weight(0.3f))
+        Text(
+            text = UtilitiesManger.getPrettyDuration(alternateDuration),
+            modifier = Modifier.weight(0.3f)
+        )
+        Text(
+            text = UtilitiesManger.getDateAfter(alternateDuration),
+            modifier = Modifier.weight(0.4f)
+        )
+    }
     Spacer(modifier = Modifier.height(8.dp))
 }
 
