@@ -13,4 +13,7 @@
     <string name="label_complete_by">complete by</string>
     <string name="cd_app_logo">App logo</string>
 
+    <!--History-->
+    <string name="screen_history">History</string>
+
 </resources>

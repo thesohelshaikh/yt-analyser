@@ -1,6 +1,9 @@
 package com.thesohelshaikh.ytanalyser.ui.home
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -33,14 +37,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
+import com.thesohelshaikh.ytanalyser.ui.HistoryScreen
 import com.thesohelshaikh.ytanalyser.ui.details.DetailsScreen
 
 @Composable
@@ -49,18 +57,54 @@ fun MyApp(
     startDestination: String = Screen.Home.route
 ) {
     MaterialTheme {
-        AppNavHost(navController = navController, startDestination = startDestination)
+        HomeScreen(navController, startDestination)
+    }
+}
+
+
+@Composable
+fun HomeScreen(navController: NavHostController, startDestination: String) {
+    Scaffold(
+        topBar = {
+            HomeTopAppBar()
+        },
+        bottomBar = {
+            HomeBottomBar(
+                navController
+            ) { index ->
+                navController.navigate(homeTabs[index].first.route) {
+                    // Pop up to the start destination of the graph to
+                    // avoid building up a large stack of destinations
+                    // on the back stack as users select items
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    // Avoid multiple copies of the same destination when
+                    // reselecting the same item
+                    launchSingleTop = true
+                    // Restore state when reselecting a previously selected item
+                    restoreState = true
+                }
+            }
+        }
+    ) { contentPadding ->
+        AppNavHost(navController, startDestination, contentPadding)
     }
 }
 
 @Composable
 private fun AppNavHost(
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
+    contentPadding: PaddingValues
 ) {
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        modifier = Modifier.padding(contentPadding)
+    ) {
         composable(Screen.Home.route) {
-            MainScreen(
+            HomeContent(
                 onClickAnalyse = {
                     navController.navigate("details/$it")
                 }
@@ -78,21 +122,9 @@ private fun AppNavHost(
                 backStackEntry.arguments?.getString("videoId") ?: ""
             )
         }
-    }
-}
-
-
-@Composable
-fun MainScreen(onClickAnalyse: (String) -> Unit) {
-    Scaffold(
-        topBar = {
-            HomeTopAppBar()
-        },
-        bottomBar = {
-            HomeBottomBar()
+        composable(Screen.History.route) {
+            HistoryScreen()
         }
-    ) { contentPadding ->
-        HomeContent(contentPadding, onClickAnalyse)
     }
 }
 
@@ -113,36 +145,48 @@ private fun HomeTopAppBar() {
 }
 
 @Composable
-private fun HomeBottomBar() {
-    var selectedItem by remember { mutableStateOf(0) }
-    NavigationBar {
-        homeTabs.forEachIndexed { index, tab ->
-            NavigationBarItem(
-                selected = selectedItem == index,
-                onClick = { selectedItem = index },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Filled.Home,
-                        contentDescription = stringResource(id = tab.title)
-                    )
-                },
-                label = {
-                    Text(text = stringResource(id = tab.title))
-                }
-            )
+private fun HomeBottomBar(
+    navController: NavHostController,
+    onBottomTabClick: (Int) -> Unit
+) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    val shouldShowBottomBar = homeTabs.any { it.first.route == currentDestination?.route }
+    AnimatedVisibility(
+        visible = shouldShowBottomBar,
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it }),
+    ) {
+        NavigationBar {
+            homeTabs.forEachIndexed { index, tab ->
+                NavigationBarItem(
+                    selected =
+                    currentDestination?.hierarchy?.any { it.route == tab.first.route } == true,
+                    onClick = { onBottomTabClick(index) },
+                    icon = {
+                        Icon(
+                            imageVector = tab.second,
+                            contentDescription = stringResource(id = tab.first.title)
+                        )
+                    },
+                    label = {
+                        Text(text = stringResource(id = tab.first.title))
+                    }
+                )
+            }
         }
     }
+
 }
 
 @Composable
 private fun HomeContent(
-    contentPadding: PaddingValues,
     onClickAnalyse: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(contentPadding),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -184,14 +228,16 @@ private fun HomeContent(
 @Preview
 @Composable
 fun PreviewMainScreen() {
-    MainScreen {}
+    HomeContent(onClickAnalyse = {})
 }
 
 sealed class Screen(val route: String, @StringRes val title: Int) {
     object Home : Screen("home", R.string.screen_home)
     object Details : Screen("details/{videoId}", R.string.screen_details)
+    object History : Screen("history", R.string.screen_history)
 }
 
 val homeTabs = listOf(
-    Screen.Home
+    Pair(Screen.Home, Icons.Filled.Home),
+    Pair(Screen.History, Icons.Filled.History)
 )
