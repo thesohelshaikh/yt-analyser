@@ -8,14 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.squareup.picasso.Picasso
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.calculateAlternateDurations
 import com.thesohelshaikh.ytanalyser.UtilitiesManger.getPrettyDuration
 import com.thesohelshaikh.ytanalyser.YTApplication
 import com.thesohelshaikh.ytanalyser.adapter.DurationsAdapter
 import com.thesohelshaikh.ytanalyser.databinding.FragmentInformationBinding
 import com.thesohelshaikh.ytanalyser.ui.details.InformationViewModel.DetailsScreenState
-import java.util.*
+import java.util.Date
 
 /**
  * A simple [Fragment] subclass.
@@ -53,7 +52,7 @@ class InformationFragment : Fragment() {
             when (it) {
                 is DetailsScreenState.SuccessState -> {
                     hideProgressBar()
-                    Picasso.get().load(it.thumbnailUrl).into(binding.ivThumbnail)
+//                    Picasso.get().load(it.thumbnailUrl).into(binding.ivThumbnail)
                     binding.tvVideoTitle.text = it.title
                     binding.tvChannelTitle.text = it.channelTitle
                     val durations = calculateAlternateDurations(Date(it.duration))
