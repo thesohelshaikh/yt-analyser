@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -206,7 +208,16 @@ private fun HomeContent(
             value = urlInput,
             onValueChange = { urlInput = it },
             label = { Text(stringResource(id = R.string.hint_playlist_id_video_id_url)) },
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            trailingIcon = {
+                if (urlInput.isEmpty()) return@OutlinedTextField
+
+                Icon(
+                    imageVector = Icons.Outlined.Cancel,
+                    contentDescription = "Clear text",
+                    modifier = Modifier.clickable { urlInput = "" }
+                )
+            }
         )
 
         Button(
