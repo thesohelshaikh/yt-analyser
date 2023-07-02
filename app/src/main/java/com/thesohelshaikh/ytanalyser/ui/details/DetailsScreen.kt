@@ -82,8 +82,9 @@ private fun Details(
         modifier = Modifier.aspectRatio(16f / 9f),
         contentScale = ContentScale.Crop
     )
+    Spacer(modifier = Modifier.height(4.dp))
     Text(text = title ?: "", style = MaterialTheme.typography.titleLarge)
-    Text(text = channelTitle ?: "", style = MaterialTheme.typography.bodyMedium)
+    Text(text = channelTitle ?: "", style = MaterialTheme.typography.titleMedium)
     Text(
         text = UtilitiesManger.getPrettyDuration(duration),
         style = MaterialTheme.typography.bodyMedium
