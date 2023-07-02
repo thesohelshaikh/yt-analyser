@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
@@ -85,6 +86,7 @@ private fun DurationsList(
     playbacks.add("2x")
 
     LazyColumn {
+        val horizontalMargin = 8.dp
         item {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -94,17 +96,29 @@ private fun DurationsList(
                 modifier = Modifier.aspectRatio(16f / 9f),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = title ?: "", style = MaterialTheme.typography.titleLarge)
-            Text(text = channelTitle ?: "", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = title ?: "",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(horizontalMargin)
+            )
+            Text(
+                text = channelTitle ?: "",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = horizontalMargin)
+            )
             Text(
                 text = UtilitiesManger.getPrettyDuration(duration),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(horizontal = horizontalMargin)
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
         item {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = horizontalMargin)
+            ) {
                 Text(
                     text = "Playback\nSpeed",
                     modifier = Modifier
@@ -132,7 +146,11 @@ private fun DurationsList(
 @Composable
 private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
     Spacer(modifier = Modifier.height(8.dp))
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+    ) {
         Text(text = playbackSpeed, modifier = Modifier.weight(0.3f))
         Text(
             text = UtilitiesManger.getPrettyDuration(alternateDuration),
