@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.thesohelshaikh.ytanalyser.data.network.model.Thumbnails
 
 @Entity("videos")
 data class VideoEntity(
@@ -20,7 +19,9 @@ data class VideoEntity(
         @Embedded("snippet_")
         val snippet: VideoSnippetEntity?,
         @Embedded("statistics_")
-        val statistics: VideoStatisticsEntity?
+        val statistics: VideoStatisticsEntity?,
+        @ColumnInfo("createdAt")
+        val createdAt: Long = System.currentTimeMillis()
 )
 
 data class VideoSnippetEntity(

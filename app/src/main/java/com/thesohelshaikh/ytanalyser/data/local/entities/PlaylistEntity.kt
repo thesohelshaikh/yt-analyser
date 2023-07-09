@@ -16,5 +16,7 @@ data class PlayListEntity(
     @ColumnInfo("channelTitle")
     val channelTitle: String?,
     @ColumnInfo("duration")
-    val duration: Long
+    val duration: Long,
+    @ColumnInfo("createdAt")
+    val createdAt: Long = System.currentTimeMillis()
 )

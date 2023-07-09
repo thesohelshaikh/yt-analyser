@@ -28,7 +28,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
-import com.thesohelshaikh.ytanalyser.data.local.entities.VideoEntity
 
 @Composable
 fun HistoryScreen(
@@ -66,7 +65,7 @@ fun HistoryScreen(
 }
 
 @Composable
-fun HistoryItemRow(videoEntity: VideoEntity, onVideoClick: (String) -> Unit) {
+fun HistoryItemRow(videoEntity: HistoryViewModel.HistoryItem, onVideoClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -82,7 +81,7 @@ fun HistoryItemRow(videoEntity: VideoEntity, onVideoClick: (String) -> Unit) {
             Row(modifier = Modifier) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(videoEntity.snippet?.thumbnail)
+                        .data(videoEntity.thumbnail)
                         .crossfade(true)
                         .build(),
                     contentDescription = "Thumbnail",
@@ -100,13 +99,13 @@ fun HistoryItemRow(videoEntity: VideoEntity, onVideoClick: (String) -> Unit) {
                         .align(Alignment.Top)
                 ) {
                     Text(
-                        text = videoEntity.snippet?.title.toString(),
+                        text = videoEntity.title,
                         style = MaterialTheme.typography.titleMedium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
-                        text = videoEntity.snippet?.channelTitle.toString(),
+                        text = videoEntity.channelTitle,
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
