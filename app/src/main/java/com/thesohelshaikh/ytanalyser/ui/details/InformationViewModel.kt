@@ -10,14 +10,17 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
 import com.thesohelshaikh.ytanalyser.YTApplication
-import com.thesohelshaikh.ytanalyser.data.local.VideoDao
-import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
+import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
+import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
+import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
 import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetwork
+import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
 import kotlinx.coroutines.launch
 
 class InformationViewModel(
-        private val videoDao: VideoDao
+    private val videoDao: VideoDao,
+    private val playlistDao: PlaylistDao,
 ) : ViewModel() {
 
     private val youtubeNetwork = YoutubeNetwork()
@@ -53,10 +56,10 @@ class InformationViewModel(
                     val durations = UtilitiesManger.parseTime(contentDetails?.duration)
 
                     _detailsScreenState.value = DetailsScreenState.SuccessState(
-                            thumbnailUrl = thumbnail,
-                            title = snippet?.title,
-                            channelTitle = snippet?.channelTitle,
-                            duration = durations.first()
+                        thumbnailUrl = thumbnail,
+                        title = snippet?.title,
+                        channelTitle = snippet?.channelTitle,
+                        duration = durations.first()
                     )
                 } else {
                     val response = youtubeNetwork.getVideoDetails(id)
@@ -70,10 +73,10 @@ class InformationViewModel(
                     video?.asEntity()?.let { videoDao.upsert(it) }
 
                     _detailsScreenState.value = DetailsScreenState.SuccessState(
-                            thumbnailUrl = thumbnail,
-                            title = snippet?.title,
-                            channelTitle = snippet?.channelTitle,
-                            duration = durations.first()
+                        thumbnailUrl = thumbnail,
+                        title = snippet?.title,
+                        channelTitle = snippet?.channelTitle,
+                        duration = durations.first()
                     )
                 }
 
@@ -89,47 +92,19 @@ class InformationViewModel(
 
         viewModelScope.launch {
             try {
-                val items = ArrayList<PlaylistVideoIdResponse.Item?>()
-                var nextPageToken: String? = null
-                val durations = ArrayList<String>()
 
-                val playlistDetailResponse = youtubeNetwork.getPlaylistDetails(playlistId)
+                val localPlaylist = playlistDao.get(playlistId)
 
-                while (true) {
-                    val response =
-                        youtubeNetwork.getPlaylistVideoIds(playlistId, pageToken = nextPageToken)
-
-                    if (!response.items.isNullOrEmpty()) {
-                        items.addAll(response.items)
-                        val videoIds = response.items.joinToString(separator = ",") {
-                            it?.contentDetails?.videoId ?: ""
-                        }
-                        Log.i("TAG", "getPlaylistVideoIds: videoId:$videoIds")
-
-                        // get durations of each of the videos
-                        val videosResponse = youtubeNetwork.getPlaylistVideoDetails(videoIds)
-                        videosResponse.items?.forEach { video ->
-                            video?.contentDetails?.duration?.let { durations.add(it) }
-                        }
-                    }
-
-                    nextPageToken = response.nextPageToken
-                    if (nextPageToken == null) {
-                        break
-                    }
+                if (localPlaylist != null) {
+                    _detailsScreenState.value = DetailsScreenState.SuccessState(
+                        thumbnailUrl = localPlaylist.thumbnailUrl,
+                        title = localPlaylist.title,
+                        channelTitle = localPlaylist.channelTitle,
+                        duration = localPlaylist.duration
+                    )
+                } else {
+                    fetchPlaylistDetailsFromNetwork(playlistId)
                 }
-                val total = UtilitiesManger.parsePlaylistDurations(durations)
-
-
-                val snippet = playlistDetailResponse.items?.first()?.snippet
-                val thumbnail = snippet?.thumbnails?.getThumbnailUrl()
-
-                _detailsScreenState.value = DetailsScreenState.SuccessState(
-                    thumbnailUrl = thumbnail,
-                    title = snippet?.title,
-                    channelTitle = snippet?.channelTitle,
-                    duration = total
-                )
             } catch (e: Exception) {
                 Log.e("TAG", "Error", e)
                 _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
@@ -137,21 +112,81 @@ class InformationViewModel(
         }
     }
 
+    private suspend fun fetchPlaylistDetailsFromNetwork(playlistId: String) {
+        val items = ArrayList<PlaylistVideoIdResponse.Item?>()
+        var nextPageToken: String? = null
+        val durations = ArrayList<String>()
+
+        val playlistDetailResponse = youtubeNetwork.getPlaylistDetails(playlistId)
+
+        while (true) {
+            val response =
+                youtubeNetwork.getPlaylistVideoIds(playlistId, pageToken = nextPageToken)
+
+            if (!response.items.isNullOrEmpty()) {
+                items.addAll(response.items)
+                val videoIds = items.joinToString(separator = ",") {
+                    it?.contentDetails?.videoId ?: ""
+                }
+                Log.i("TAG", "getPlaylistVideoIds: videoId:$videoIds")
+
+                // get durations of each of the videos
+                val videosResponse = youtubeNetwork.getPlaylistVideoDetails(videoIds)
+                videosResponse.items?.forEach { video ->
+                    video?.contentDetails?.duration?.let { durations.add(it) }
+                }
+            }
+
+            nextPageToken = response.nextPageToken
+            if (nextPageToken == null) {
+                break
+            }
+        }
+        val total = UtilitiesManger.parsePlaylistDurations(durations)
+
+
+        val snippet = playlistDetailResponse.items?.first()?.snippet
+        val thumbnail = snippet?.thumbnails?.getThumbnailUrl()
+
+        playlistDao.upsert(
+            PlayListEntity(
+                playlistId,
+                thumbnail,
+                snippet?.title,
+                snippet?.channelTitle,
+                total
+            )
+        )
+
+        _detailsScreenState.value = DetailsScreenState.SuccessState(
+            thumbnailUrl = thumbnail,
+            title = snippet?.title,
+            channelTitle = snippet?.channelTitle,
+            duration = total
+        )
+    }
+
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val videoDao = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as YTApplication).videoDao
-                InformationViewModel(videoDao)
+                val ytApplication =
+                    this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as YTApplication
+                val videoDao = ytApplication.videoDao
+                val playlistDao = ytApplication.playlistDao
+                InformationViewModel(videoDao, playlistDao)
             }
         }
     }
 }
 
-class InformationViewModelFactory(private val dao: VideoDao) : ViewModelProvider.Factory {
+class InformationViewModelFactory(
+    private val videoDao: VideoDao,
+    private val playlistDao: PlaylistDao
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(InformationViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return InformationViewModel(dao) as T
+            return InformationViewModel(videoDao, playlistDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

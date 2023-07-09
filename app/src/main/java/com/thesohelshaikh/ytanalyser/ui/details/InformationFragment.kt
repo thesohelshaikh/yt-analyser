@@ -24,7 +24,8 @@ class InformationFragment : Fragment() {
     private lateinit var binding: FragmentInformationBinding
     private var videoID: String = ""
     private val viewModel by viewModels<InformationViewModel> {
-        InformationViewModelFactory((requireActivity().application as YTApplication).videoDao)
+        val ytApplication = requireActivity().application as YTApplication
+        InformationViewModelFactory(ytApplication.videoDao, ytApplication.playlistDao)
     }
 
     override fun onCreateView(

@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser.data.local
+package com.thesohelshaikh.ytanalyser.data.local.dao
 
 import androidx.room.*
 import com.thesohelshaikh.ytanalyser.data.local.entities.VideoEntity
@@ -10,7 +10,7 @@ interface VideoDao {
     suspend fun getAll(): List<VideoEntity>
 
     @Query("SELECT * FROM videos WHERE id=:id")
-    suspend fun get(id : String): VideoEntity?
+    suspend fun get(id: String): VideoEntity?
 
     @Upsert
     suspend fun upsert(video: VideoEntity)

@@ -7,4 +7,5 @@ class YTApplication: Application() {
 
     val database by lazy { YTDatabase.getDatabase(this) }
     val videoDao by lazy { database.videoDao() }
+    val playlistDao by lazy { database.playlistDao() }
 }

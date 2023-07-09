@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.thesohelshaikh.ytanalyser.YTApplication
-import com.thesohelshaikh.ytanalyser.data.local.VideoDao
+import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
 import com.thesohelshaikh.ytanalyser.data.local.entities.VideoEntity
 import kotlinx.coroutines.launch
 

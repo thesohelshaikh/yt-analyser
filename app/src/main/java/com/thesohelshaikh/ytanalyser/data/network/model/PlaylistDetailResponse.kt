@@ -6,17 +6,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaylistDetailResponse(
-        @SerialName("etag")
+    @SerialName("etag")
     val etag: String?,
-        @SerialName("items")
-    val items: List<Item?>?,
-        @SerialName("kind")
+    @SerialName("items")
+    val items: List<PlaylistItem?>?,
+    @SerialName("kind")
     val kind: String?,
-        @SerialName("pageInfo")
+    @SerialName("pageInfo")
     val pageInfo: PageInfo?
 ) {
     @Serializable
-    data class Item(
+    data class PlaylistItem(
         @SerialName("etag")
         val etag: String?,
         @SerialName("id")
@@ -24,27 +24,27 @@ data class PlaylistDetailResponse(
         @SerialName("kind")
         val kind: String?,
         @SerialName("snippet")
-        val snippet: Snippet?
+        val snippet: PlaylistSnippet?
     ) {
         @Serializable
-        data class Snippet(
-                @SerialName("channelId")
+        data class PlaylistSnippet(
+            @SerialName("channelId")
             val channelId: String?,
-                @SerialName("channelTitle")
+            @SerialName("channelTitle")
             val channelTitle: String?,
-                @SerialName("description")
+            @SerialName("description")
             val description: String?,
-                @SerialName("localized")
-            val localized: Localized? = null,
-                @SerialName("publishedAt")
+            @SerialName("localized")
+            val localized: PlaylistLocalized? = null,
+            @SerialName("publishedAt")
             val publishedAt: String?,
-                @SerialName("thumbnails")
+            @SerialName("thumbnails")
             val thumbnails: Thumbnails?,
-                @SerialName("title")
+            @SerialName("title")
             val title: String?
         ) {
             @Serializable
-            data class Localized(
+            data class PlaylistLocalized(
                 @SerialName("description")
                 val description: String?,
                 @SerialName("title")
