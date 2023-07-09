@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,8 +19,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -86,20 +89,23 @@ private fun DurationsList(
     playbacks.add("2x")
 
     LazyColumn {
-        val horizontalMargin = 8.dp
+        val horizontalMargin = 16.dp
         item {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
                     .crossfade(true)
                     .build(), contentDescription = "Thumbnail",
-                modifier = Modifier.aspectRatio(16f / 9f),
+                modifier = Modifier
+                    .aspectRatio(16f / 9f)
+                    .padding(16.dp)
+                    .clip(RoundedCornerShape(horizontalMargin)),
                 contentScale = ContentScale.Crop
             )
             Text(
                 text = title ?: "",
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(horizontalMargin)
+                modifier = Modifier.padding(start = horizontalMargin, end = horizontalMargin)
             )
             Text(
                 text = channelTitle ?: "",
@@ -111,26 +117,29 @@ private fun DurationsList(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(horizontal = horizontalMargin)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
         item {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = horizontalMargin)
+                    .padding(horizontal = horizontalMargin),
             ) {
                 Text(
-                    text = "Playback\nSpeed",
+                    text = "Playback Speed",
                     modifier = Modifier
-                        .fillParentMaxWidth(0.3f)
+                        .fillParentMaxWidth(0.3f),
+                    textAlign = TextAlign.Center
                 )
                 Text(
                     text = "To complete", modifier = Modifier
-                        .fillParentMaxWidth(0.3f)
+                        .fillParentMaxWidth(0.3f),
+                    textAlign = TextAlign.Center
                 )
                 Text(
                     text = "Complete by", modifier = Modifier
-                        .fillParentMaxWidth(0.4f)
+                        .fillParentMaxWidth(0.4f),
+                    textAlign = TextAlign.Center
                 )
             }
         }
@@ -151,14 +160,22 @@ private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
     ) {
-        Text(text = playbackSpeed, modifier = Modifier.weight(0.3f))
+        Text(
+            text = playbackSpeed,
+            modifier = Modifier.weight(0.3f),
+            textAlign = TextAlign.Center
+        )
         Text(
             text = UtilitiesManger.getPrettyDuration(alternateDuration),
-            modifier = Modifier.weight(0.3f)
+            modifier = Modifier.weight(0.3f),
+            textAlign = TextAlign.Center
+
         )
         Text(
             text = UtilitiesManger.getDateAfter(alternateDuration),
-            modifier = Modifier.weight(0.4f)
+            modifier = Modifier.weight(0.4f),
+            textAlign = TextAlign.Center
+
         )
     }
     Spacer(modifier = Modifier.height(8.dp))
