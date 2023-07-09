@@ -2,7 +2,11 @@ package com.thesohelshaikh.ytanalyser.ui.home
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -12,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Cancel
@@ -19,6 +24,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -68,7 +74,7 @@ fun MyApp(
 fun HomeScreen(navController: NavHostController, startDestination: String) {
     Scaffold(
         topBar = {
-            HomeTopAppBar()
+            HomeTopAppBar(navController)
         },
         bottomBar = {
             HomeBottomBar(
@@ -135,7 +141,11 @@ private fun AppNavHost(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun HomeTopAppBar() {
+private fun HomeTopAppBar(navController: NavHostController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val shouldShowTopBar = homeTabs.none { it.first.route == currentDestination?.route }
+
     CenterAlignedTopAppBar(
         title = {
             Text(text = "YT Analyser", color = Color.White)
@@ -144,7 +154,22 @@ private fun HomeTopAppBar() {
             containerColor = colorResource(
                 id = R.color.colorPrimary
             )
-        )
+        ),
+        navigationIcon = {
+            AnimatedVisibility(
+                visible = shouldShowTopBar,
+                enter = fadeIn() + slideInHorizontally(),
+                exit = fadeOut() + slideOutHorizontally()
+            ) {
+                IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.cd_back),
+                        tint = Color.White
+                    )
+                }
+            }
+        }
     )
 }
 
