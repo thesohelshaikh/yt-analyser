@@ -12,6 +12,7 @@ import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
 import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
 import com.thesohelshaikh.ytanalyser.data.local.entities.VideoEntity
+import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
@@ -27,6 +28,7 @@ class HistoryViewModel(
         val thumbnail: String?,
         val title: String,
         val channelTitle: String,
+        val resourceType: ResourceType,
         val createdAt: Long,
     )
 
@@ -35,6 +37,7 @@ class HistoryViewModel(
         snippet?.thumbnail,
         snippet?.title.toString(),
         snippet?.channelTitle.toString(),
+        resourceType,
         createdAt,
     )
 
@@ -43,15 +46,36 @@ class HistoryViewModel(
         thumbnailUrl,
         title.toString(),
         channelTitle.toString(),
+        resourceType,
         createdAt,
     )
 
-    fun getVideos() {
+    fun getVideosAndPlaylists() {
         viewModelScope.launch {
             val videos = videoDao.getAll().map { it.asHistoryItem() }
             val playlists = playlistDao.getAll().map { it.asHistoryItem() }
 
             val historyItems = (videos + playlists).sortedByDescending { it.createdAt }
+
+            _historyScreenState.value = HistoryUiState.Success(historyItems)
+        }
+    }
+
+    fun getVideos() {
+        viewModelScope.launch {
+            val videos = videoDao.getAll().map { it.asHistoryItem() }
+
+            val historyItems = (videos).sortedByDescending { it.createdAt }
+
+            _historyScreenState.value = HistoryUiState.Success(historyItems)
+        }
+    }
+
+    fun getPlaylists() {
+        viewModelScope.launch {
+            val playlists = playlistDao.getAll().map { it.asHistoryItem() }
+
+            val historyItems = (playlists).sortedByDescending { it.createdAt }
 
             _historyScreenState.value = HistoryUiState.Success(historyItems)
         }

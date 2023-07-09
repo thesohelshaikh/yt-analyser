@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 
 @Entity("videos")
 data class VideoEntity(
@@ -20,6 +21,8 @@ data class VideoEntity(
         val snippet: VideoSnippetEntity?,
         @Embedded("statistics_")
         val statistics: VideoStatisticsEntity?,
+        @ColumnInfo("resourceType")
+        val resourceType: ResourceType = ResourceType.VIDEO,
         @ColumnInfo("createdAt")
         val createdAt: Long = System.currentTimeMillis()
 )
