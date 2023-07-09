@@ -1,10 +1,12 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,8 +22,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -88,7 +92,18 @@ private fun DurationsList(
     playbacks.add("1.75x")
     playbacks.add("2x")
 
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        MaterialTheme.colorScheme.background
+                    )
+                )
+            )
+            .fillMaxSize()
+    ) {
         val horizontalMargin = 16.dp
         item {
             AsyncImage(
@@ -110,7 +125,7 @@ private fun DurationsList(
             Text(
                 text = channelTitle ?: "",
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = horizontalMargin)
+                modifier = Modifier.padding(horizontal = horizontalMargin),
             )
             Text(
                 text = UtilitiesManger.getPrettyDuration(duration),
@@ -129,17 +144,23 @@ private fun DurationsList(
                     text = "Playback Speed",
                     modifier = Modifier
                         .fillParentMaxWidth(0.3f),
-                    textAlign = TextAlign.Center
-                )
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+
+                    )
                 Text(
-                    text = "To complete", modifier = Modifier
+                    text = "To complete",
+                    modifier = Modifier
                         .fillParentMaxWidth(0.3f),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Complete by", modifier = Modifier
+                    text = "Complete by",
+                    modifier = Modifier
                         .fillParentMaxWidth(0.4f),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
                 )
             }
         }

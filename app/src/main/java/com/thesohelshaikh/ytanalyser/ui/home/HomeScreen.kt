@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedTextField
@@ -39,7 +41,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -151,9 +152,7 @@ private fun HomeTopAppBar(navController: NavHostController) {
             Text(text = "YT Analyser", color = Color.White)
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = colorResource(
-                id = R.color.colorPrimary
-            )
+            containerColor = MaterialTheme.colorScheme.primary
         ),
         navigationIcon = {
             AnimatedVisibility(
@@ -235,7 +234,9 @@ private fun HomeContent(
             value = urlInput,
             onValueChange = { urlInput = it },
             label = { Text(stringResource(id = R.string.hint_playlist_id_video_id_url)) },
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             trailingIcon = {
                 if (urlInput.isEmpty()) return@OutlinedTextField
 
@@ -255,7 +256,9 @@ private fun HomeContent(
                 val videoId = UtilitiesManger.getIDfromURL(urlInput)
                 onClickAnalyse(videoId)
             },
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(0.5f)
         ) {
             Text(text = stringResource(id = R.string.button_analyse))
         }
