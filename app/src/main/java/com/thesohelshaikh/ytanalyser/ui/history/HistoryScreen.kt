@@ -69,7 +69,7 @@ fun HistoryScreen(
 fun HistoryItemRow(videoEntity: VideoEntity, onVideoClick: (String) -> Unit) {
     Card(
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .padding(horizontal = 16.dp, vertical = 4.dp)
             .clickable {
                 onVideoClick(videoEntity.id)
             }
