@@ -13,7 +13,7 @@ import com.thesohelshaikh.ytanalyser.YTApplication
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
 import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
-import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetwork
+import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetworkService
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class InformationViewModel(
     private val playlistDao: PlaylistDao,
 ) : ViewModel() {
 
-    private val youtubeNetwork = YoutubeNetwork()
+    private val youtubeNetworkService = YoutubeNetworkService()
 
     private val _detailsScreenState = MutableLiveData<DetailsScreenState>()
     val detailsScreenState: LiveData<DetailsScreenState> get() = _detailsScreenState
@@ -62,7 +62,7 @@ class InformationViewModel(
                         duration = durations.first()
                     )
                 } else {
-                    val response = youtubeNetwork.getVideoDetails(id)
+                    val response = youtubeNetworkService.getVideoDetails(id)
 
                     val video = response.items?.get(0)
                     val snippet = video?.snippet
@@ -116,13 +116,13 @@ class InformationViewModel(
         var nextPageToken: String? = null
         val durations = ArrayList<String>()
 
-        val playlistDetailResponse = youtubeNetwork.getPlaylistDetails(playlistId)
+        val playlistDetailResponse = youtubeNetworkService.getPlaylistDetails(playlistId)
 
         while (true) {
             val items = ArrayList<PlaylistVideoIdResponse.Item?>()
 
             val response =
-                youtubeNetwork.getPlaylistVideoIds(playlistId, pageToken = nextPageToken)
+                youtubeNetworkService.getPlaylistVideoIds(playlistId, pageToken = nextPageToken)
 
             if (!response.items.isNullOrEmpty()) {
                 items.addAll(response.items)
@@ -132,7 +132,7 @@ class InformationViewModel(
                 Log.i("TAG", "getPlaylistVideoIds: videoId:$videoIds")
 
                 // get durations of each of the videos
-                val videosResponse = youtubeNetwork.getPlaylistVideoDetails(videoIds)
+                val videosResponse = youtubeNetworkService.getPlaylistVideoDetails(videoIds)
                 videosResponse.items?.forEach { video ->
                     video?.contentDetails?.duration?.let { durations.add(it) }
                 }
