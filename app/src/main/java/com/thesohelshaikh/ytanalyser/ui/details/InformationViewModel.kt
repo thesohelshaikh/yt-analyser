@@ -113,13 +113,14 @@ class InformationViewModel(
     }
 
     private suspend fun fetchPlaylistDetailsFromNetwork(playlistId: String) {
-        val items = ArrayList<PlaylistVideoIdResponse.Item?>()
         var nextPageToken: String? = null
         val durations = ArrayList<String>()
 
         val playlistDetailResponse = youtubeNetwork.getPlaylistDetails(playlistId)
 
         while (true) {
+            val items = ArrayList<PlaylistVideoIdResponse.Item?>()
+
             val response =
                 youtubeNetwork.getPlaylistVideoIds(playlistId, pageToken = nextPageToken)
 
@@ -176,18 +177,5 @@ class InformationViewModel(
                 InformationViewModel(videoDao, playlistDao)
             }
         }
-    }
-}
-
-class InformationViewModelFactory(
-    private val videoDao: VideoDao,
-    private val playlistDao: PlaylistDao
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(InformationViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return InformationViewModel(videoDao, playlistDao) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
