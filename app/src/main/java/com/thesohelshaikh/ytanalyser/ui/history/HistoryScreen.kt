@@ -138,6 +138,7 @@ fun HistoryItemRow(videoEntity: HistoryViewModel.HistoryItem, onVideoClick: (Str
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 4.dp)
+            .fillMaxWidth()
             .clickable {
                 onVideoClick(videoEntity.id)
             }
