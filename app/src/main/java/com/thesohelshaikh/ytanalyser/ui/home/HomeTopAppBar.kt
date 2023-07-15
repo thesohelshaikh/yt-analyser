@@ -1,0 +1,87 @@
+package com.thesohelshaikh.ytanalyser.ui.home
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.thesohelshaikh.ytanalyser.R
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun HomeTopAppBar(navController: NavHostController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val shouldShowBack = homeTabs.none { it.screen.route == currentDestination?.route }
+    val shouldShowSettings = homeTabs.any { it.screen.route == currentDestination?.route }
+
+    CenterAlignedTopAppBar(
+        title = {
+            val title = getScreenTitle(currentDestination?.route)?.let { stringResource(id = it) }
+            Text(
+                text = title ?: "",
+                color = Color.White,
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+            )
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        ),
+        navigationIcon = {
+            AnimatedVisibility(
+                visible = shouldShowBack,
+                enter = fadeIn() + slideInHorizontally(),
+                exit = fadeOut() + slideOutHorizontally()
+            ) {
+                IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.cd_back),
+                        tint = Color.White
+                    )
+                }
+            }
+        },
+        actions = {
+            AnimatedVisibility(
+                visible = shouldShowSettings,
+                enter = fadeIn() + slideInHorizontally(initialOffsetX = { it }),
+                exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
+            ) {
+                IconButton(onClick = { navController.navigate(Screen.Settings.route) }) {
+                    Icon(
+                        imageVector = Icons.Filled.Settings,
+                        contentDescription = stringResource(id = R.string.screen_settings),
+                        tint = Color.White,
+                    )
+                }
+            }
+        }
+    )
+}
+
+private fun getScreenTitle(route: String?): Int? {
+    return when (route) {
+        Screen.Home.route -> R.string.app_name
+        Screen.History.route -> R.string.screen_history
+        Screen.Settings.route -> R.string.screen_settings
+        else -> null
+    }
+}
