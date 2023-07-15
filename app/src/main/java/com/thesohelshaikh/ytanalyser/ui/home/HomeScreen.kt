@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -61,6 +62,7 @@ import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.UtilitiesManger
 import com.thesohelshaikh.ytanalyser.ui.details.DetailsScreen
 import com.thesohelshaikh.ytanalyser.ui.history.HistoryScreen
+import com.thesohelshaikh.ytanalyser.ui.settings.SettingsScreen
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 @Composable
@@ -139,6 +141,9 @@ private fun AppNavHost(
                 navController.navigate("details/$it")
             })
         }
+        composable(Screen.Settings.route) {
+            SettingsScreen()
+        }
     }
 }
 
@@ -148,7 +153,8 @@ private fun AppNavHost(
 private fun HomeTopAppBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val shouldShowTopBar = homeTabs.none { it.first.route == currentDestination?.route }
+    val shouldShowBack = homeTabs.none { it.first.route == currentDestination?.route }
+    val shouldShowSettings = homeTabs.any { it.first.route == currentDestination?.route }
 
     CenterAlignedTopAppBar(
         title = {
@@ -159,7 +165,7 @@ private fun HomeTopAppBar(navController: NavHostController) {
         ),
         navigationIcon = {
             AnimatedVisibility(
-                visible = shouldShowTopBar,
+                visible = shouldShowBack,
                 enter = fadeIn() + slideInHorizontally(),
                 exit = fadeOut() + slideOutHorizontally()
             ) {
@@ -168,6 +174,21 @@ private fun HomeTopAppBar(navController: NavHostController) {
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.cd_back),
                         tint = Color.White
+                    )
+                }
+            }
+        },
+        actions = {
+            AnimatedVisibility(
+                visible = shouldShowSettings,
+                enter = fadeIn() + slideInHorizontally(initialOffsetX = { it }),
+                exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
+            ) {
+                IconButton(onClick = { navController.navigate(Screen.Settings.route) }) {
+                    Icon(
+                        imageVector = Icons.Filled.Settings,
+                        contentDescription = stringResource(id = R.string.screen_settings),
+                        tint = Color.White,
                     )
                 }
             }
@@ -288,6 +309,7 @@ sealed class Screen(val route: String, @StringRes val title: Int) {
     object Home : Screen("home", R.string.screen_home)
     object Details : Screen("details/{videoId}", R.string.screen_details)
     object History : Screen("history", R.string.screen_history)
+    object Settings : Screen("settings", R.string.screen_settings)
 }
 
 val homeTabs = listOf(

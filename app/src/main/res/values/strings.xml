@@ -17,4 +17,7 @@
     <!--History-->
     <string name="screen_history">History</string>
 
+    <!--Settings-->
+    <string name="screen_settings">Settings</string>
+
 </resources>
