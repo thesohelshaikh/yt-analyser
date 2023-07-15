@@ -96,11 +96,11 @@ data class VideoDetailResponse(
             @SerialName("commentCount")
             val commentCount: String? = null,
             @SerialName("favoriteCount")
-            val favoriteCount: String?,
+            val favoriteCount: String? = null,
             @SerialName("likeCount")
-            val likeCount: String?,
+            val likeCount: String? = null,
             @SerialName("viewCount")
-            val viewCount: String?
+            val viewCount: String? = null
         )
     }
 
