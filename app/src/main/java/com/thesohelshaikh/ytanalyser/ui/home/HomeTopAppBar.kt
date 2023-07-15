@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
@@ -37,7 +36,7 @@ fun HomeTopAppBar(navController: NavHostController) {
             val title = getScreenTitle(currentDestination?.route)?.let { stringResource(id = it) }
             Text(
                 text = title ?: "",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
             )
         },
@@ -54,7 +53,7 @@ fun HomeTopAppBar(navController: NavHostController) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.cd_back),
-                        tint = Color.White
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -69,7 +68,7 @@ fun HomeTopAppBar(navController: NavHostController) {
                     Icon(
                         imageVector = Icons.Filled.Settings,
                         contentDescription = stringResource(id = R.string.screen_settings),
-                        tint = Color.White,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
