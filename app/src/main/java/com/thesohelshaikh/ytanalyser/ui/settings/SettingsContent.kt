@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.thesohelshaikh.ytanalyser.BuildConfig
 
 
@@ -70,7 +71,9 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { /*TODO*/ }
+                    .clickable {
+                        navigateToOpenSourceLicences(context)
+                    }
             ) {
                 Text(
                     text = "Open source libraries",
@@ -103,6 +106,10 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
             )
         }
     }
+}
+
+private fun navigateToOpenSourceLicences(context: Context) {
+    context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
 }
 
 fun navigateToGithubProfile(context: Context) {

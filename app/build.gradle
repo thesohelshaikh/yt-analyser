@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.google.devtools.ksp'
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 
 android {
     compileSdkVersion 33
@@ -108,6 +109,9 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     implementation "androidx.compose.material:material-icons-extended"
+
+    // List open source notices
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
 
 }
 repositories {
