@@ -41,6 +41,7 @@ import com.thesohelshaikh.ytanalyser.UtilitiesManger
 
 @Composable
 fun HomeContent(
+    receivedUrl: String?,
     onClickAnalyse: (String) -> Unit
 ) {
     Column(
@@ -61,6 +62,8 @@ fun HomeContent(
 
         var urlInput by remember { mutableStateOf("") }
         val context = LocalContext.current
+
+        if (!receivedUrl.isNullOrEmpty()) urlInput = receivedUrl
 
         ListenLifecycleEvents {
             if (urlInput.isNotEmpty()) return@ListenLifecycleEvents

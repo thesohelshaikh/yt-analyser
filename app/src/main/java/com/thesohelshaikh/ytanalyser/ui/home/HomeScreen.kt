@@ -19,16 +19,25 @@ import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 @Composable
 fun MyApp(
+    receivedUrl: String?,
     navController: NavHostController = rememberNavController(),
     startDestination: String = Screen.Home.route
 ) {
     AppTheme {
-        HomeScreen(navController, startDestination)
+        HomeScreen(
+            receivedUrl,
+            navController,
+            startDestination
+        )
     }
 }
 
 @Composable
-fun HomeScreen(navController: NavHostController, startDestination: String) {
+fun HomeScreen(
+    receivedUrl: String?,
+    navController: NavHostController,
+    startDestination: String
+) {
     Scaffold(
         topBar = {
             HomeTopAppBar(navController)
@@ -53,12 +62,13 @@ fun HomeScreen(navController: NavHostController, startDestination: String) {
             }
         }
     ) { contentPadding ->
-        AppNavHost(navController, startDestination, contentPadding)
+        AppNavHost(receivedUrl, navController, startDestination, contentPadding)
     }
 }
 
 @Composable
 private fun AppNavHost(
+    receivedUrl: String?,
     navController: NavHostController,
     startDestination: String,
     contentPadding: PaddingValues
@@ -70,6 +80,7 @@ private fun AppNavHost(
     ) {
         composable(Screen.Home.route) {
             HomeContent(
+                receivedUrl,
                 onClickAnalyse = {
                     navController.navigate("details/$it")
                 }
