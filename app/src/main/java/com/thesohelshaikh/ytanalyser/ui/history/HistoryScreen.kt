@@ -5,7 +5,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -179,45 +178,39 @@ fun HistoryItemRow(videoEntity: HistoryViewModel.HistoryItem, onVideoClick: (Str
                 onVideoClick(videoEntity.id)
             }
     ) {
-        Box(
-            Modifier
-                .padding(8.dp)
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Row(modifier = Modifier) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(videoEntity.thumbnail)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = "Thumbnail",
-                    modifier = Modifier
-                        .align(Alignment.Top)
-                        .height(90.dp)
-                        .aspectRatio(16f / 9f)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.FillBounds,
-                    placeholder = painterResource(R.drawable.ic_launcher_background),
+        Row(modifier = Modifier.padding(8.dp)) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(videoEntity.thumbnail)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "Thumbnail",
+                modifier = Modifier
+                    .align(Alignment.Top)
+                    .height(90.dp)
+                    .aspectRatio(16f / 9f)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.FillBounds,
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+            )
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .align(Alignment.Top)
+            ) {
+                Text(
+                    text = videoEntity.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                 )
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .align(Alignment.Top)
-                ) {
-                    Text(
-                        text = videoEntity.title,
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Text(
-                        text = videoEntity.channelTitle,
-                        style = MaterialTheme.typography.titleSmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
-                }
+                Text(
+                    text = videoEntity.channelTitle,
+                    style = MaterialTheme.typography.titleSmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
             }
         }
     }
