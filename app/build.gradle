@@ -23,6 +23,11 @@ android {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        buildConfigField("String", "YOUTUBE_API_KEY", properties['YOUTUBE_API_KEY'])
     }
 
     buildTypes {

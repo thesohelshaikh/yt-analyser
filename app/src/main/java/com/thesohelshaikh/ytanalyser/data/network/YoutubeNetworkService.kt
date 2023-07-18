@@ -1,6 +1,7 @@
 package com.thesohelshaikh.ytanalyser.data.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.thesohelshaikh.ytanalyser.BuildConfig
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistDetailResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoDetailResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
@@ -21,11 +22,12 @@ private val jsonConfig = Json {
     ignoreUnknownKeys = true
 }
 
-const val API_KEY = "AIzaSyBJ-YGFNIDYeGo5pTvexZ2fJgsM6Erenkk"
 
 var networkInterceptor: Interceptor = Interceptor { chain ->
     var request: Request = chain.request()
-    val url: HttpUrl = request.url.newBuilder().addQueryParameter("key", API_KEY).build()
+    val url: HttpUrl = request.url.newBuilder()
+        .addQueryParameter("key", BuildConfig.YOUTUBE_API_KEY)
+        .build()
     request = request.newBuilder().url(url).build()
     chain.proceed(request)
 }
