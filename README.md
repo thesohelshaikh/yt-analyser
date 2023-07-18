@@ -1,6 +1,7 @@
-<div style="text-align: center;">
+<p align="center">
     <img src="playstore/banner.png" height="250px" alt="banner"/>
-</div>
+</p>
+
 
 # yt-analyser
 
