@@ -1,4 +1,4 @@
-<img src="playstore/banner.jpg" height="200px"/>
+<img src="playstore/banner.png" height="200px"/>
 
 # yt-analyser
 
