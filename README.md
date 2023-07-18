@@ -1,4 +1,4 @@
-![Banner](playstore/banner.png)
+<img src="playstore/banner.jpg" height="200px"/>
 
 # yt-analyser
 
