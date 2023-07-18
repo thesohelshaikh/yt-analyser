@@ -2,6 +2,8 @@
 
 Shows youtube playlist durations in one click
 
+![Banner](playstore/banner.png)
+
 ## Features
 
 - Share a URL directly or paste Youtube URL video
@@ -20,6 +22,10 @@ Shows youtube playlist durations in one click
 - Coroutines
 - MVVM
 - Room Database
+
+## Screenshots
+
+TBF
 
 ## Setup
 
