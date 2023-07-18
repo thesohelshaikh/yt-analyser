@@ -1,8 +1,8 @@
+![Banner](playstore/banner.png)
+
 # yt-analyser
 
 Shows youtube playlist durations in one click
-
-![Banner](playstore/banner.png)
 
 ## Features
 
