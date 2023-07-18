@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -58,8 +61,9 @@ fun HistoryScreen(
         is HistoryViewModel.HistoryUiState.Success -> {
             val videos = (screenState.value as HistoryViewModel.HistoryUiState.Success).videos
 
-
-            LazyColumn() {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
                 stickyHeader {
                     FilterRow(selectedFilter) { type ->
                         Log.d("TAG", "HistoryScreen: filter")
@@ -71,11 +75,16 @@ fun HistoryScreen(
                         }
                     }
                 }
-                items(videos) {
-                    HistoryItemRow(it, onVideoClick)
+                if (videos.isEmpty()) {
+                    item {
+                        HistoryEmptyState()
+                    }
+                } else {
+                    items(videos) {
+                        HistoryItemRow(it, onVideoClick)
+                    }
                 }
             }
-
         }
 
         null -> {
@@ -83,6 +92,33 @@ fun HistoryScreen(
         }
     }
 
+}
+
+@Composable
+private fun HistoryEmptyState() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp) // Adjust the height as needed
+        )
+        Text(
+            text = "No records present",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = "Analysed entries appear here which can be accessed offline.",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+        )
+    }
 }
 
 enum class FilterType {
