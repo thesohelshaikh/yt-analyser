@@ -110,22 +110,22 @@ private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType)
             modifier = Modifier.padding(start = 16.dp)
         )
         FilterChip(
-            selected = selectedFilter == FilterType.VIDEO,
-            onClick = {
-                onFilterSelected(FilterType.VIDEO)
-            },
-            label = {
-                Text(text = "Videos")
-            },
-            modifier = Modifier.padding(start = 16.dp),
-        )
-        FilterChip(
             selected = selectedFilter == FilterType.PLAYLIST,
             onClick = {
                 onFilterSelected(FilterType.PLAYLIST)
             },
             label = {
                 Text(text = "Playlists")
+            },
+            modifier = Modifier.padding(start = 16.dp),
+        )
+        FilterChip(
+            selected = selectedFilter == FilterType.VIDEO,
+            onClick = {
+                onFilterSelected(FilterType.VIDEO)
+            },
+            label = {
+                Text(text = "Videos")
             },
             modifier = Modifier.padding(start = 16.dp),
         )
