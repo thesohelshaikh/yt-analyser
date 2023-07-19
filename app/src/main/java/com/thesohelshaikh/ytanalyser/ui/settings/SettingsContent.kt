@@ -3,6 +3,7 @@ package com.thesohelshaikh.ytanalyser.ui.settings
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,53 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                 .fillMaxWidth()
                 .weight(1f)
         ) {
+            Text(
+                text = "Legal",
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
+
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        navigateToOpenSourceLicences(context)
+                    }
+            ) {
+                Text(
+                    text = "Open source libraries",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        /*TODO*/
+                    }
+            ) {
+                Text(
+                    text = "Privacy Policy",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
+            Divider()
+            Text(
+                text = "Data usage",
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
+
+            )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -52,6 +100,36 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                 )
             }
             Divider()
+            Text(
+                text = "Appearance",
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
+
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { /*TODO*/ }
+            ) {
+                Text(
+                    text = "Theme",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
+            Divider()
+            Text(
+                text = "About",
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
+
+            )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -60,23 +138,22 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                     }
             ) {
                 Text(
-                    text = "About the developer",
+                    text = "Developer",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
                 )
             }
-            Divider()
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        navigateToOpenSourceLicences(context)
+                        /*TODO*/
                     }
             ) {
                 Text(
-                    text = "Open source libraries",
+                    text = "Source code",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -123,7 +200,11 @@ fun navigateToGithubProfile(context: Context) {
 @Preview
 @Composable
 fun PreviewSettingsScreen() {
-    SettingsContent(showDialog = remember {
-        mutableStateOf(false)
-    })
+    Box(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+    ) {
+        SettingsContent(showDialog = remember {
+            mutableStateOf(false)
+        })
+    }
 }
