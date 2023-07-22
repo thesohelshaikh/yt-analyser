@@ -40,30 +40,30 @@ import java.util.Date
 @Composable
 fun DetailsScreen(
     videoId: String,
-    informationViewModel: InformationViewModel = viewModel(factory = InformationViewModel.Factory)
+    detailsViewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.Factory)
 ) {
     LaunchedEffect(key1 = Unit, block = {
         if (videoId.startsWith("PL")) {
-            informationViewModel.getPlaylistVideoIds(videoId)
+            detailsViewModel.getPlaylistVideoIds(videoId)
         } else {
-            informationViewModel.getVideoDetails(videoId)
+            detailsViewModel.getVideoDetails(videoId)
         }
     })
 
-    val state by informationViewModel.detailsScreenState.observeAsState()
+    val state by detailsViewModel.detailsScreenState.observeAsState()
 
     when (state) {
-        is InformationViewModel.DetailsScreenState.ErrorState -> {
+        is DetailsViewModel.DetailsScreenState.ErrorState -> {
 
         }
 
-        InformationViewModel.DetailsScreenState.LoadingState -> {
+        DetailsViewModel.DetailsScreenState.LoadingState -> {
             Log.d("TAG", "DetailsScreen: $state")
             LoadingState()
         }
 
-        is InformationViewModel.DetailsScreenState.SuccessState -> {
-            val successState = state as InformationViewModel.DetailsScreenState.SuccessState
+        is DetailsViewModel.DetailsScreenState.SuccessState -> {
+            val successState = state as DetailsViewModel.DetailsScreenState.SuccessState
             Log.d("TAG", "DetailsScreen: $state")
             DurationsList(
                 successState.thumbnailUrl,
@@ -102,7 +102,7 @@ private fun DurationsList(
     channelTitle: String?,
     duration: Long
 ) {
-    val alternateDurations = UtilitiesManger.calculateAlternateDurations(Date(duration))
+    val alternateDurations = DurationsManger.calculateAlternateDurations(Date(duration))
     val playbacks = mutableListOf<String>()
     playbacks.add("1x")
     playbacks.add("1.25x")
@@ -146,7 +146,7 @@ private fun DurationsList(
                 modifier = Modifier.padding(horizontal = horizontalMargin),
             )
             Text(
-                text = UtilitiesManger.getPrettyDuration(duration),
+                text = DurationsManger.getPrettyDuration(duration),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(horizontal = horizontalMargin)
             )
@@ -205,13 +205,13 @@ private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
             textAlign = TextAlign.Center
         )
         Text(
-            text = UtilitiesManger.getPrettyDuration(alternateDuration),
+            text = DurationsManger.getPrettyDuration(alternateDuration),
             modifier = Modifier.weight(0.3f),
             textAlign = TextAlign.Center
 
         )
         Text(
-            text = UtilitiesManger.getDateAfter(alternateDuration),
+            text = DurationsManger.getDateAfter(alternateDuration),
             modifier = Modifier.weight(0.4f),
             textAlign = TextAlign.Center
 

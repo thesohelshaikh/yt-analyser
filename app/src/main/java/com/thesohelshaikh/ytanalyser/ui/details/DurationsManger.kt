@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat
 import java.time.Duration
 import java.util.*
 
-object UtilitiesManger {
+object DurationsManger {
     /**
      * Youtube date is on ISO 8061 format.
      *

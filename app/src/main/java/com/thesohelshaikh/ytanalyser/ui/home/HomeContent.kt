@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.thesohelshaikh.ytanalyser.R
-import com.thesohelshaikh.ytanalyser.ui.details.UtilitiesManger
+import com.thesohelshaikh.ytanalyser.ui.details.DurationsManger
 
 @Composable
 fun HomeContent(
@@ -134,7 +134,7 @@ private fun ListenLifecycleEvents(onResume: () -> Unit) {
 
 private fun validateUrl(urlInput: String): String? {
     if (urlInput.isBlank() || urlInput.isEmpty()) return null
-    return UtilitiesManger.getIDfromURL(urlInput)
+    return DurationsManger.getIDfromURL(urlInput)
 }
 
 private fun getStringFromClipboard(context: Context): String {

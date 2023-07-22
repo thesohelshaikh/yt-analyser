@@ -17,7 +17,7 @@ import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
 import kotlinx.coroutines.launch
 
-class InformationViewModel(
+class DetailsViewModel(
     private val videoDao: VideoDao,
     private val playlistDao: PlaylistDao,
 ) : ViewModel() {
@@ -52,7 +52,7 @@ class InformationViewModel(
                     val snippet = localVideo.snippet
                     val contentDetails = localVideo.contentDetails
                     val thumbnail = snippet?.thumbnail
-                    val durations = UtilitiesManger.parseTime(contentDetails?.duration)
+                    val durations = DurationsManger.parseTime(contentDetails?.duration)
 
                     _detailsScreenState.value = DetailsScreenState.SuccessState(
                         thumbnailUrl = thumbnail,
@@ -67,7 +67,7 @@ class InformationViewModel(
                     val snippet = video?.snippet
                     val contentDetails = video?.contentDetails
                     val thumbnail = snippet?.thumbnails?.getThumbnailUrl()
-                    val durations = UtilitiesManger.parseTime(contentDetails?.duration)
+                    val durations = DurationsManger.parseTime(contentDetails?.duration)
 
                     video?.asEntity()?.let { videoDao.upsert(it) }
 
@@ -142,7 +142,7 @@ class InformationViewModel(
                 break
             }
         }
-        val total = UtilitiesManger.parsePlaylistDurations(durations)
+        val total = DurationsManger.parsePlaylistDurations(durations)
 
 
         val snippet = playlistDetailResponse.items?.first()?.snippet
@@ -173,7 +173,7 @@ class InformationViewModel(
                     this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as YTApplication
                 val videoDao = ytApplication.videoDao
                 val playlistDao = ytApplication.playlistDao
-                InformationViewModel(videoDao, playlistDao)
+                DetailsViewModel(videoDao, playlistDao)
             }
         }
     }
