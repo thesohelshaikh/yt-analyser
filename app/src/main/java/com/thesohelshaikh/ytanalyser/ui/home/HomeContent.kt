@@ -36,8 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.thesohelshaikh.ytanalyser.R
-import com.thesohelshaikh.ytanalyser.UtilitiesManger
-
+import com.thesohelshaikh.ytanalyser.ui.details.UtilitiesManger
 
 @Composable
 fun HomeContent(

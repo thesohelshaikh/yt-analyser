@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.thesohelshaikh.ytanalyser.UtilitiesManger
 import com.thesohelshaikh.ytanalyser.YTApplication
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao

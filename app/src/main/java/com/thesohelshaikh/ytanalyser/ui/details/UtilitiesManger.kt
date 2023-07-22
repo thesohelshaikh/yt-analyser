@@ -1,4 +1,4 @@
-package com.thesohelshaikh.ytanalyser
+package com.thesohelshaikh.ytanalyser.ui.details
 
 import android.annotation.SuppressLint
 import java.net.MalformedURLException
