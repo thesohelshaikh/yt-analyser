@@ -35,6 +35,10 @@ Shows youtube playlist durations in one click
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/c5b59084-5eac-412d-b2ea-21b82f3aea70" />
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/cb9cfa8e-039a-4d3a-94c1-0b3ed35d2489" />
 
+## Release
+
+Download the APK from [here](https://github.com/thesohelshaikh/yt-analyser/releases).
+
 ## Setup
 
 1. Clone the repo.
