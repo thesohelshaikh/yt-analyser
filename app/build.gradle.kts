@@ -24,7 +24,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "YOUTUBE_API_KEY", properties["YOUTUBE_API_KEY"].toString())
+        buildConfigField(
+            type = "String",
+            name = "YOUTUBE_API_KEY",
+            value = properties["YOUTUBE_API_KEY"].toString()
+        )
     }
 
     buildTypes {
@@ -81,7 +85,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("androidx.core:core-ktx:1.10.1")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
 
     // Retrofit - Networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -90,7 +94,7 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 
     // Coroutines - Async
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // Lifecycle Components
     val lifecycleVersion = "2.6.1"
