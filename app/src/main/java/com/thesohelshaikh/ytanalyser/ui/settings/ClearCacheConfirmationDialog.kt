@@ -6,6 +6,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.thesohelshaikh.ytanalyser.R
 
 @Composable
 fun ClearCacheConfirmationDialog(
@@ -24,7 +26,7 @@ fun ClearCacheConfirmationDialog(
                     onConfirm()
                 }
             ) {
-                Text("Clear")
+                Text(stringResource(R.string.button_clear))
             }
         },
         dismissButton = {
@@ -32,15 +34,15 @@ fun ClearCacheConfirmationDialog(
                 modifier = Modifier,
                 onClick = { showDialog.value = false }
             ) {
-                Text("Dismiss")
+                Text(stringResource(R.string.button_dismiss))
             }
         },
         title = {
-            Text(text = "Clear local app cache?")
+            Text(text = stringResource(R.string.dialog_title_clear_cache))
         },
         text = {
             Text(
-                "This will clear entire local history, including videos and playlists."
+                stringResource(R.string.dialog_message_clear_cache)
             )
         }
     )

@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -107,12 +108,12 @@ private fun HistoryEmptyState() {
                 .height(200.dp) // Adjust the height as needed
         )
         Text(
-            text = "No records present",
+            text = stringResource(R.string.label_no_records_present),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleMedium,
         )
         Text(
-            text = "Analysed entries appear here which can be accessed offline.",
+            text = stringResource(R.string.label_history_empty_desc),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
@@ -140,7 +141,7 @@ private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType)
                 onFilterSelected(FilterType.ALL)
             },
             label = {
-                Text(text = "All")
+                Text(text = stringResource(R.string.label_all))
             },
             modifier = Modifier.padding(start = 16.dp)
         )
@@ -150,7 +151,7 @@ private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType)
                 onFilterSelected(FilterType.PLAYLIST)
             },
             label = {
-                Text(text = "Playlists")
+                Text(text = stringResource(R.string.label_playlists))
             },
             modifier = Modifier.padding(start = 16.dp),
         )
@@ -160,7 +161,7 @@ private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType)
                 onFilterSelected(FilterType.VIDEO)
             },
             label = {
-                Text(text = "Videos")
+                Text(text = stringResource(R.string.label_videos))
             },
             modifier = Modifier.padding(start = 16.dp),
         )
@@ -184,7 +185,7 @@ fun HistoryItemRow(videoEntity: HistoryViewModel.HistoryItem, onVideoClick: (Str
                     .data(videoEntity.thumbnail)
                     .crossfade(true)
                     .build(),
-                contentDescription = "Thumbnail",
+                contentDescription = stringResource(id = R.string.cd_thumbnail),
                 modifier = Modifier
                     .align(Alignment.Top)
                     .height(90.dp)

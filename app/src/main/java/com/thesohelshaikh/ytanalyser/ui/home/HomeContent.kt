@@ -81,7 +81,7 @@ fun HomeContent(
 
                 Icon(
                     imageVector = Icons.Outlined.Cancel,
-                    contentDescription = "Clear text",
+                    contentDescription = stringResource(R.string.cd_clear_text),
                     modifier = Modifier.clickable { urlInput = "" }
                 )
             },

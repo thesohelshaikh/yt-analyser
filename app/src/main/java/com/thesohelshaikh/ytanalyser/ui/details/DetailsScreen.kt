@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.thesohelshaikh.ytanalyser.R
 import java.util.Date
 
 @Composable
@@ -128,7 +130,7 @@ private fun DurationsList(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
                     .crossfade(true)
-                    .build(), contentDescription = "Thumbnail",
+                    .build(), contentDescription = stringResource(R.string.cd_thumbnail),
                 modifier = Modifier
                     .aspectRatio(16f / 9f)
                     .padding(16.dp)
@@ -159,7 +161,7 @@ private fun DurationsList(
                     .padding(horizontal = horizontalMargin),
             ) {
                 Text(
-                    text = "Playback Speed",
+                    text = stringResource(R.string.label_playback_speed),
                     modifier = Modifier
                         .fillParentMaxWidth(0.3f),
                     textAlign = TextAlign.Center,
@@ -167,14 +169,14 @@ private fun DurationsList(
 
                     )
                 Text(
-                    text = "To complete",
+                    text = stringResource(id = R.string.label_to_complete),
                     modifier = Modifier
                         .fillParentMaxWidth(0.3f),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Complete by",
+                    text = stringResource(id = R.string.label_complete_by),
                     modifier = Modifier
                         .fillParentMaxWidth(0.4f),
                     textAlign = TextAlign.Center,

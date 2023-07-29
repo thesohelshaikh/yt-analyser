@@ -20,11 +20,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.thesohelshaikh.ytanalyser.BuildConfig
+import com.thesohelshaikh.ytanalyser.R
 
 
 @Composable
@@ -40,7 +42,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                 .weight(1f)
         ) {
         Text(
-            text = "Legal",
+            text = stringResource(R.string.label_legal),
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             style = MaterialTheme.typography.titleSmall,
@@ -55,7 +57,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                     }
             ) {
                 Text(
-                    text = "Open source libraries",
+                    text = stringResource(R.string.label_open_source_libraries),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -70,7 +72,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                     }
             ) {
                 Text(
-                    text = "Privacy Policy",
+                    text = stringResource(R.string.label_privacy_policy),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -79,7 +81,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
             }
             Divider()
             Text(
-                text = "Data usage",
+                text = stringResource(R.string.label_data_usage),
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 style = MaterialTheme.typography.titleSmall,
@@ -92,7 +94,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                     .clickable { showDialog.value = true }
             ) {
                 Text(
-                    text = "Clear local cache",
+                    text = stringResource(R.string.label_clear_local_cache),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,7 +103,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
             }
             Divider()
             Text(
-                text = "Appearance",
+                text = stringResource(R.string.label_appearance),
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 style = MaterialTheme.typography.titleSmall,
@@ -123,7 +125,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
             }
             Divider()
             Text(
-                text = "About",
+                text = stringResource(R.string.label_about),
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 style = MaterialTheme.typography.titleSmall,
@@ -138,7 +140,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                     }
             ) {
                 Text(
-                    text = "Developer",
+                    text = stringResource(R.string.label_developer),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -153,7 +155,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                     }
             ) {
                 Text(
-                    text = "Source code",
+                    text = stringResource(R.string.label_source_code),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
