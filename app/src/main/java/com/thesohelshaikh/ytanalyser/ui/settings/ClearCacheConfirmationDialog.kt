@@ -38,7 +38,7 @@ fun ClearCacheConfirmationDialog(
                 modifier = Modifier,
                 onClick = { showDialog.value = false }
             ) {
-                Text(stringResource(R.string.button_dismiss))
+                Text(stringResource(R.string.button_cancel))
             }
         },
         title = {
