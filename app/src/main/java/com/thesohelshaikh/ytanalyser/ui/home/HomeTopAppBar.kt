@@ -19,9 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,5 +85,13 @@ private fun getScreenTitle(route: String?): Int? {
         Screen.History.route -> R.string.screen_history
         Screen.Settings.route -> R.string.screen_settings
         else -> null
+    }
+}
+
+@Preview
+@Composable
+fun HomeTopAppBarPreview() {
+    AppTheme {
+        HomeTopAppBar(navController = rememberNavController())
     }
 }

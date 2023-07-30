@@ -3,7 +3,6 @@ package com.thesohelshaikh.ytanalyser.ui.settings
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.thesohelshaikh.ytanalyser.BuildConfig
 import com.thesohelshaikh.ytanalyser.R
-
+import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 @Composable
 fun SettingsContent(showDialog: MutableState<Boolean>) {
@@ -41,14 +40,14 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-        Text(
-            text = stringResource(R.string.label_legal),
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.primary
+            Text(
+                text = stringResource(R.string.label_legal),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
 
-        )
+            )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -209,12 +208,10 @@ fun navigateToWebpage(url: String, context: Context) {
     context.startActivity(i)
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun PreviewSettingsScreen() {
-    Box(
-        modifier = Modifier.background(MaterialTheme.colorScheme.surface)
-    ) {
+fun SettingsScreenPreview() {
+    AppTheme {
         SettingsContent(showDialog = remember {
             mutableStateOf(false)
         })

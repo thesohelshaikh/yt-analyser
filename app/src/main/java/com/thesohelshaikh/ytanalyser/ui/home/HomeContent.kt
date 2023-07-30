@@ -32,11 +32,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.ui.details.DurationsManger
+import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 @Composable
 fun HomeContent(
@@ -144,4 +146,12 @@ private fun getStringFromClipboard(context: Context): String {
     Log.d("TAG", "getStringFromClipboard: $clipText, ${clipboardManager.primaryClip}")
     if (clipText.startsWith("http")) return clipText.toString()
     return ""
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeContentPreview() {
+    AppTheme {
+        HomeContent(receivedUrl = "", onClickAnalyse = {})
+    }
 }

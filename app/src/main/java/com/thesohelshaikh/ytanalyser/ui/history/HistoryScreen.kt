@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,13 +34,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.data.model.ResourceType
+import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -92,33 +93,6 @@ fun HistoryScreen(
         }
     }
 
-}
-
-@Composable
-private fun HistoryEmptyState() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp) // Adjust the height as needed
-        )
-        Text(
-            text = stringResource(R.string.label_no_records_present),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Text(
-            text = stringResource(R.string.label_history_empty_desc),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-        )
-    }
 }
 
 enum class FilterType {
@@ -215,4 +189,28 @@ fun HistoryItemRow(videoEntity: HistoryViewModel.HistoryItem, onVideoClick: (Str
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun FilterRowPreview() {
+    AppTheme {
+        FilterRow(selectedFilter = FilterType.ALL, onFilterSelected = {})
+    }
+}
+
+@Preview
+@Composable
+fun HistoryItemPreview() {
+    HistoryItemRow(
+        videoEntity = HistoryViewModel.HistoryItem(
+            "1231231",
+            null,
+            "Video Title",
+            "Channel title",
+            ResourceType.VIDEO,
+            123456L
+        ),
+        onVideoClick = {}
+    )
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -114,4 +115,16 @@ sealed class Screen(val route: String) {
     object Details : Screen("details/{videoId}")
     object History : Screen("history")
     object Settings : Screen("settings")
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    AppTheme {
+        HomeScreen(
+            receivedUrl = "",
+            navController = rememberNavController(),
+            startDestination = Screen.Home.route
+        )
+    }
 }
