@@ -64,8 +64,8 @@ fun HomeContent(
 
         if (!receivedUrl.isNullOrEmpty()) urlInput = receivedUrl
 
-        ListenLifecycleEvents {
-            if (urlInput.isNotEmpty()) return@ListenLifecycleEvents
+        LifecycleEventListener {
+            if (urlInput.isNotEmpty()) return@LifecycleEventListener
             urlInput = getStringFromClipboard(context)
         }
 
@@ -109,7 +109,7 @@ fun HomeContent(
 }
 
 @Composable
-private fun ListenLifecycleEvents(onResume: () -> Unit) {
+private fun LifecycleEventListener(onResume: () -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val currentOnResume by rememberUpdatedState(onResume)
 
