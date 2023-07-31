@@ -34,7 +34,7 @@ Download latest APK from [here](https://github.com/thesohelshaikh/yt-analyser/re
 
 ## Screenshots
 
-<img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/e9c64a0a-8097-4b85-9bec-f09c43c83f59"/>
+<img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/fac6e1b6-92fe-42b7-a17d-a9563b6f5bdc"/>
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/59f243a6-928b-461f-aafe-0a6e68c7e863" />
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/c5b59084-5eac-412d-b2ea-21b82f3aea70" />
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/cb9cfa8e-039a-4d3a-94c1-0b3ed35d2489" />
