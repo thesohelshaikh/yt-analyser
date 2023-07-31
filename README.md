@@ -7,13 +7,17 @@
 
 Shows youtube playlist durations in one click
 
-<a href='https://play.google.com/store/apps/details?id=com.thesohelshaikh.ytanalyser&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="75px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
-
 ## Features
 
 - Share a URL directly or paste Youtube URL video
 - Offline caching
 - Dark mode support
+
+## Release
+
+Download latest APK from [here](https://github.com/thesohelshaikh/yt-analyser/releases).
+
+<a href='https://play.google.com/store/apps/details?id=com.thesohelshaikh.ytanalyser&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="75px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 ## Technologies Used
 
@@ -34,10 +38,6 @@ Shows youtube playlist durations in one click
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/59f243a6-928b-461f-aafe-0a6e68c7e863" />
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/c5b59084-5eac-412d-b2ea-21b82f3aea70" />
 <img height="400px" src="https://github.com/thesohelshaikh/yt-analyser/assets/26832180/cb9cfa8e-039a-4d3a-94c1-0b3ed35d2489" />
-
-## Release
-
-Download the APK from [here](https://github.com/thesohelshaikh/yt-analyser/releases).
 
 ## Setup
 
