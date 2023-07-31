@@ -1,6 +1,9 @@
 package com.thesohelshaikh.ytanalyser.ui.settings
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -40,6 +43,9 @@ fun ClearCacheConfirmationDialog(
             ) {
                 Text(stringResource(R.string.button_cancel))
             }
+        },
+        icon = {
+            Icon(imageVector = Icons.Filled.DeleteForever, contentDescription = null)
         },
         title = {
             Text(text = stringResource(R.string.dialog_title_clear_cache))
