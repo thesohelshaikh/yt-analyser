@@ -166,7 +166,9 @@ private fun LifecycleEventListener(onResume: () -> Unit) {
 
 private fun validateUrl(urlInput: String): String? {
     if (urlInput.isBlank() || urlInput.isEmpty()) return null
-    return DurationsManger.getIDfromURL(urlInput)
+    val idFromURL = DurationsManger.getIDfromURL(urlInput)
+    if (idFromURL.isBlank() || idFromURL.isEmpty()) return null
+    return idFromURL
 }
 
 private fun getStringFromClipboard(context: Context): String {
