@@ -40,5 +40,6 @@
     <string name="button_cancel">Cancel</string>
     <string name="dialog_title_clear_cache">Clear local app cache?</string>
     <string name="dialog_message_clear_cache">This will clear entire local history, including videos and playlists.</string>
+    <string name="message_invalid_url">Invalid url, please copy url from YouTube.</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.thesohelshaikh.ytanalyser.ui.home
 import android.content.ClipboardManager
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -95,6 +96,7 @@ fun HomeContent(
             urlInput = getStringFromClipboard(context)
         }
 
+        val invalidUrlMessage = stringResource(R.string.message_invalid_url)
         OutlinedTextField(
             value = urlInput,
             onValueChange = { urlInput = it },
@@ -114,7 +116,15 @@ fun HomeContent(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
             keyboardActions = KeyboardActions(
                 onGo = {
-                    val videoId = validateUrl(urlInput) ?: return@KeyboardActions
+                    val videoId = validateUrl(urlInput)
+                    if (videoId.isNullOrEmpty()) {
+                        Toast.makeText(
+                            context,
+                            invalidUrlMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@KeyboardActions
+                    }
                     onClickAnalyse(videoId)
                 }
             ),
@@ -122,7 +132,15 @@ fun HomeContent(
 
         Button(
             onClick = {
-                val videoId = validateUrl(urlInput) ?: return@Button
+                val videoId = validateUrl(urlInput)
+                if (videoId.isNullOrEmpty()) {
+                    Toast.makeText(
+                        context,
+                        invalidUrlMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@Button
+                }
                 onClickAnalyse(videoId)
             },
             modifier = Modifier
