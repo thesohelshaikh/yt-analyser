@@ -63,20 +63,19 @@ object DurationsManger {
     }
 
     @JvmStatic
-    fun getIDfromURL(url: String): String {
-        if (url.startsWith("http")) {
-            try {
-                val originalURL = URL(url)
-                var id = originalURL.query
-                if (id == null) {
-                    id = originalURL.path
-                }
-                return cleanID(id)
-            } catch (e: MalformedURLException) {
-                e.printStackTrace()
+    fun getIDfromURL(url: String): String? {
+        if (!url.startsWith("http")) return null
+        return try {
+            val originalURL = URL(url)
+            var id = originalURL.query
+            if (id == null) {
+                id = originalURL.path
             }
+            cleanID(id)
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+            null
         }
-        return url
     }
 
     private fun cleanID(idToClean: String?): String {
