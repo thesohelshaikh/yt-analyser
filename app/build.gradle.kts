@@ -7,6 +7,8 @@ plugins {
     id("kotlinx-serialization")
     id("com.google.devtools.ksp")
     id("com.google.android.gms.oss-licenses-plugin")
+
+    id("io.sentry.android.gradle")
 }
 
 val properties = Properties()
