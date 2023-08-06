@@ -70,11 +70,11 @@ fun HomeContent(
                 )
 
                 Text(
-                    text = "Analyse in 1 click",
+                    text = stringResource(R.string.label_home_tagline),
                     style = MaterialTheme.typography.displaySmall
                 )
                 Text(
-                    text = "Share a playlist or a video directly. Alternatively paste a playlist id, video id or a url below.",
+                    text = stringResource(R.string.label_home_tagline_desc),
 
                     modifier = Modifier
                         .padding(horizontal = 32.dp)

@@ -6,6 +6,9 @@
     <string name="button_analyse">Analyse</string>
     <string name="screen_home">Home</string>
     <string name="cd_clear_text">Clear text</string>
+    <string name="message_invalid_url">Invalid url, please copy url from YouTube.</string>
+    <string name="label_home_tagline">Analyse in 1 click</string>
+    <string name="label_home_tagline_desc">Share a playlist or a video directly. Alternatively paste a playlist id, video id or a url below.</string>
 
     <!--Details-->
     <string name="screen_details">Details</string>
@@ -40,6 +43,5 @@
     <string name="button_cancel">Cancel</string>
     <string name="dialog_title_clear_cache">Clear local app cache?</string>
     <string name="dialog_message_clear_cache">This will clear entire local history, including videos and playlists.</string>
-    <string name="message_invalid_url">Invalid url, please copy url from YouTube.</string>
 
 </resources>
