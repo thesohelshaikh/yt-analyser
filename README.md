@@ -22,15 +22,19 @@ Download latest APK from [here](https://github.com/thesohelshaikh/yt-analyser/re
 ## Technologies Used
 
 - 100% Kotlin, MVVM
-- Youtube Data API - for fetching playlist and video data
-- Retrofit - Networking
-- kotlinx.serialization - Data serialization
-- Jetpack Compose - UI
-- Compose Navigation - Navigation
-- Material 3 - UI
-- Coil - Image loading
-- Coroutines - Async
-- Room Database - Offline caching
+- [Youtube Data API](https://developers.google.com/youtube/v3) - for fetching playlist and video
+  data
+- [Retrofit](https://square.github.io/retrofit/) - Networking
+- [kotlinx.serialization](https://kotlinlang.org/docs/serialization.html) - Data serialization
+- [Jetpack Compose](https://developer.android.com/jetpack/compose) - UI
+- [Compose Navigation](https://developer.android.com/jetpack/compose/navigation) - Navigation
+- [Material 3](https://m3.material.io/) - UI
+- [Coil](https://github.com/coil-kt/coil) - Image loading
+- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - Async
+- [Room Database](https://developer.android.com/jetpack/androidx/releases/room) - Offline caching
+- [Kotlin Symbol Processing](https://kotlinlang.org/docs/ksp-overview.html) - compiler plugins
+- [Gradle Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html) - build
+  configuration
 
 ## Screenshots
 
