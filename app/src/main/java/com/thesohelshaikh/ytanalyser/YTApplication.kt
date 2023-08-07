@@ -3,8 +3,8 @@ package com.thesohelshaikh.ytanalyser
 import android.app.Application
 import com.thesohelshaikh.ytanalyser.data.local.YTDatabase
 import com.thesohelshaikh.ytanalyser.logging.SentryLoggingTree
+import com.thesohelshaikh.ytanalyser.logging.YTLoggingTree
 import timber.log.Timber
-import timber.log.Timber.DebugTree
 
 
 class YTApplication : Application() {
@@ -17,7 +17,7 @@ class YTApplication : Application() {
         super.onCreate()
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
+            Timber.plant(YTLoggingTree())
         } else {
             Timber.plant(SentryLoggingTree())
         }

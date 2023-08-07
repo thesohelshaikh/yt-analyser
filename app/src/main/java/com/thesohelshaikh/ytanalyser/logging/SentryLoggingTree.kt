@@ -5,16 +5,19 @@ import io.sentry.Sentry
 import io.sentry.SentryLevel
 import timber.log.Timber
 
+/**
+ * Logs exceptions to Sentry. Logs with level above VERBOSE are only captured.
+ */
 class SentryLoggingTree : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        if (priority == Log.VERBOSE || priority == Log.DEBUG) {
-            return;
+        if (priority == Log.VERBOSE) {
+            return
         }
 
         Sentry.captureMessage(message, getSentryLevel(priority))
 
-        if (t != null && priority == Log.ERROR) {
-            Sentry.captureException(t);
+        if (t != null) {
+            Sentry.captureException(t)
         }
     }
 
