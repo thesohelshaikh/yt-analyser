@@ -1,6 +1,5 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
+import timber.log.Timber
 import java.util.Date
 
 @Composable
@@ -60,13 +60,13 @@ fun DetailsScreen(
         }
 
         DetailsViewModel.DetailsScreenState.LoadingState -> {
-            Log.d("TAG", "DetailsScreen: $state")
+            Timber.d("DetailsScreen: $state")
             LoadingState()
         }
 
         is DetailsViewModel.DetailsScreenState.SuccessState -> {
             val successState = state as DetailsViewModel.DetailsScreenState.SuccessState
-            Log.d("TAG", "DetailsScreen: $state")
+            Timber.d("DetailsScreen: $state")
             DurationsList(
                 successState.thumbnailUrl,
                 successState.title,

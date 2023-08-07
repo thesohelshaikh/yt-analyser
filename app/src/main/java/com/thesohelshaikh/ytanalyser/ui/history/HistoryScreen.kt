@@ -1,6 +1,5 @@
 package com.thesohelshaikh.ytanalyser.ui.history
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,6 +42,7 @@ import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
+import timber.log.Timber
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -67,7 +67,7 @@ fun HistoryScreen(
             ) {
                 stickyHeader {
                     FilterRow(selectedFilter) { type ->
-                        Log.d("TAG", "HistoryScreen: filter")
+                        Timber.d("HistoryScreen: filter")
                         selectedFilter = type
                         when (type) {
                             FilterType.ALL -> historyViewModel.getVideosAndPlaylists()

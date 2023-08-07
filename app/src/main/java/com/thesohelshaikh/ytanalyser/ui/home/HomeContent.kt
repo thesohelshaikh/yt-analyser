@@ -2,7 +2,6 @@ package com.thesohelshaikh.ytanalyser.ui.home
 
 import android.content.ClipboardManager
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -45,6 +44,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.ui.details.DurationsManger
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
+import timber.log.Timber
 
 @Composable
 fun HomeContent(
@@ -193,7 +193,7 @@ private fun getStringFromClipboard(context: Context): String {
     val clipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clipText = clipboardManager.primaryClip?.getItemAt(0)?.text ?: ""
-    Log.d("TAG", "getStringFromClipboard: $clipText, ${clipboardManager.primaryClip}")
+    Timber.d("getStringFromClipboard: " + clipText + ", " + clipboardManager.primaryClip)
     if (clipText.startsWith("http")) return clipText.toString()
     return ""
 }

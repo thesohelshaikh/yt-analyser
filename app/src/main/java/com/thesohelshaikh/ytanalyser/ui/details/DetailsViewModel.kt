@@ -1,6 +1,5 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +15,7 @@ import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetworkService
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DetailsViewModel(
     private val videoDao: VideoDao,
@@ -40,7 +40,7 @@ class DetailsViewModel(
     }
 
     fun getVideoDetails(id: String) {
-        Log.d("TAG", "getVideoDetails: ")
+        Timber.d("getVideoDetails: $id")
         _detailsScreenState.value = DetailsScreenState.LoadingState
 
         viewModelScope.launch {
@@ -80,7 +80,7 @@ class DetailsViewModel(
                 }
 
             } catch (e: Exception) {
-                Log.e("TAG", "getVideoDetails: $e")
+                Timber.e("getVideoDetails: $e")
                 _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
             }
         }
@@ -105,7 +105,7 @@ class DetailsViewModel(
                     fetchPlaylistDetailsFromNetwork(playlistId)
                 }
             } catch (e: Exception) {
-                Log.e("TAG", "Error", e)
+                Timber.e(e)
                 _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
             }
         }
@@ -128,7 +128,7 @@ class DetailsViewModel(
                 val videoIds = items.joinToString(separator = ",") {
                     it?.contentDetails?.videoId ?: ""
                 }
-                Log.i("TAG", "getPlaylistVideoIds: videoId:$videoIds")
+                Timber.i("getPlaylistVideoIds: videoId:$videoIds")
 
                 // get durations of each of the videos
                 val videosResponse = youtubeNetworkService.getPlaylistVideoDetails(videoIds)

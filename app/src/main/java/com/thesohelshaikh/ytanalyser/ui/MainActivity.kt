@@ -1,11 +1,11 @@
 package com.thesohelshaikh.ytanalyser.ui
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateOf
 import com.thesohelshaikh.ytanalyser.ui.home.MyApp
+import timber.log.Timber
 
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
             if ("text/plain" == intent.type) {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                     // Update UI to reflect text being shared
-                    Log.d("TAG", " $it")
+                    Timber.d(" $it")
                     if (!it.startsWith("http")) return
                     receivedIntentData.value = it
                 }
@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.d("TAG", "onNewIntent: $intent")
+        Timber.d("onNewIntent: $intent")
         handleSendText(intent)
     }
 
