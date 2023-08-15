@@ -15,9 +15,9 @@ Shows youtube playlist durations in one click
 
 ## Release
 
-Download latest APK from [here](https://github.com/thesohelshaikh/yt-analyser/releases).
+[<img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Get it on GitHub" height="75">](https://github.com/thesohelshaikh/yt-analyser/releases/latest)
+<a href='https://play.google.com/store/apps/details?id=com.thesohelshaikh.ytanalyser'><img alt='Get it on Google Play' height="75px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
-<a href='https://play.google.com/store/apps/details?id=com.thesohelshaikh.ytanalyser&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="75px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 ## Technologies Used
 
