@@ -11,12 +11,9 @@
     <string name="label_home_tagline_desc">Share a playlist or a video directly. Alternatively paste a playlist id, video id or a url below.</string>
 
     <!--Details-->
-    <string name="screen_details">Details</string>
-    <string name="label_details_title">Details</string>
     <string name="label_to_complete">to complete</string>
     <string name="label_playback_speed">Playback Speed</string>
     <string name="label_complete_by">complete by</string>
-    <string name="cd_app_logo">App logo</string>
     <string name="cd_back">Back</string>
     <string name="cd_thumbnail">Thumbnail</string>
 
