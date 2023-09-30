@@ -55,6 +55,10 @@ Shows youtube playlist durations in one click
 
 All PRs, suggestions, feedback is welcome.
 
+You can also contribute by adding translations using the
+Hosted [Weblate](https://hosted.weblate.org/projects/yt-analyser/yt-analyser/), an open source and
+web-based translation platform.
+
 ## Licence
 
 See [Licence](LICENSE).
