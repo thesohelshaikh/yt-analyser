@@ -1,22 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">YT Analyser</string>
-
     <!--Home-->
-    <string name="hint_playlist_id_video_id_url">Playlist id/ video id/ url</string>
+    <string name="hint_playlist_id_video_id_url">Playlist ID / video ID / URL</string>
     <string name="button_analyse">Analyse</string>
     <string name="screen_home">Home</string>
     <string name="cd_clear_text">Clear text</string>
-    <string name="message_invalid_url">Invalid url, please copy url from YouTube.</string>
+    <string name="message_invalid_url">Invalid URL. Please copy it from YouTube.</string>
     <string name="label_home_tagline">Analyse in 1 click</string>
-    <string name="label_home_tagline_desc">Share a playlist or a video directly. Alternatively paste a playlist id, video id or a url below.</string>
-
+    <string name="label_home_tagline_desc">Share a playlist or video directly. Alternatively paste a playlist ID, video ID, or URL below.</string>
     <!--Details-->
     <string name="label_to_complete">to complete</string>
     <string name="label_playback_speed">Playback Speed</string>
     <string name="label_complete_by">complete by</string>
     <string name="cd_back">Back</string>
     <string name="cd_thumbnail">Thumbnail</string>
-
     <!--History-->
     <string name="screen_history">History</string>
     <string name="label_no_records_present">No records present</string>
@@ -24,7 +22,6 @@
     <string name="label_playlists">Playlists</string>
     <string name="label_videos">Videos</string>
     <string name="label_all">All</string>
-
     <!--Settings-->
     <string name="screen_settings">Settings</string>
     <string name="label_legal">Legal</string>
@@ -40,5 +37,4 @@
     <string name="button_cancel">Cancel</string>
     <string name="dialog_title_clear_cache">Clear local app cache?</string>
     <string name="dialog_message_clear_cache">This will clear entire local history, including videos and playlists.</string>
-
 </resources>
