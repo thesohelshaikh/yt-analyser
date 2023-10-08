@@ -1,2 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="button_cancel">Avbryt</string>
+    <string name="label_developer">Utvikler</string>
+    <string name="label_legal">Juridisk</string>
+    <string name="label_about">Om</string>
+    <string name="screen_home">Hjem</string>
+    <string name="label_home_tagline">Analyser med ett klikk</string>
+    <string name="screen_history">Historikk</string>
+    <string name="label_clear_local_cache">Tøm lokalt hurtiglager</string>
+    <string name="label_all">Alle</string>
+    <string name="hint_playlist_id_video_id_url">Spilleliste-ID/video-ID/nettadresse</string>
+    <string name="label_open_source_libraries">Frie bibliotek</string>
+    <string name="label_privacy_policy">Personvernspraksis</string>
+    <string name="button_analyse">Analyser</string>
+    <string name="button_clear">Tøm</string>
+    <string name="label_to_complete">fullføres</string>
+    <string name="label_history_empty_desc">Analyserte oppføringer vises her, og kan brukes frakoblet.</string>
+    <string name="cd_thumbnail">Miniatyrbilde</string>
+    <string name="label_no_records_present">Ingen historikk</string>
+    <string name="label_playback_speed">Avspillingsastighet</string>
+    <string name="cd_back">Tilbake</string>
+    <string name="screen_settings">Innstillinger</string>
+    <string name="label_source_code">Kildekode</string>
+    <string name="label_home_tagline_desc">Del en spilleliste eller video direkte. Alternativt kan du lime inn en spilleliste-ID eller nettadresse nedenfor.</string>
+    <string name="dialog_title_clear_cache">Tøm lokalt programhurtiglager\?</string>
+    <string name="label_appearance">Utseende</string>
+    <string name="label_videos">Videoer</string>
+    <string name="dialog_message_clear_cache">Dette tømmer all lokal historikk, inkludert videoer og spillelister.</string>
+    <string name="cd_clear_text">Tøm tekst</string>
+    <string name="label_data_usage">Databruk</string>
+    <string name="app_name">YT-analysator</string>
+    <string name="message_invalid_url">Ugyldig nettadresse. Kopier nettadressen fra YouTube.</string>
+    <string name="label_complete_by">Fullfør før</string>
+    <string name="label_playlists">Spillelister</string>
+</resources>
