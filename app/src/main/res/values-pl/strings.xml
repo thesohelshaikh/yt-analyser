@@ -1,2 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="button_cancel">Anuluj</string>
+    <string name="label_developer">Deweloper</string>
+    <string name="screen_home">Dom</string>
+    <string name="label_home_tagline">Analizuj w 1 kliknięciu</string>
+    <string name="screen_history">Historia</string>
+    <string name="hint_playlist_id_video_id_url">ID playlisty / ID filmiku / URL</string>
+    <string name="button_analyse">Analizuj</string>
+    <string name="button_clear">Wyczyść</string>
+    <string name="label_to_complete">do ukończenia</string>
+    <string name="cd_thumbnail">Miniaturka</string>
+    <string name="label_no_records_present">Brak informacji</string>
+    <string name="label_playback_speed">Prędkość Odtwarzania</string>
+    <string name="cd_back">Cofnij</string>
+    <string name="label_source_code">Kod źródłowy</string>
+    <string name="label_home_tagline_desc">Udostępnij playlistę lub filmik bezpośrednio. Alternatywnie wklej ID playlisty, ID filmiku bądź URL poniżej.</string>
+    <string name="dialog_title_clear_cache">Wyczyścić lokalny cache aplikacji\?</string>
+    <string name="dialog_message_clear_cache">To wyczyści całą lokalną historię, włącznie z filmikami i playlistami.</string>
+    <string name="cd_clear_text">Wyczyść tekst</string>
+    <string name="app_name">Analizator YT</string>
+    <string name="message_invalid_url">Nieprawidłowy URL. Skopiuj adres z YouTube.</string>
+    <string name="label_complete_by">ukończone przez</string>
+</resources>
