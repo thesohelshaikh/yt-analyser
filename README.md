@@ -59,6 +59,7 @@ You can also contribute by adding translations using the
 Hosted [Weblate](https://hosted.weblate.org/projects/yt-analyser/yt-analyser/), an open source and
 web-based translation platform.
 
+[<img src="https://github.com/WeblateOrg/graphics/blob/main/logo-text/Logo-Darktext.png?raw=true" height="50px"/>](https://weblate.org/)
 ## Licence
 
 See [Licence](LICENSE).
