@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
 import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
-import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetworkService
+import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetworkRepository
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,9 +19,8 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(
     private val videoDao: VideoDao,
     private val playlistDao: PlaylistDao,
+    private val youtubeNetworkRepository: YoutubeNetworkRepository
 ) : ViewModel() {
-
-    private val youtubeNetworkService = YoutubeNetworkService()
 
     private val _detailsScreenState = MutableLiveData<DetailsScreenState>()
     val detailsScreenState: LiveData<DetailsScreenState> get() = _detailsScreenState
@@ -60,7 +59,7 @@ class DetailsViewModel @Inject constructor(
                         duration = durations.first()
                     )
                 } else {
-                    val response = youtubeNetworkService.getVideoDetails(id)
+                    val response = youtubeNetworkRepository.getVideoDetails(id)
 
                     val video = response.items?.get(0)
                     val snippet = video?.snippet
@@ -114,13 +113,13 @@ class DetailsViewModel @Inject constructor(
         var nextPageToken: String? = null
         val durations = ArrayList<String>()
 
-        val playlistDetailResponse = youtubeNetworkService.getPlaylistDetails(playlistId)
+        val playlistDetailResponse = youtubeNetworkRepository.getPlaylistDetails(playlistId)
 
         while (true) {
             val items = ArrayList<PlaylistVideoIdResponse.Item?>()
 
             val response =
-                youtubeNetworkService.getPlaylistVideoIds(playlistId, pageToken = nextPageToken)
+                youtubeNetworkRepository.getPlaylistVideoIds(playlistId, pageToken = nextPageToken)
 
             if (!response.items.isNullOrEmpty()) {
                 items.addAll(response.items)
@@ -130,7 +129,7 @@ class DetailsViewModel @Inject constructor(
                 Timber.i("getPlaylistVideoIds: videoId:$videoIds")
 
                 // get durations of each of the videos
-                val videosResponse = youtubeNetworkService.getPlaylistVideoDetails(videoIds)
+                val videosResponse = youtubeNetworkRepository.getPlaylistVideoDetails(videoIds)
                 videosResponse.items?.forEach { video ->
                     video?.contentDetails?.duration?.let { durations.add(it) }
                 }
