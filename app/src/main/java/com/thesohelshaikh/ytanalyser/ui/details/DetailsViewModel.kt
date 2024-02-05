@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
 import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
-import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetworkRepository
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
+import com.thesohelshaikh.ytanalyser.data.repository.YoutubeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(
     private val videoDao: VideoDao,
     private val playlistDao: PlaylistDao,
-    private val youtubeNetworkRepository: YoutubeNetworkRepository
+    private val youtubeNetworkRepository: YoutubeRepository
 ) : ViewModel() {
 
     private val _detailsScreenState = MutableLiveData<DetailsScreenState>()

@@ -1,7 +1,7 @@
 package com.thesohelshaikh.ytanalyser.di
 
-import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetworkRepository
 import com.thesohelshaikh.ytanalyser.data.network.YoutubeService
+import com.thesohelshaikh.ytanalyser.data.repository.YoutubeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ object NetworkModule {
     @Provides
     fun provideYoutubeNetworkRepository(
         youtubeService: YoutubeService
-    ): YoutubeNetworkRepository {
-        return YoutubeNetworkRepository(youtubeService)
+    ): YoutubeRepository {
+        return YoutubeRepository(youtubeService)
     }
 }

@@ -1,5 +1,6 @@
-package com.thesohelshaikh.ytanalyser.data.network
+package com.thesohelshaikh.ytanalyser.data.repository
 
+import com.thesohelshaikh.ytanalyser.data.network.YoutubeService
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistDetailResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoDetailResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
@@ -7,7 +8,7 @@ import com.thesohelshaikh.ytanalyser.data.network.model.VideoDetailResponse
 import javax.inject.Inject
 
 
-class YoutubeNetworkRepository @Inject constructor(
+class YoutubeRepository @Inject constructor(
     private val youtubeService: YoutubeService
 ) {
 
