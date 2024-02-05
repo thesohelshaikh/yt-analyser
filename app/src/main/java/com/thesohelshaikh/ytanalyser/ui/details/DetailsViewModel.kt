@@ -3,21 +3,20 @@ package com.thesohelshaikh.ytanalyser.ui.details
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.thesohelshaikh.ytanalyser.YTApplication
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
 import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
 import com.thesohelshaikh.ytanalyser.data.network.YoutubeNetworkService
 import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class DetailsViewModel(
+@HiltViewModel
+class DetailsViewModel @Inject constructor(
     private val videoDao: VideoDao,
     private val playlistDao: PlaylistDao,
 ) : ViewModel() {
@@ -166,15 +165,4 @@ class DetailsViewModel(
         )
     }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val ytApplication =
-                    this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as YTApplication
-                val videoDao = ytApplication.videoDao
-                val playlistDao = ytApplication.playlistDao
-                DetailsViewModel(videoDao, playlistDao)
-            }
-        }
-    }
 }

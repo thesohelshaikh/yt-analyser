@@ -35,6 +35,7 @@ Shows youtube playlist durations in one click
 - [Kotlin Symbol Processing](https://kotlinlang.org/docs/ksp-overview.html) - compiler plugins
 - [Gradle Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html) - build
   configuration
+- [Dagger Hilt](https://www.youtube.com/watch?v=1Zt6aIqZnqU) - Dependency Injection
 
 ## Screenshots
 

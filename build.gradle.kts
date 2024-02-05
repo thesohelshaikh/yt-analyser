@@ -8,4 +8,5 @@ plugins {
     id("com.google.android.gms.oss-licenses-plugin") version "0.10.6" apply false
     kotlin("plugin.serialization") version kotlinVersion
     id("io.sentry.android.gradle") version "3.11.1" apply false
+    id("com.google.dagger.hilt.android") version "2.44" apply false
 }

@@ -9,6 +9,8 @@ plugins {
     id("com.google.android.gms.oss-licenses-plugin")
 
     id("io.sentry.android.gradle")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 val properties = Properties()
@@ -63,6 +65,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
 }
 
 class RoomSchemaArgProvider(
@@ -126,6 +133,7 @@ dependencies {
 
     val navVersion = "2.6.0"
     implementation("androidx.navigation:navigation-compose:$navVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
@@ -136,4 +144,9 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // Dagger Hilt - Dependency Injection
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
 }

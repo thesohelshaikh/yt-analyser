@@ -3,11 +3,11 @@ package com.thesohelshaikh.ytanalyser.ui.settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun SettingsScreen(
-    settingsViewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
+    settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
     val showDialog = remember { mutableStateOf(false) }
 

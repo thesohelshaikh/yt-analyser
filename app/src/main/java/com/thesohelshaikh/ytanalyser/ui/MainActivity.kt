@@ -5,9 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateOf
 import com.thesohelshaikh.ytanalyser.ui.home.MyApp
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val receivedIntentData = mutableStateOf("")
 

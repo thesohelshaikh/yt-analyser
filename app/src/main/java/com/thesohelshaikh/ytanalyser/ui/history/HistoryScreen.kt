@@ -36,7 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
@@ -49,7 +49,7 @@ import timber.log.Timber
 @Composable
 fun HistoryScreen(
     onVideoClick: (String) -> Unit,
-    historyViewModel: HistoryViewModel = viewModel(factory = HistoryViewModel.Factory)
+    historyViewModel: HistoryViewModel = hiltViewModel()
 ) {
 
     LaunchedEffect(key1 = Unit) {
