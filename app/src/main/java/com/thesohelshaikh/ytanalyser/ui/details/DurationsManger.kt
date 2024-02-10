@@ -15,7 +15,6 @@ object DurationsManger {
      * @return Date object from the parse time
      * @see java.time.Duration
      */
-    @JvmStatic
     fun parseTime(text: String?): ArrayList<Long> {
         val currentDuration = Duration.parse(text)
         val millis = currentDuration.toMillis()
@@ -25,7 +24,6 @@ object DurationsManger {
         return calculateAlternateDurations(Date(millis))
     }
 
-    @JvmStatic
     @SuppressLint("SimpleDateFormat")
     fun getDateAfter(millis: Long): String {
         val cal = Calendar.getInstance()
@@ -41,7 +39,6 @@ object DurationsManger {
         return sdf.format(time)
     }
 
-    @JvmStatic
     fun getPrettyDuration(millis: Long): String {
         var timeLeft = Duration.ofMillis(millis)
         val hours = timeLeft.toHours()
@@ -62,14 +59,18 @@ object DurationsManger {
         return sb.toString()
     }
 
-    @JvmStatic
     fun getIDfromURL(url: String): String? {
         if (!url.startsWith("http")) return null
         return try {
             val originalURL = URL(url)
-            var id = originalURL.query
-            if (id == null) {
+            var id: String?
+            if (url.startsWith("https://youtu.be/")) {
                 id = originalURL.path
+            } else {
+                id = originalURL.query
+                if (id == null) {
+                    id = originalURL.path
+                }
             }
             cleanID(id)
         } catch (e: MalformedURLException) {
@@ -79,9 +80,10 @@ object DurationsManger {
     }
 
     private fun cleanID(idToClean: String?): String {
+        if (idToClean == null) return ""
         // desktop url
-        var id = idToClean
-        id = if (id!!.startsWith("v")) {
+        var id = idToClean.substringBefore('&')
+        id = if (id.startsWith("v")) {
             id.substring(2)
         } else {
             // mobile url, remove extra forward slash
@@ -89,6 +91,7 @@ object DurationsManger {
         }
         if (id.startsWith("list")) {
             id = id.substring(5)
+                .substringBefore('&')
         }
         return id
     }
@@ -106,7 +109,6 @@ object DurationsManger {
         return durations
     }
 
-    @JvmStatic
     fun parsePlaylistDurations(durations: ArrayList<String>): Long {
         var totalMillis: Long = 0
         for (duration in durations) {
