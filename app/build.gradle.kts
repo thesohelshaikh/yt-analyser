@@ -18,7 +18,7 @@ properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.thesohelshaikh.ytanalyser"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -118,7 +118,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
 
     // Compose - UI
-    val composeBom = platform("androidx.compose:compose-bom:2023.06.01")
+    val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     implementation("androidx.compose.material3:material3")
@@ -147,6 +147,6 @@ dependencies {
 
     // Dagger Hilt - Dependency Injection
     implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44") // TODO: Migrate to KSP when stable
 
 }
