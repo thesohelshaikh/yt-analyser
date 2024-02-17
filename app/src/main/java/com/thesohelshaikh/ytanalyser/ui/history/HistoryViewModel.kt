@@ -8,6 +8,7 @@ import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
 import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
 import com.thesohelshaikh.ytanalyser.data.local.entities.VideoEntity
+import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,15 +22,6 @@ class HistoryViewModel @Inject constructor(
 
     private val _historyScreenState = MutableLiveData<HistoryUiState>()
     val historyScreenState: LiveData<HistoryUiState> get() = _historyScreenState
-
-    data class HistoryItem(
-        val id: String,
-        val thumbnail: String?,
-        val title: String,
-        val channelTitle: String,
-        val resourceType: ResourceType,
-        val createdAt: Long,
-    )
 
     private fun VideoEntity.asHistoryItem(): HistoryItem = HistoryItem(
         id,
@@ -80,8 +72,18 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
+    fun deleteItem(item: HistoryItem) {
+        viewModelScope.launch {
+            if (item.resourceType == ResourceType.VIDEO) {
+                videoDao.delete(item.id)
+            } else {
+                playlistDao.delete(item.id)
+            }
+        }
+    }
+
     sealed class HistoryUiState {
-        class Success(val videos: List<HistoryItem>) : HistoryUiState()
+        class Success(val historyItems: List<HistoryItem>) : HistoryUiState()
     }
 
 }

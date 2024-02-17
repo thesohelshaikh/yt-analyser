@@ -40,18 +40,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 import timber.log.Timber
 
-
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
     onVideoClick: (String) -> Unit,
     historyViewModel: HistoryViewModel = hiltViewModel()
 ) {
-
     LaunchedEffect(key1 = Unit) {
         historyViewModel.getVideosAndPlaylists()
     }
@@ -60,7 +59,8 @@ fun HistoryScreen(
 
     when (screenState.value) {
         is HistoryViewModel.HistoryUiState.Success -> {
-            val videos = (screenState.value as HistoryViewModel.HistoryUiState.Success).videos
+            val historyItems =
+                (screenState.value as HistoryViewModel.HistoryUiState.Success).historyItems
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
@@ -76,13 +76,24 @@ fun HistoryScreen(
                         }
                     }
                 }
-                if (videos.isEmpty()) {
+                if (historyItems.isEmpty()) {
                     item {
                         HistoryEmptyState()
                     }
                 } else {
-                    items(videos) {
-                        HistoryItemRow(it, onVideoClick)
+                    items(
+                        items = historyItems,
+                        key = { it.id }
+                    ) { item ->
+                        SwipeToDeleteContainer(
+                            item = item,
+                            onDelete = { deleteItem ->
+                                historyViewModel.deleteItem(deleteItem)
+                            }, backgroundContent = { state ->
+                                HistoryItemDeleteBackground(swipeDismissState = state)
+                            }, content = {
+                                HistoryItemRow(item, onVideoClick)
+                            })
                     }
                 }
             }
@@ -100,9 +111,7 @@ enum class FilterType {
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType) -> Unit) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,7 +153,7 @@ private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType)
 }
 
 @Composable
-fun HistoryItemRow(videoEntity: HistoryViewModel.HistoryItem, onVideoClick: (String) -> Unit) {
+fun HistoryItemRow(videoEntity: HistoryItem, onVideoClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -203,13 +212,13 @@ fun FilterRowPreview() {
 @Composable
 fun HistoryItemPreview() {
     HistoryItemRow(
-        videoEntity = HistoryViewModel.HistoryItem(
+        videoEntity = HistoryItem(
             "1231231",
             null,
             "Video Title",
             "Channel title",
             ResourceType.VIDEO,
-            123456L
+            123456L,
         ),
         onVideoClick = {}
     )
