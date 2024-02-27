@@ -31,6 +31,14 @@ import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 @Composable
 fun SettingsContent(showDialog: MutableState<Boolean>) {
     val context = LocalContext.current
+    val showDialogTheme = remember { mutableStateOf(false) }
+
+    if (showDialogTheme.value) {
+        ChooseThemeDialog(showDialogTheme) {
+            // TODO: Change theme
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -112,7 +120,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { /*TODO*/ }
+                    .clickable { showDialogTheme.value = true }
             ) {
                 Text(
                     text = "Theme",
