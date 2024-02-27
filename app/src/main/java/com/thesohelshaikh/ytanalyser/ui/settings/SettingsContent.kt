@@ -67,7 +67,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        /*TODO*/
+                        navigateToPrivacyPrivacyPolicy(context)
                     }
             ) {
                 Text(
@@ -188,6 +188,11 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
 
 private fun navigateToOpenSourceLicences(context: Context) {
     context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+}
+
+fun navigateToPrivacyPrivacyPolicy(context: Context) {
+    val url = "https://www.freeprivacypolicy.com/live/09df12f9-497e-44cb-b83d-248b479b2890"
+    navigateToWebpage(url, context)
 }
 
 fun navigateToGithubProfile(context: Context) {
