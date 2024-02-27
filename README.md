@@ -5,7 +5,8 @@
 
 # yt-analyser
 
-Shows youtube playlist durations in one click
+Ever wondered how long it would take to finish a YouTube video or a playlist? Wonder no more, use YT
+Analyser to know exactly how long it takes to finish watching.
 
 ## Features
 
