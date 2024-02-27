@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -78,7 +78,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                         .padding(16.dp)
                 )
             }
-            Divider()
+            HorizontalDivider()
             Text(
                 text = stringResource(R.string.label_data_usage),
                 modifier = Modifier
@@ -100,7 +100,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                         .padding(16.dp)
                 )
             }
-            Divider()
+            HorizontalDivider()
             Text(
                 text = stringResource(R.string.label_appearance),
                 modifier = Modifier
@@ -122,7 +122,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                         .padding(16.dp)
                 )
             }
-            Divider()
+            HorizontalDivider()
             Text(
                 text = stringResource(R.string.label_about),
                 modifier = Modifier
@@ -161,7 +161,7 @@ fun SettingsContent(showDialog: MutableState<Boolean>) {
                         .padding(16.dp)
                 )
             }
-            Divider()
+            HorizontalDivider()
 
         }
         Column(
