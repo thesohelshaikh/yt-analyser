@@ -1,7 +1,6 @@
 package com.thesohelshaikh.ytanalyser.ui.history
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,8 +15,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -107,47 +108,41 @@ fun HistoryScreen(
 }
 
 enum class FilterType {
-    ALL, VIDEO, PLAYLIST
+    ALL, PLAYLIST, VIDEO,
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalArrangement = Arrangement.Start,
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.Center,
     ) {
-        FilterChip(
-            selected = selectedFilter == FilterType.ALL,
-            onClick = {
-                onFilterSelected(FilterType.ALL)
-            },
-            label = {
-                Text(text = stringResource(R.string.label_all))
-            },
-            modifier = Modifier.padding(start = 16.dp)
+        val options = listOf(
+            stringResource(R.string.label_all),
+            stringResource(R.string.label_playlists),
+            stringResource(R.string.label_videos)
         )
-        FilterChip(
-            selected = selectedFilter == FilterType.PLAYLIST,
-            onClick = {
-                onFilterSelected(FilterType.PLAYLIST)
-            },
-            label = {
-                Text(text = stringResource(R.string.label_playlists))
-            },
-            modifier = Modifier.padding(start = 16.dp),
-        )
-        FilterChip(
-            selected = selectedFilter == FilterType.VIDEO,
-            onClick = {
-                onFilterSelected(FilterType.VIDEO)
-            },
-            label = {
-                Text(text = stringResource(R.string.label_videos))
-            },
-            modifier = Modifier.padding(start = 16.dp),
-        )
+        SingleChoiceSegmentedButtonRow {
+            options.forEachIndexed { index, label ->
+                SegmentedButton(
+                    shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                    onClick = {
+                        val filter = when (index) {
+                            0 -> FilterType.ALL
+                            1 -> FilterType.PLAYLIST
+                            else -> FilterType.VIDEO
+                        }
+                        onFilterSelected(filter)
+                    },
+                    selected = FilterType.values().get(index) == selectedFilter
+                ) {
+                    Text(label)
+                }
+            }
+        }
 
     }
 }
