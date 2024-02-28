@@ -26,16 +26,21 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.thesohelshaikh.ytanalyser.BuildConfig
 import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.data.model.DarkThemeConfig
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 @Composable
-fun SettingsContent(showDialog: MutableState<Boolean>) {
+fun SettingsContent(
+    showDialog: MutableState<Boolean>,
+    currentTheme: DarkThemeConfig,
+    onThemeUpdate: (theme: DarkThemeConfig) -> Unit,
+) {
     val context = LocalContext.current
     val showDialogTheme = remember { mutableStateOf(false) }
 
     if (showDialogTheme.value) {
-        ChooseThemeDialog(showDialogTheme) {
-            // TODO: Change theme
+        ChooseThemeDialog(showDialogTheme, currentTheme) {
+            onThemeUpdate(it)
         }
     }
 
@@ -227,6 +232,8 @@ fun SettingsScreenPreview() {
     AppTheme {
         SettingsContent(showDialog = remember {
             mutableStateOf(false)
-        })
+        }, DarkThemeConfig.LIGHT) {
+            /* no-op */
+        }
     }
 }

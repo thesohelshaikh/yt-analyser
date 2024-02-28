@@ -37,4 +37,8 @@
     <string name="button_cancel">Cancel</string>
     <string name="dialog_title_clear_cache">Clear local app cache?</string>
     <string name="dialog_message_clear_cache">This will clear entire local history, including videos and playlists.</string>
+    <string name="dialog_title_choose_theme">Choose theme</string>
+    <string name="label_theme_system">Follows system</string>
+    <string name="label_theme_light">Light</string>
+    <string name="label_theme_dark">Dark</string>
 </resources>

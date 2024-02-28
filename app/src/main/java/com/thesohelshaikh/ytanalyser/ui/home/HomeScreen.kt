@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.thesohelshaikh.ytanalyser.data.model.UserData
 import com.thesohelshaikh.ytanalyser.ui.details.DetailsScreen
 import com.thesohelshaikh.ytanalyser.ui.history.HistoryScreen
 import com.thesohelshaikh.ytanalyser.ui.settings.SettingsScreen
@@ -21,10 +22,11 @@ import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 @Composable
 fun MyApp(
     receivedUrl: String?,
+    userData: UserData,
     navController: NavHostController = rememberNavController(),
     startDestination: String = Screen.Home.route
 ) {
-    AppTheme {
+    AppTheme(userData.shouldUseDarkTheme()) {
         HomeScreen(
             receivedUrl,
             navController,

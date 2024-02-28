@@ -31,16 +31,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.data.model.DarkThemeConfig
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseThemeDialog(
     showDialog: MutableState<Boolean>,
-    onConfirm: () -> Unit,
+    theme: DarkThemeConfig,
+    onThemeUpdate: (theme: DarkThemeConfig) -> Unit,
 ) {
-    val themeOptions = listOf("System Default", "Light", "Dark")
-    var selectedTheme by remember { mutableStateOf(themeOptions[0]) }
+    var selectedTheme by remember { mutableStateOf(theme) }
 
     BasicAlertDialog(
         onDismissRequest = {
@@ -58,19 +59,22 @@ fun ChooseThemeDialog(
 
                 Column {
                     Text(
-                        text = "Choose theme",
+                        text = stringResource(id = R.string.dialog_title_choose_theme),
                         modifier = Modifier.padding(12.dp),
                         style = MaterialTheme.typography.headlineSmall
                     )
                     HorizontalDivider()
-                    themeOptions.forEachIndexed { index, theme ->
+                    DarkThemeConfig.values().forEachIndexed { index, theme ->
                         Row(
                             Modifier
                                 .fillMaxWidth()
                                 .selectable(
                                     selected = selectedTheme == theme,
                                     role = Role.RadioButton,
-                                    onClick = { selectedTheme = theme },
+                                    onClick = {
+                                        selectedTheme = theme
+                                        onThemeUpdate(theme)
+                                    },
                                 )
                                 .padding(12.dp),
                             verticalAlignment = Alignment.CenterVertically,
@@ -80,7 +84,7 @@ fun ChooseThemeDialog(
                                 onClick = null,
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text(theme)
+                            Text(stringResource(id = theme.displayValue))
                         }
                     }
                     HorizontalDivider()
@@ -102,7 +106,8 @@ fun ChooseThemeDialog(
 fun ChooseThemeDialogPreview() {
     AppTheme {
         ChooseThemeDialog(
-            showDialog = remember { mutableStateOf(true) }
+            showDialog = remember { mutableStateOf(true) },
+            DarkThemeConfig.FOLLOWS_SYSTEM
         ) {
             /* no-op */
         }
