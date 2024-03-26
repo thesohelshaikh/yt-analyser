@@ -5,7 +5,8 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.Duration
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 object DurationsManger {
     /**
@@ -116,5 +117,13 @@ object DurationsManger {
             totalMillis += millis
         }
         return totalMillis
+    }
+
+    fun getUrlFromId(id: String): String {
+        return if (id.startsWith("PL")) {
+            "https://www.youtube.com/playlist?list=$id"
+        } else {
+            "http://www.youtube.com/watch?v=$id"
+        }
     }
 }

@@ -27,6 +27,7 @@ class DetailsViewModel @Inject constructor(
 
     sealed class DetailsScreenState {
         class SuccessState(
+            val id: String,
             val thumbnailUrl: String?,
             val title: String?,
             val channelTitle: String?,
@@ -53,6 +54,7 @@ class DetailsViewModel @Inject constructor(
                     val durations = DurationsManger.parseTime(contentDetails?.duration)
 
                     _detailsScreenState.value = DetailsScreenState.SuccessState(
+                        id = localVideo.id,
                         thumbnailUrl = thumbnail,
                         title = snippet?.title,
                         channelTitle = snippet?.channelTitle,
@@ -70,6 +72,7 @@ class DetailsViewModel @Inject constructor(
                     video?.asEntity()?.let { videoDao.upsert(it) }
 
                     _detailsScreenState.value = DetailsScreenState.SuccessState(
+                        id = id,
                         thumbnailUrl = thumbnail,
                         title = snippet?.title,
                         channelTitle = snippet?.channelTitle,
@@ -94,6 +97,7 @@ class DetailsViewModel @Inject constructor(
 
                 if (localPlaylist != null) {
                     _detailsScreenState.value = DetailsScreenState.SuccessState(
+                        id = playlistId,
                         thumbnailUrl = localPlaylist.thumbnailUrl,
                         title = localPlaylist.title,
                         channelTitle = localPlaylist.channelTitle,
@@ -157,6 +161,7 @@ class DetailsViewModel @Inject constructor(
         )
 
         _detailsScreenState.value = DetailsScreenState.SuccessState(
+            id = playlistId,
             thumbnailUrl = thumbnail,
             title = snippet?.title,
             channelTitle = snippet?.channelTitle,

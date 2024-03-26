@@ -1,7 +1,12 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,11 +15,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,6 +48,7 @@ import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
 import timber.log.Timber
 import java.util.Date
+
 
 @Composable
 fun DetailsScreen(
@@ -68,10 +79,11 @@ fun DetailsScreen(
             val successState = state as DetailsViewModel.DetailsScreenState.SuccessState
             Timber.d("DetailsScreen: $state")
             DurationsList(
+                successState.id,
                 successState.thumbnailUrl,
                 successState.title,
                 successState.channelTitle,
-                successState.duration
+                successState.duration,
             )
         }
 
@@ -99,6 +111,7 @@ private fun LoadingState() {
 
 @Composable
 private fun DurationsList(
+    id: String,
     thumbnailUrl: String?,
     title: String?,
     channelTitle: String?,
@@ -111,6 +124,8 @@ private fun DurationsList(
     playbacks.add("1.5x")
     playbacks.add("1.75x")
     playbacks.add("2x")
+
+    val context = LocalContext.current
 
     LazyColumn(
         modifier = Modifier
@@ -126,17 +141,32 @@ private fun DurationsList(
     ) {
         val horizontalMargin = 16.dp
         item {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(thumbnailUrl)
-                    .crossfade(true)
-                    .build(), contentDescription = stringResource(R.string.cd_thumbnail),
-                modifier = Modifier
-                    .aspectRatio(16f / 9f)
-                    .padding(16.dp)
-                    .clip(RoundedCornerShape(horizontalMargin)),
-                contentScale = ContentScale.Crop
-            )
+            Box {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(thumbnailUrl)
+                        .crossfade(true)
+                        .build(), contentDescription = stringResource(R.string.cd_thumbnail),
+                    modifier = Modifier
+                        .aspectRatio(16f / 9f)
+                        .padding(16.dp)
+                        .clip(RoundedCornerShape(horizontalMargin)),
+                    contentScale = ContentScale.Crop
+                )
+                IconButton(
+                    onClick = {
+                        openYoutube(context, id)
+                    }, modifier = Modifier
+                        .align(Alignment.Center)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.PlayCircle,
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(84.dp)
+                    )
+                }
+            }
             Text(
                 text = title ?: "",
                 style = MaterialTheme.typography.titleLarge,
@@ -222,10 +252,28 @@ private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
     Spacer(modifier = Modifier.height(8.dp))
 }
 
+private fun openYoutube(context: Context, id: String) {
+    val webIntent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse(DurationsManger.getUrlFromId(id))
+    )
+    try {
+        context.startActivity(webIntent)
+    } catch (e: ActivityNotFoundException) {
+        Timber.e(e)
+    }
+}
+
 @Preview
 @Composable
 fun DetailsScreenPreview() {
     Column {
-        DurationsList("123412314343", "", "", 123123L)
+        DurationsList(
+            "",
+            "123412314343",
+            "",
+            "",
+            123123L
+        )
     }
 }
