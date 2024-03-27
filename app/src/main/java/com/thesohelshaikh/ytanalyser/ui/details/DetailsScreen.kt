@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +25,6 @@ import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,8 +52,7 @@ import java.util.Date
 
 @Composable
 fun DetailsScreen(
-    videoId: String,
-    detailsViewModel: DetailsViewModel = hiltViewModel()
+    videoId: String, detailsViewModel: DetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit, block = {
         if (videoId.startsWith("PL")) {
@@ -97,8 +96,7 @@ fun DetailsScreen(
 @Composable
 private fun LoadingState() {
     Column(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -111,11 +109,7 @@ private fun LoadingState() {
 
 @Composable
 private fun DurationsList(
-    id: String,
-    thumbnailUrl: String?,
-    title: String?,
-    channelTitle: String?,
-    duration: Long
+    id: String, thumbnailUrl: String?, title: String?, channelTitle: String?, duration: Long
 ) {
     val alternateDurations = DurationsManger.calculateAlternateDurations(Date(duration))
     val playbacks = mutableListOf<String>()
@@ -153,20 +147,17 @@ private fun DurationsList(
                         .clip(RoundedCornerShape(horizontalMargin)),
                     contentScale = ContentScale.Crop
                 )
-                IconButton(
-                    onClick = {
-                        openYoutube(context, id)
-                    }, modifier = Modifier
+
+                Icon(imageVector = Icons.Filled.PlayCircle,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
                         .align(Alignment.Center)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.PlayCircle,
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(84.dp)
-                    )
-                }
+                        .size(64.dp)
+                        .clickable { openYoutube(context, id) }
+                )
             }
+
             Text(
                 text = title ?: "",
                 style = MaterialTheme.typography.titleLarge,
@@ -192,23 +183,20 @@ private fun DurationsList(
             ) {
                 Text(
                     text = stringResource(R.string.label_playback_speed),
-                    modifier = Modifier
-                        .fillParentMaxWidth(0.3f),
+                    modifier = Modifier.fillParentMaxWidth(0.3f),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
 
                     )
                 Text(
                     text = stringResource(id = R.string.label_to_complete),
-                    modifier = Modifier
-                        .fillParentMaxWidth(0.3f),
+                    modifier = Modifier.fillParentMaxWidth(0.3f),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
                     text = stringResource(id = R.string.label_complete_by),
-                    modifier = Modifier
-                        .fillParentMaxWidth(0.4f),
+                    modifier = Modifier.fillParentMaxWidth(0.4f),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                 )
@@ -232,9 +220,7 @@ private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
             .padding(horizontal = 8.dp)
     ) {
         Text(
-            text = playbackSpeed,
-            modifier = Modifier.weight(0.3f),
-            textAlign = TextAlign.Center
+            text = playbackSpeed, modifier = Modifier.weight(0.3f), textAlign = TextAlign.Center
         )
         Text(
             text = DurationsManger.getPrettyDuration(alternateDuration),
@@ -254,8 +240,7 @@ private fun DurationRow(alternateDuration: Long, playbackSpeed: String) {
 
 private fun openYoutube(context: Context, id: String) {
     val webIntent = Intent(
-        Intent.ACTION_VIEW,
-        Uri.parse(DurationsManger.getUrlFromId(id))
+        Intent.ACTION_VIEW, Uri.parse(DurationsManger.getUrlFromId(id))
     )
     try {
         context.startActivity(webIntent)
@@ -270,9 +255,9 @@ fun DetailsScreenPreview() {
     Column {
         DurationsList(
             "",
-            "123412314343",
             "",
-            "",
+            "Video title",
+            "Channel Name",
             123123L
         )
     }
