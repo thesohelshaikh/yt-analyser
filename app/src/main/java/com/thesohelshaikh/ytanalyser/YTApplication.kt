@@ -1,20 +1,28 @@
 package com.thesohelshaikh.ytanalyser
 
 import android.app.Application
+import com.thesohelshaikh.ytanalyser.logging.CrashReporter
+import com.thesohelshaikh.ytanalyser.logging.CrashlyticsLoggingTree
 import com.thesohelshaikh.ytanalyser.logging.YTLoggingTree
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
 class YTApplication : Application() {
 
+    @Inject
+    lateinit var crashReporter: CrashReporter
+
     override fun onCreate() {
         super.onCreate()
+        setupLogging()
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(YTLoggingTree())
-        } else {
-//            Timber.plant(SentryLoggingTree())
-        }
+        Timber.i("Application created")
+    }
+
+    private fun setupLogging() {
+        Timber.plant(YTLoggingTree())
+        Timber.plant(CrashlyticsLoggingTree(crashReporter))
     }
 }

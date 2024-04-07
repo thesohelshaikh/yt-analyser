@@ -10,6 +10,8 @@ plugins {
 
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 val properties = Properties()
@@ -85,6 +87,7 @@ ksp {
 
 dependencies {
 
+    implementation("androidx.compose.material3:material3-window-size-class-android:1.2.1")
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -150,5 +153,13 @@ dependencies {
 
     // Datastore - User preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
+
+    // Computing window size
+    implementation("androidx.window:window:1.2.0")
 
 }
