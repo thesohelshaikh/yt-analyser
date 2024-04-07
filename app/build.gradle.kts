@@ -8,7 +8,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.android.gms.oss-licenses-plugin")
 
-    id("io.sentry.android.gradle")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
