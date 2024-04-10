@@ -18,7 +18,6 @@
     <string name="dialog_title_clear_cache">Wyczyścić lokalny cache aplikacji\?</string>
     <string name="dialog_message_clear_cache">To wyczyści całą lokalną historię, włącznie z filmikami i playlistami.</string>
     <string name="cd_clear_text">Wyczyść tekst</string>
-    <string name="app_name">Analizator YT</string>
     <string name="message_invalid_url">Nieprawidłowy URL. Skopiuj adres z YouTube.</string>
     <string name="label_complete_by">ukończone przez</string>
 </resources>

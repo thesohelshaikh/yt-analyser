@@ -29,7 +29,6 @@
     <string name="dialog_message_clear_cache">Dette tømmer all lokal historikk, inkludert videoer og spillelister.</string>
     <string name="cd_clear_text">Klartekst</string>
     <string name="label_data_usage">Databruk</string>
-    <string name="app_name">YT Analyser</string>
     <string name="message_invalid_url">Ugyldig nettadresse. Kopier nettadressen fra YouTube.</string>
     <string name="label_complete_by">Fullfør før</string>
     <string name="label_playlists">Spillelister</string>

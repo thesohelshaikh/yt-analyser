@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YT Analyser</string>
+    <string name="app_name">Video Analyser</string>
     <!--Home-->
     <string name="hint_playlist_id_video_id_url">Playlist ID / video ID / URL</string>
     <string name="button_analyse">Analyse</string>
