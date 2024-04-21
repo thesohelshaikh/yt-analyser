@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import kotlinx.coroutines.delay
@@ -27,7 +27,7 @@ fun <T> SwipeToDeleteContainer(
     backgroundContent: @Composable (SwipeToDismissBoxState) -> Unit,
     content: @Composable (T) -> Unit
 ) {
-    var isRemoved by remember {
+    var isRemoved by rememberSaveable {
         mutableStateOf(false)
     }
     val state = rememberSwipeToDismissBoxState(
