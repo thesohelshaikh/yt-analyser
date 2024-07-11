@@ -24,6 +24,7 @@ fun SettingsScreen(
         currentTheme = currentTheme.value,
         onThemeUpdate = {
             settingsViewModel.setAppTheme(it)
+            currentTheme.value = it
         }
     )
 
