@@ -3,6 +3,7 @@ package com.thesohelshaikh.ytanalyser.ui.settings
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -77,7 +78,7 @@ fun SettingsContent(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { /*TODO*/ }
+                    .clickable { navigateToLanguageSettings(context) }
             ) {
                 Text(
                     text = stringResource(id = R.string.label_language),
@@ -210,6 +211,12 @@ fun SettingsContent(
             )
         }
     }
+}
+
+private fun navigateToLanguageSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+    intent.data = Uri.fromParts("package", context.packageName, null)
+    context.startActivity(intent)
 }
 
 private fun navigateToOpenSourceLicences(context: Context) {

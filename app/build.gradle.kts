@@ -71,6 +71,10 @@ android {
         correctErrorTypes = true
     }
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
 }
 
 class RoomSchemaArgProvider(
