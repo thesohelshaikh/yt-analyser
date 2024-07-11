@@ -54,6 +54,50 @@ fun SettingsContent(
                 .weight(1f)
         ) {
             Text(
+                text = stringResource(R.string.label_appearance),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
+
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showDialogTheme.value = true }
+            ) {
+                Text(
+                    text = "Theme",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
+            HorizontalDivider()
+            Text(
+                text = stringResource(R.string.label_data_usage),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
+
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showDialog.value = true }
+            ) {
+                Text(
+                    text = stringResource(R.string.label_clear_local_cache),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
+            HorizontalDivider()
+            Text(
                 text = stringResource(R.string.label_legal),
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -85,50 +129,6 @@ fun SettingsContent(
             ) {
                 Text(
                     text = stringResource(R.string.label_privacy_policy),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
-            }
-            HorizontalDivider()
-            Text(
-                text = stringResource(R.string.label_data_usage),
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary
-
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { showDialog.value = true }
-            ) {
-                Text(
-                    text = stringResource(R.string.label_clear_local_cache),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
-            }
-            HorizontalDivider()
-            Text(
-                text = stringResource(R.string.label_appearance),
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary
-
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { showDialogTheme.value = true }
-            ) {
-                Text(
-                    text = "Theme",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
