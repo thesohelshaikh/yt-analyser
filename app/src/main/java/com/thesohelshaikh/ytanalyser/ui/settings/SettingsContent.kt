@@ -74,6 +74,19 @@ fun SettingsContent(
                         .padding(16.dp)
                 )
             }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { /*TODO*/ }
+            ) {
+                Text(
+                    text = stringResource(id = R.string.label_language),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
             HorizontalDivider()
             Text(
                 text = stringResource(R.string.label_data_usage),

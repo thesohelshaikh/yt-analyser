@@ -42,4 +42,5 @@
     <string name="label_theme_system">Follows system</string>
     <string name="label_theme_light">Light</string>
     <string name="label_theme_dark">Dark</string>
+    <string name="label_language">Language</string>
 </resources>
