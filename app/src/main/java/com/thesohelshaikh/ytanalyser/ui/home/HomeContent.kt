@@ -64,21 +64,19 @@ fun HomeContent(
                     imageVector = Icons.Filled.Insights,
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(8.dp)
                         .size(50.dp),
                     tint = MaterialTheme.colorScheme.primary,
                 )
-
                 Text(
                     text = stringResource(R.string.label_home_tagline),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.headlineLarge
                 )
                 Text(
                     text = stringResource(R.string.label_home_tagline_desc),
-
                     modifier = Modifier
                         .padding(horizontal = 32.dp)
-                        .padding(bottom = 32.dp, top = 8.dp)
+                        .padding(bottom = 8.dp, top = 8.dp)
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.titleSmall,
                     textAlign = TextAlign.Center
@@ -128,6 +126,7 @@ fun HomeContent(
                     onClickAnalyse(videoId)
                 }
             ),
+            singleLine = true,
         )
 
         Button(
