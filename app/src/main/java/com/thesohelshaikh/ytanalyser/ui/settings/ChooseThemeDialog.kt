@@ -1,5 +1,6 @@
 package com.thesohelshaikh.ytanalyser.ui.settings
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -88,13 +89,20 @@ fun ChooseThemeDialog(
                         }
                     }
                     HorizontalDivider()
-                    TextButton(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .align(Alignment.End),
-                        onClick = { showDialog.value = false }
+                    Row(
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(stringResource(R.string.button_cancel))
+                        TextButton(
+                            onClick = { showDialog.value = false }
+                        ) {
+                            Text(stringResource(R.string.button_ok))
+                        }
+                        TextButton(
+                            onClick = { showDialog.value = false }
+                        ) {
+                            Text(stringResource(R.string.button_cancel))
+                        }
                     }
                 }
             }

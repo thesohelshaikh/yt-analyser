@@ -35,6 +35,7 @@
     <string name="label_source_code">Source code</string>
     <string name="button_clear">Clear</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_ok">Ok</string>
     <string name="dialog_title_clear_cache">Clear local app cache?</string>
     <string name="dialog_message_clear_cache">This will clear entire local history, including videos and playlists.</string>
     <string name="dialog_title_choose_theme">Choose theme</string>
