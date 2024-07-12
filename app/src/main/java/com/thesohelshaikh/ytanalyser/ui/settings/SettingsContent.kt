@@ -3,6 +3,7 @@ package com.thesohelshaikh.ytanalyser.ui.settings
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,7 @@ import com.thesohelshaikh.ytanalyser.BuildConfig
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.data.model.DarkThemeConfig
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
+
 
 @Composable
 fun SettingsContent(
@@ -214,8 +216,15 @@ fun SettingsContent(
 }
 
 private fun navigateToLanguageSettings(context: Context) {
-    val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
-    intent.data = Uri.fromParts("package", context.packageName, null)
+    val intent: Intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val i = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+        i.data = Uri.fromParts("package", context.packageName, null)
+        i
+    } else {
+        val i = Intent(Intent.ACTION_MAIN)
+        i.setClassName("com.android.settings", "com.android.settings.LanguageSettings")
+        i
+    }
     context.startActivity(intent)
 }
 
