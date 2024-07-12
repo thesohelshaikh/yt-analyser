@@ -98,11 +98,6 @@ fun ChooseThemeDialog(
                         ) {
                             Text(stringResource(R.string.button_ok))
                         }
-                        TextButton(
-                            onClick = { showDialog.value = false }
-                        ) {
-                            Text(stringResource(R.string.button_cancel))
-                        }
                     }
                 }
             }
