@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -137,6 +138,9 @@ fun HomeContent(
                 }
             ),
             singleLine = true,
+            leadingIcon = {
+                Icon(imageVector = Icons.Outlined.Link, contentDescription = null)
+            }
         )
 
         Button(
