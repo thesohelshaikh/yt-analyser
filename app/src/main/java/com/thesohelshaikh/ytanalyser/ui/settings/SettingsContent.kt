@@ -8,11 +8,13 @@ import android.provider.Settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -36,7 +38,9 @@ import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 fun SettingsContent(
     showDialog: MutableState<Boolean>,
     currentTheme: DarkThemeConfig,
+    shouldUseClipboard: Boolean,
     onThemeUpdate: (theme: DarkThemeConfig) -> Unit,
+    onUseClipboardToggle: () -> Unit,
 ) {
     val context = LocalContext.current
     val showDialogTheme = remember { mutableStateOf(false) }
@@ -90,6 +94,40 @@ fun SettingsContent(
                         .padding(16.dp)
                 )
             }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(R.string.label_settings_use_clipboard),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.label_settings_clipboard_helper),
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .padding(end = 16.dp)
+                ) {
+                    Switch(
+                        checked = shouldUseClipboard,
+                        onCheckedChange = { onUseClipboardToggle() },
+                    )
+                }
+            }
+
             HorizontalDivider()
             Text(
                 text = stringResource(R.string.label_data_usage),
@@ -259,10 +297,18 @@ fun navigateToWebpage(url: String, context: Context) {
 @Composable
 fun SettingsScreenPreview() {
     AppTheme {
-        SettingsContent(showDialog = remember {
-            mutableStateOf(false)
-        }, DarkThemeConfig.LIGHT) {
-            /* no-op */
-        }
+        SettingsContent(
+            showDialog = remember {
+                mutableStateOf(false)
+            },
+            currentTheme = DarkThemeConfig.LIGHT,
+            shouldUseClipboard = false,
+            onThemeUpdate = {
+                /* no-op */
+            },
+            onUseClipboardToggle = {
+                /* no-op */
+            }
+        )
     }
 }

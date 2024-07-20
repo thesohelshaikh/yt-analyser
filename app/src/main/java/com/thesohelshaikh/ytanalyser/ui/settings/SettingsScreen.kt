@@ -14,18 +14,27 @@ fun SettingsScreen(
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val currentTheme = remember { mutableStateOf(DarkThemeConfig.FOLLOWS_SYSTEM) }
+    val shouldUseClipboard = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        currentTheme.value = settingsViewModel.preferences.first().darkThemeConfig
+        settingsViewModel.preferences.first().run {
+            currentTheme.value = darkThemeConfig
+            shouldUseClipboard.value = useClipboard
+        }
     }
 
     SettingsContent(
         showDialog = showDialog,
         currentTheme = currentTheme.value,
+        shouldUseClipboard = shouldUseClipboard.value,
         onThemeUpdate = {
             settingsViewModel.setAppTheme(it)
             currentTheme.value = it
-        }
+        },
+        onUseClipboardToggle = {
+            settingsViewModel.toggleUseClipboard()
+            shouldUseClipboard.value = !shouldUseClipboard.value
+        },
     )
 
     if (showDialog.value) {

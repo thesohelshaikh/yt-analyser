@@ -31,4 +31,10 @@ class SettingsViewModel @Inject constructor(
             preferenceDataSource.setAppTheme(darkThemeConfig)
         }
     }
+
+    fun toggleUseClipboard() {
+        viewModelScope.launch {
+            preferenceDataSource.toggleUseClipboard()
+        }
+    }
 }

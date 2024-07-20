@@ -39,7 +39,7 @@ fun MyApp(
 fun HomeScreen(
     receivedUrl: String?,
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
 ) {
     Scaffold(
         topBar = {
@@ -83,7 +83,7 @@ private fun AppNavHost(
     ) {
         composable(Screen.Home.route) {
             HomeContent(
-                receivedUrl,
+                receivedUrl = receivedUrl,
                 onClickAnalyse = {
                     navController.navigate("details/$it")
                 }

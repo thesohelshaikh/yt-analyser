@@ -39,18 +39,38 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.lifecycleScope
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.ui.details.DurationsManger
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
 fun HomeContent(
+    homeViewModel: HomeViewModel = hiltViewModel(),
     receivedUrl: String?,
     onClickAnalyse: (String) -> Unit
 ) {
+    var urlInput by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    if (!receivedUrl.isNullOrEmpty()) urlInput = receivedUrl
+
+    LifecycleEventListener {
+        if (urlInput.isNotEmpty()) return@LifecycleEventListener
+
+        val shouldUseClipboard = homeViewModel.useClipboard.first()
+        Timber.i("Should use clipboard: $shouldUseClipboard")
+        if (shouldUseClipboard) {
+            urlInput = getStringFromClipboard(context)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,16 +102,6 @@ fun HomeContent(
                     textAlign = TextAlign.Center
                 )
             }
-        }
-
-        var urlInput by remember { mutableStateOf("") }
-        val context = LocalContext.current
-
-        if (!receivedUrl.isNullOrEmpty()) urlInput = receivedUrl
-
-        LifecycleEventListener {
-            if (urlInput.isNotEmpty()) return@LifecycleEventListener
-            urlInput = getStringFromClipboard(context)
         }
 
         val invalidUrlMessage = stringResource(R.string.message_invalid_url)
@@ -158,7 +168,7 @@ fun HomeContent(
 }
 
 @Composable
-private fun LifecycleEventListener(onResume: () -> Unit) {
+private fun LifecycleEventListener(onResume: suspend () -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val currentOnResume by rememberUpdatedState(onResume)
 
@@ -167,7 +177,9 @@ private fun LifecycleEventListener(onResume: () -> Unit) {
         // for sending analytics events
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                currentOnResume()
+                lifecycleOwner.lifecycleScope.launch {
+                    currentOnResume()
+                }
             }
         }
 

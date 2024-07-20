@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var preferenceDataSource: PreferenceDataSource
-    private val preferences = mutableStateOf(UserData(DarkThemeConfig.FOLLOWS_SYSTEM))
+    private val preferences = mutableStateOf(UserData(DarkThemeConfig.FOLLOWS_SYSTEM, false))
 
     @Inject
     lateinit var crashReporter: CrashReporter

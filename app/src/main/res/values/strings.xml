@@ -43,4 +43,6 @@
     <string name="label_theme_light">Light</string>
     <string name="label_theme_dark">Dark</string>
     <string name="label_language">Language</string>
+    <string name="label_settings_use_clipboard">Use clipboard</string>
+    <string name="label_settings_clipboard_helper">Copy URL from clipboard, no need to paste</string>
 </resources>

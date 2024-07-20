@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 
 data class UserData(
     val darkThemeConfig: DarkThemeConfig,
+    val useClipboard: Boolean,
 ) {
     /**
      * Returns `true` if dark theme should be used.
