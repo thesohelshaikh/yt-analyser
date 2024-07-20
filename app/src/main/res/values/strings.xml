@@ -27,9 +27,9 @@
     <string name="label_legal">Legal</string>
     <string name="label_open_source_libraries">Open source libraries</string>
     <string name="label_privacy_policy">Privacy Policy</string>
-    <string name="label_data_usage">Data usage</string>
-    <string name="label_clear_local_cache">Clear local cache</string>
-    <string name="label_appearance">Appearance</string>
+    <string name="label_data_usage">Storage</string>
+    <string name="label_clear_local_cache">Clear history</string>
+    <string name="label_appearance">Preferences</string>
     <string name="label_about">About</string>
     <string name="label_developer">Developer</string>
     <string name="label_source_code">Source code</string>
