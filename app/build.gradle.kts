@@ -171,4 +171,8 @@ dependencies {
     // Computing window size
     implementation("androidx.window:window:1.2.0")
 
+    // Capture screenshots of composable
+    implementation("dev.shreyaspatil:capturable:2.1.0")
+
+
 }

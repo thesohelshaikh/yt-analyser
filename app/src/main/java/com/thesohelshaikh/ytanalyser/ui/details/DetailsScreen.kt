@@ -3,6 +3,7 @@ package com.thesohelshaikh.ytanalyser.ui.details
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,19 +23,25 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -46,13 +53,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
+import dev.shreyaspatil.capturable.capturable
+import dev.shreyaspatil.capturable.controller.CaptureController
+import dev.shreyaspatil.capturable.controller.rememberCaptureController
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
 
 
 @Composable
 fun DetailsScreen(
-    videoId: String, detailsViewModel: DetailsViewModel = hiltViewModel()
+    videoId: String,
+    detailsViewModel: DetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit, block = {
         if (videoId.startsWith("PL")) {
@@ -63,6 +75,7 @@ fun DetailsScreen(
     })
 
     val state by detailsViewModel.detailsScreenState.observeAsState()
+    val context = LocalContext.current
 
     when (state) {
         is DetailsViewModel.DetailsScreenState.ErrorState -> {
@@ -83,6 +96,9 @@ fun DetailsScreen(
                 successState.title,
                 successState.channelTitle,
                 successState.duration,
+                onShareClick = {
+                    detailsViewModel.shareDetailsScreenshot(context, it)
+                }
             )
         }
 
@@ -107,9 +123,15 @@ private fun LoadingState() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun DurationsList(
-    id: String, thumbnailUrl: String?, title: String?, channelTitle: String?, duration: Long
+    id: String,
+    thumbnailUrl: String?,
+    title: String?,
+    channelTitle: String?,
+    duration: Long,
+    onShareClick: (Bitmap) -> Unit = {}
 ) {
     val alternateDurations = DurationsManger.calculateAlternateDurations(Date(duration))
     val playbacks = mutableListOf<String>()
@@ -120,9 +142,10 @@ private fun DurationsList(
     playbacks.add("2x")
 
     val context = LocalContext.current
-
+    val captureController = rememberCaptureController()
     LazyColumn(
         modifier = Modifier
+            .capturable(captureController)
             .background(
                 Brush.verticalGradient(
                     listOf(
@@ -132,6 +155,7 @@ private fun DurationsList(
                 )
             )
             .fillMaxSize()
+
     ) {
         val horizontalMargin = 16.dp
         item {
@@ -161,18 +185,29 @@ private fun DurationsList(
             Text(
                 text = title ?: "",
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(start = horizontalMargin, end = horizontalMargin)
+                modifier = Modifier
+                    .padding(start = horizontalMargin, end = horizontalMargin)
+                    .fillMaxWidth()
             )
-            Text(
-                text = channelTitle ?: "",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = horizontalMargin),
-            )
-            Text(
-                text = DurationsManger.getPrettyDuration(duration),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(horizontal = horizontalMargin)
-            )
+            Row {
+                Column(
+                    Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = channelTitle ?: "",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(horizontal = horizontalMargin),
+                    )
+                    Text(
+                        text = DurationsManger.getPrettyDuration(duration),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(horizontal = horizontalMargin)
+                    )
+                }
+                ShareScreenshotButton(captureController, onShareClick)
+
+            }
+
             Spacer(modifier = Modifier.height(32.dp))
         }
         item {
@@ -208,6 +243,31 @@ private fun DurationsList(
                 Divider()
             }
         }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalComposeApi::class)
+private fun ShareScreenshotButton(
+    captureController: CaptureController,
+    onShareClick: (Bitmap) -> Unit
+) {
+    val scope = rememberCoroutineScope()
+
+    IconButton(
+        modifier = Modifier.padding(end = 8.dp),
+        onClick = {
+            scope.launch {
+                val bitmapAsync = captureController.captureAsync()
+                try {
+                    val bitmap = bitmapAsync.await()
+                    onShareClick(bitmap.asAndroidBitmap())
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            }
+        }) {
+        Icon(imageVector = Icons.Outlined.Share, contentDescription = null)
     }
 }
 

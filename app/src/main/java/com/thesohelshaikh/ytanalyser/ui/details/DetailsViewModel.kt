@@ -1,5 +1,10 @@
 package com.thesohelshaikh.ytanalyser.ui.details
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +18,7 @@ import com.thesohelshaikh.ytanalyser.data.repository.YoutubeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -167,6 +173,31 @@ class DetailsViewModel @Inject constructor(
             channelTitle = snippet?.channelTitle,
             duration = total
         )
+    }
+
+    fun shareDetailsScreenshot(context: Context, bitmap: Bitmap) {
+        try {
+            Timber.i("Captured bitmap: $bitmap")
+            val bitmapPath = MediaStore.Images.Media.insertImage(
+                context.contentResolver,
+                bitmap,
+                "Screenshot ${Date()}",
+                null
+            );
+            val bitmapUri = Uri.parse(bitmapPath);
+            shareImageUri(context, bitmapUri);
+        } catch (error: Throwable) {
+            // Error occurred, do something.
+            Timber.e(error)
+        }
+    }
+
+    private fun shareImageUri(context: Context, uri: Uri) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.setType("image/png")
+        context.startActivity(intent)
     }
 
 }
