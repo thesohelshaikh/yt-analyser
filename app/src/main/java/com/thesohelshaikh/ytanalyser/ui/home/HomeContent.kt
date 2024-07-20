@@ -72,6 +72,16 @@ fun HomeContent(
         }
     }
 
+    HomeContent(urlInput, context, onClickAnalyse)
+}
+
+@Composable
+private fun HomeContent(
+    urlInput: String,
+    context: Context,
+    onClickAnalyse: (String) -> Unit
+) {
+    var urlInput1 = urlInput
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -107,25 +117,25 @@ fun HomeContent(
 
         val invalidUrlMessage = stringResource(R.string.message_invalid_url)
         OutlinedTextField(
-            value = urlInput,
-            onValueChange = { urlInput = it },
+            value = urlInput1,
+            onValueChange = { urlInput1 = it },
             label = { Text(stringResource(id = R.string.hint_playlist_id_video_id_url)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp),
             trailingIcon = {
-                if (urlInput.isEmpty()) return@OutlinedTextField
+                if (urlInput1.isEmpty()) return@OutlinedTextField
 
                 Icon(
                     imageVector = Icons.Outlined.Cancel,
                     contentDescription = stringResource(R.string.cd_clear_text),
-                    modifier = Modifier.clickable { urlInput = "" }
+                    modifier = Modifier.clickable { urlInput1 = "" }
                 )
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
             keyboardActions = KeyboardActions(
                 onGo = {
-                    val videoId = validateUrl(urlInput)
+                    val videoId = validateUrl(urlInput1)
                     if (videoId.isNullOrEmpty()) {
                         Toast.makeText(
                             context,
@@ -145,7 +155,7 @@ fun HomeContent(
 
         Button(
             onClick = {
-                val videoId = validateUrl(urlInput)
+                val videoId = validateUrl(urlInput1)
                 if (videoId.isNullOrEmpty()) {
                     Toast.makeText(
                         context,
@@ -215,8 +225,8 @@ private fun getStringFromClipboard(context: Context): String {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeContentPreview() {
+fun PreviewHomeContent() {
     AppTheme {
-        HomeContent(receivedUrl = "", onClickAnalyse = {})
+        HomeContent(urlInput = "", context = LocalContext.current, onClickAnalyse = {})
     }
 }
