@@ -86,6 +86,9 @@ private fun AppNavHost(
                 receivedUrl = receivedUrl,
                 onClickAnalyse = {
                     navController.navigate("details/$it")
+                },
+                onViewHistory = {
+                    navController.navigate(Screen.History.route)
                 }
             )
         }

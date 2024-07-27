@@ -1,10 +1,7 @@
 package com.thesohelshaikh.ytanalyser.ui.history
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -22,18 +19,15 @@ import androidx.compose.ui.unit.dp
 import com.thesohelshaikh.ytanalyser.R
 
 @Composable
-fun HistoryEmptyState() {
+fun HistoryEmptyState(
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp) // Adjust the height as needed
-        )
         Icon(
             imageVector = Icons.Default.HourglassEmpty,
             contentDescription = "",

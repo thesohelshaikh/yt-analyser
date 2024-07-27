@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Insights
@@ -20,6 +23,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +43,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import com.thesohelshaikh.ytanalyser.R
+import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -47,10 +53,16 @@ import timber.log.Timber
 fun HomeContent(
     homeViewModel: HomeViewModel = hiltViewModel(),
     receivedUrl: String?,
-    onClickAnalyse: (String) -> Unit
+    onClickAnalyse: (String) -> Unit,
+    onViewHistory: () -> Unit,
 ) {
     var urlInput by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val historyItems = homeViewModel.historyItemsFlow.collectAsState(initial = emptyList())
+
+    LaunchedEffect(key1 = historyItems) {
+        homeViewModel.getVideosAndPlaylists()
+    }
 
     if (!receivedUrl.isNullOrEmpty()) urlInput = receivedUrl
 
@@ -68,6 +80,7 @@ fun HomeContent(
 
     HomeContent(
         urlInput = urlInput,
+        historyItems.value,
         onUrlChange = {
             urlInput = it
         },
@@ -82,6 +95,11 @@ fun HomeContent(
             } else {
                 onClickAnalyse(videoId)
             }
+        }, onHistoryItemClick = {
+            onClickAnalyse(it)
+        },
+        onViewHistory = {
+            onViewHistory()
         }
     )
 }
@@ -89,17 +107,22 @@ fun HomeContent(
 @Composable
 private fun HomeContent(
     urlInput: String,
+    historyItems: List<HistoryItem>,
     onUrlChange: (String) -> Unit,
     onClickAnalyse: () -> Unit,
+    onHistoryItemClick: (String) -> Unit,
+    onViewHistory: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        Card {
+        Card(
+            modifier = Modifier.padding(16.dp)
+        ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     imageVector = Icons.Filled.Insights,
@@ -126,6 +149,7 @@ private fun HomeContent(
         }
 
         YTUrlInput(
+            modifier = Modifier.padding(horizontal = 16.dp),
             defaultVal = urlInput,
             onUrlChange = onUrlChange,
             onClickAnalyse = onClickAnalyse,
@@ -148,6 +172,8 @@ private fun HomeContent(
                 contentDescription = null,
             )
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        HistorySection(onViewHistory, historyItems, onHistoryItemClick)
     }
 }
 
@@ -193,8 +219,11 @@ fun PreviewHomeContent() {
     AppTheme {
         HomeContent(
             urlInput = "",
+            emptyList(),
             onUrlChange = {},
-            onClickAnalyse = {}
+            onClickAnalyse = {},
+            onHistoryItemClick = {},
+            onViewHistory = {},
         )
     }
 }

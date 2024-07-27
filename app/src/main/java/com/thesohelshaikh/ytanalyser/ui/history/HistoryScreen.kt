@@ -79,7 +79,9 @@ fun HistoryScreen(
                 }
                 if (historyItems.isEmpty()) {
                     item {
-                        HistoryEmptyState()
+                        HistoryEmptyState(
+                            modifier = Modifier.padding(top = 100.dp)
+                        )
                     }
                 } else {
                     items(

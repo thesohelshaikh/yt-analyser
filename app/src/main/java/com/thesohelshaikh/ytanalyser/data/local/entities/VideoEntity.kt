@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 
 @Entity("videos")
@@ -85,4 +86,13 @@ data class VideoStatisticsEntity(
         val likeCount: String?,
         @ColumnInfo("viewCount")
         val viewCount: String?
+)
+
+fun VideoEntity.asHistoryItem(): HistoryItem = HistoryItem(
+        id,
+        snippet?.thumbnail,
+        snippet?.title.toString(),
+        snippet?.channelTitle.toString(),
+        resourceType,
+        createdAt,
 )

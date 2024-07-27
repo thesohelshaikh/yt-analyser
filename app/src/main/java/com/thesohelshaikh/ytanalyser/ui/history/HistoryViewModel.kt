@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
 import com.thesohelshaikh.ytanalyser.data.local.dao.VideoDao
-import com.thesohelshaikh.ytanalyser.data.local.entities.PlayListEntity
-import com.thesohelshaikh.ytanalyser.data.local.entities.VideoEntity
+import com.thesohelshaikh.ytanalyser.data.local.entities.asHistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,24 +21,6 @@ class HistoryViewModel @Inject constructor(
 
     private val _historyScreenState = MutableLiveData<HistoryUiState>()
     val historyScreenState: LiveData<HistoryUiState> get() = _historyScreenState
-
-    private fun VideoEntity.asHistoryItem(): HistoryItem = HistoryItem(
-        id,
-        snippet?.thumbnail,
-        snippet?.title.toString(),
-        snippet?.channelTitle.toString(),
-        resourceType,
-        createdAt,
-    )
-
-    private fun PlayListEntity.asHistoryItem(): HistoryItem = HistoryItem(
-        id,
-        thumbnailUrl,
-        title.toString(),
-        channelTitle.toString(),
-        resourceType,
-        createdAt,
-    )
 
     fun getVideosAndPlaylists() {
         viewModelScope.launch {

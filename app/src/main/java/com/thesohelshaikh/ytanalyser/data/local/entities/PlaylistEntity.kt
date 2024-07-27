@@ -3,6 +3,7 @@ package com.thesohelshaikh.ytanalyser.data.local.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 
 @Entity("playlists")
@@ -22,4 +23,13 @@ data class PlayListEntity(
     val resourceType: ResourceType = ResourceType.PLAYLIST,
     @ColumnInfo("createdAt")
     val createdAt: Long = System.currentTimeMillis()
+)
+
+fun PlayListEntity.asHistoryItem(): HistoryItem = HistoryItem(
+    id,
+    thumbnailUrl,
+    title.toString(),
+    channelTitle.toString(),
+    resourceType,
+    createdAt,
 )
