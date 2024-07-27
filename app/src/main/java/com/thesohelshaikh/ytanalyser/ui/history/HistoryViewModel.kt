@@ -1,7 +1,5 @@
 package com.thesohelshaikh.ytanalyser.ui.history
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
@@ -10,6 +8,8 @@ import com.thesohelshaikh.ytanalyser.data.local.entities.asHistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
 import com.thesohelshaikh.ytanalyser.data.model.ResourceType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +19,8 @@ class HistoryViewModel @Inject constructor(
     private val playlistDao: PlaylistDao,
 ) : ViewModel() {
 
-    private val _historyScreenState = MutableLiveData<HistoryUiState>()
-    val historyScreenState: LiveData<HistoryUiState> get() = _historyScreenState
+    private val _historyScreenState = MutableStateFlow<HistoryUiState>(HistoryUiState.Initial)
+    val historyScreenState: StateFlow<HistoryUiState> get() = _historyScreenState
 
     fun getVideosAndPlaylists() {
         viewModelScope.launch {
@@ -64,6 +64,7 @@ class HistoryViewModel @Inject constructor(
     }
 
     sealed class HistoryUiState {
+        object Initial : HistoryUiState()
         class Success(val historyItems: List<HistoryItem>) : HistoryUiState()
     }
 

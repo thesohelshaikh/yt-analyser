@@ -5,8 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thesohelshaikh.ytanalyser.data.local.dao.PlaylistDao
@@ -16,6 +14,8 @@ import com.thesohelshaikh.ytanalyser.data.network.model.PlaylistVideoIdResponse
 import com.thesohelshaikh.ytanalyser.data.network.model.asEntity
 import com.thesohelshaikh.ytanalyser.data.repository.YoutubeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
@@ -28,10 +28,12 @@ class DetailsViewModel @Inject constructor(
     private val youtubeNetworkRepository: YoutubeRepository
 ) : ViewModel() {
 
-    private val _detailsScreenState = MutableLiveData<DetailsScreenState>()
-    val detailsScreenState: LiveData<DetailsScreenState> get() = _detailsScreenState
+    private val _detailsScreenState =
+        MutableStateFlow<DetailsScreenState>(DetailsScreenState.InitialState)
+    val detailsScreenState: StateFlow<DetailsScreenState> get() = _detailsScreenState
 
     sealed class DetailsScreenState {
+        object InitialState : DetailsScreenState()
         class SuccessState(
             val id: String,
             val thumbnailUrl: String?,

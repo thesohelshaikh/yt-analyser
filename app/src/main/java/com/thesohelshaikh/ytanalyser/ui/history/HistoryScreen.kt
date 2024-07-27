@@ -23,7 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
@@ -55,7 +55,7 @@ fun HistoryScreen(
     LaunchedEffect(key1 = Unit) {
         historyViewModel.getVideosAndPlaylists()
     }
-    val screenState = historyViewModel.historyScreenState.observeAsState()
+    val screenState = historyViewModel.historyScreenState.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf(FilterType.ALL) }
 
     when (screenState.value) {
@@ -102,7 +102,7 @@ fun HistoryScreen(
             }
         }
 
-        null -> {
+        HistoryViewModel.HistoryUiState.Initial -> {
             /* no-op */
         }
     }

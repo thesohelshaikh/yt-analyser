@@ -34,7 +34,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -50,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thesohelshaikh.ytanalyser.R
@@ -74,7 +74,7 @@ fun DetailsScreen(
         }
     })
 
-    val state by detailsViewModel.detailsScreenState.observeAsState()
+    val state by detailsViewModel.detailsScreenState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     when (state) {
@@ -102,8 +102,8 @@ fun DetailsScreen(
             )
         }
 
-        null -> {
-
+        DetailsViewModel.DetailsScreenState.InitialState -> {
+            /* no-op */
         }
     }
 
