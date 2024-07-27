@@ -25,7 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -240,7 +240,7 @@ private fun DurationsList(
         itemsIndexed(alternateDurations) { index, alternateDuration ->
             DurationRow(alternateDuration, playbacks[index])
             if (index != alternateDurations.lastIndex) {
-                Divider()
+                HorizontalDivider()
             }
         }
     }

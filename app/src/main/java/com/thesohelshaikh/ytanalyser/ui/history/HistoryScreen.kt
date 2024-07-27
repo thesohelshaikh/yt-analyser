@@ -139,7 +139,7 @@ private fun FilterRow(selectedFilter: FilterType, onFilterSelected: (FilterType)
                         }
                         onFilterSelected(filter)
                     },
-                    selected = FilterType.values().get(index) == selectedFilter
+                    selected = FilterType.values()[index] == selectedFilter
                 ) {
                     Text(label)
                 }

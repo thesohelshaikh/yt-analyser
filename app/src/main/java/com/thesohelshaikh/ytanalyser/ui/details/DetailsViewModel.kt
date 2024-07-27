@@ -40,7 +40,7 @@ class DetailsViewModel @Inject constructor(
             val duration: Long
         ) : DetailsScreenState()
 
-        class ErrorState(val message: String) : DetailsScreenState()
+        object ErrorState : DetailsScreenState()
         object LoadingState : DetailsScreenState()
     }
 
@@ -88,7 +88,7 @@ class DetailsViewModel @Inject constructor(
 
             } catch (e: Exception) {
                 Timber.e("getVideoDetails: $e")
-                _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
+                _detailsScreenState.value = DetailsScreenState.ErrorState
             }
         }
     }
@@ -114,7 +114,7 @@ class DetailsViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Timber.e(e)
-                _detailsScreenState.value = DetailsScreenState.ErrorState(e.message.toString())
+                _detailsScreenState.value = DetailsScreenState.ErrorState
             }
         }
     }
@@ -175,6 +175,7 @@ class DetailsViewModel @Inject constructor(
         )
     }
 
+    @Suppress("DEPRECATION")
     fun shareDetailsScreenshot(context: Context, bitmap: Bitmap) {
         try {
             Timber.i("Captured bitmap: $bitmap")
@@ -183,9 +184,9 @@ class DetailsViewModel @Inject constructor(
                 bitmap,
                 "Screenshot ${Date()}",
                 null
-            );
-            val bitmapUri = Uri.parse(bitmapPath);
-            shareImageUri(context, bitmapUri);
+            )
+            val bitmapUri = Uri.parse(bitmapPath)
+            shareImageUri(context, bitmapUri)
         } catch (error: Throwable) {
             // Error occurred, do something.
             Timber.e(error)
