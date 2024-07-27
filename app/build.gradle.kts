@@ -8,7 +8,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.android.gms.oss-licenses-plugin")
 
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -70,10 +69,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
-    }
-
-    kapt {
-        correctErrorTypes = true
     }
 
     androidResources {
@@ -157,7 +152,7 @@ dependencies {
 
     // Dagger Hilt - Dependency Injection
     implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48") // TODO: Migrate to KSP when stable
+    ksp("com.google.dagger:hilt-android-compiler:2.48") // TODO: Migrate to KSP when stable
 
     // Datastore - User preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")
