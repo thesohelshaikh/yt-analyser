@@ -47,6 +47,9 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
+            vcsInfo {
+                include = true
+            }
         }
         debug {
             isPseudoLocalesEnabled = true
