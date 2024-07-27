@@ -1,6 +1,9 @@
 package com.thesohelshaikh.ytanalyser.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.material.icons.Icons
@@ -16,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -33,7 +37,13 @@ fun HomeBottomBar(
     AnimatedVisibility(
         visible = shouldShowBottomBar,
         enter = slideInVertically(initialOffsetY = { it }),
-        exit = slideOutVertically(targetOffsetY = { it }),
+        exit = slideOutVertically(
+            targetOffsetY = { it },
+            animationSpec = spring(
+                stiffness = Spring.StiffnessHigh,
+                visibilityThreshold = IntOffset.VisibilityThreshold
+            )
+        ),
     ) {
         NavigationBar {
             homeTabs.forEachIndexed { index, tab ->
@@ -58,6 +68,7 @@ fun HomeBottomBar(
             }
         }
     }
+
 }
 
 val homeTabs = listOf(
