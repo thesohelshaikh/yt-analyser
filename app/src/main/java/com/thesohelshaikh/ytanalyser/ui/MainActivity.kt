@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
         setCrashReportingKeys()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         Timber.i("onNewIntent: $intent")
         handleSendText(intent)
