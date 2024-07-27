@@ -59,7 +59,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 
     compileOptions {
@@ -156,8 +156,8 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     // Dagger Hilt - Dependency Injection
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44") // TODO: Migrate to KSP when stable
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48") // TODO: Migrate to KSP when stable
 
     // Datastore - User preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")
