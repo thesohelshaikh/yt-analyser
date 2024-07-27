@@ -117,7 +117,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
 
     // Room - Caching
-    val roomVersion = "2.5.2"
+    val roomVersion = "2.6.1"
     implementation("androidx.room:room-ktx:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
