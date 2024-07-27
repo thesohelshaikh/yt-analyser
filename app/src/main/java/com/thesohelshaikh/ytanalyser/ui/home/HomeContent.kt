@@ -3,26 +3,20 @@ package com.thesohelshaikh.ytanalyser.ui.home
 import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Insights
-import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,7 +38,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import com.thesohelshaikh.ytanalyser.R
-import com.thesohelshaikh.ytanalyser.ui.details.DurationsManger
 import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -72,16 +64,34 @@ fun HomeContent(
         }
     }
 
-    HomeContent(urlInput, context, onClickAnalyse)
+    val invalidUrlMessage = stringResource(R.string.message_invalid_url)
+
+    HomeContent(
+        urlInput = urlInput,
+        onUrlChange = {
+            urlInput = it
+        },
+        onClickAnalyse = {
+            val videoId = validateUrl(urlInput)
+            if (videoId.isNullOrEmpty()) {
+                Toast.makeText(
+                    context,
+                    invalidUrlMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                onClickAnalyse(videoId)
+            }
+        }
+    )
 }
 
 @Composable
 private fun HomeContent(
     urlInput: String,
-    context: Context,
-    onClickAnalyse: (String) -> Unit
+    onUrlChange: (String) -> Unit,
+    onClickAnalyse: () -> Unit,
 ) {
-    var urlInput1 = urlInput
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -115,56 +125,16 @@ private fun HomeContent(
             }
         }
 
-        val invalidUrlMessage = stringResource(R.string.message_invalid_url)
-        OutlinedTextField(
-            value = urlInput1,
-            onValueChange = { urlInput1 = it },
-            label = { Text(stringResource(id = R.string.hint_playlist_id_video_id_url)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            trailingIcon = {
-                if (urlInput1.isEmpty()) return@OutlinedTextField
-
-                Icon(
-                    imageVector = Icons.Outlined.Cancel,
-                    contentDescription = stringResource(R.string.cd_clear_text),
-                    modifier = Modifier.clickable { urlInput1 = "" }
-                )
-            },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
-            keyboardActions = KeyboardActions(
-                onGo = {
-                    val videoId = validateUrl(urlInput1)
-                    if (videoId.isNullOrEmpty()) {
-                        Toast.makeText(
-                            context,
-                            invalidUrlMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        return@KeyboardActions
-                    }
-                    onClickAnalyse(videoId)
-                }
-            ),
-            singleLine = true,
-            leadingIcon = {
-                Icon(imageVector = Icons.Outlined.Link, contentDescription = null)
-            }
+        YTUrlInput(
+            defaultVal = urlInput,
+            onUrlChange = onUrlChange,
+            onClickAnalyse = onClickAnalyse,
         )
+
 
         Button(
             onClick = {
-                val videoId = validateUrl(urlInput1)
-                if (videoId.isNullOrEmpty()) {
-                    Toast.makeText(
-                        context,
-                        invalidUrlMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return@Button
-                }
-                onClickAnalyse(videoId)
+                onClickAnalyse()
             },
             modifier = Modifier
                 .fillMaxWidth(0.5f)
@@ -207,12 +177,6 @@ private fun LifecycleEventListener(onResume: suspend () -> Unit) {
     }
 }
 
-private fun validateUrl(urlInput: String): String? {
-    if (urlInput.isBlank() || urlInput.isEmpty()) return null
-    val idFromURL = DurationsManger.getIDfromURL(urlInput)
-    if (idFromURL.isNullOrBlank() || idFromURL.isEmpty()) return null
-    return idFromURL
-}
 
 private fun getStringFromClipboard(context: Context): String {
     val clipboardManager =
@@ -227,6 +191,10 @@ private fun getStringFromClipboard(context: Context): String {
 @Composable
 fun PreviewHomeContent() {
     AppTheme {
-        HomeContent(urlInput = "", context = LocalContext.current, onClickAnalyse = {})
+        HomeContent(
+            urlInput = "",
+            onUrlChange = {},
+            onClickAnalyse = {}
+        )
     }
 }
