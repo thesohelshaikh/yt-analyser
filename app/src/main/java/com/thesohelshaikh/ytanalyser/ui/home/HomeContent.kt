@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.thesohelshaikh.ytanalyser.R
 import com.thesohelshaikh.ytanalyser.data.model.HistoryItem
@@ -58,7 +58,7 @@ fun HomeContent(
 ) {
     var urlInput by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val historyItems = homeViewModel.historyItemsFlow.collectAsState(initial = emptyList())
+    val historyItems = homeViewModel.historyItemsFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = historyItems) {
         homeViewModel.getVideosAndPlaylists()
