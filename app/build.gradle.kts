@@ -139,7 +139,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     implementation("androidx.lifecycle:lifecycle-runtime-compose")
 
-    val navVersion = "2.7.7"
+    val navVersion = "2.8.1"
     implementation("androidx.navigation:navigation-compose:$navVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
@@ -155,7 +155,7 @@ dependencies {
 
     // Dagger Hilt - Dependency Injection
     implementation("com.google.dagger:hilt-android:2.48")
-    ksp("com.google.dagger:hilt-android-compiler:2.48") // TODO: Migrate to KSP when stable
+    ksp("com.google.dagger:hilt-android-compiler:2.48")
 
     // Datastore - User preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")

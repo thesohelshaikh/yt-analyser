@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -33,7 +34,8 @@ fun HomeBottomBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val shouldShowBottomBar = homeTabs.any { it.screen.route == currentDestination?.route }
+    val shouldShowBottomBar =
+        homeTabs.any { currentDestination?.hasRoute(it.screen::class) == true }
     AnimatedVisibility(
         visible = shouldShowBottomBar,
         enter = slideInVertically(initialOffsetY = { it }),
@@ -49,7 +51,7 @@ fun HomeBottomBar(
             homeTabs.forEachIndexed { index, tab ->
                 NavigationBarItem(
                     selected =
-                    currentDestination?.hierarchy?.any { it.route == tab.screen.route } == true,
+                    currentDestination?.hierarchy?.any { it.hasRoute(tab.screen::class) } == true,
                     onClick = { onBottomTabClick(index) },
                     icon = {
                         Icon(

@@ -20,6 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -31,12 +34,14 @@ import com.thesohelshaikh.ytanalyser.ui.theme.AppTheme
 fun HomeTopAppBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val shouldShowBack = homeTabs.none { it.screen.route == currentDestination?.route }
-    val shouldShowSettings = homeTabs.any { it.screen.route == currentDestination?.route }
+    val shouldShowBack = homeTabs.none { currentDestination?.hasRoute(it.screen::class) == true }
+    val shouldShowSettings = homeTabs.any { currentDestination?.hasRoute(it.screen::class) == true }
 
     CenterAlignedTopAppBar(
         title = {
-            val title = getScreenTitle(currentDestination?.route)?.let { stringResource(id = it) }
+            val title = getScreenTitle(currentDestination?.hierarchy?.firstOrNull())?.let {
+                stringResource(id = it)
+            }
             Text(
                 text = title ?: "",
                 color = MaterialTheme.colorScheme.onPrimary,
@@ -67,7 +72,7 @@ fun HomeTopAppBar(navController: NavHostController) {
                 enter = fadeIn() + slideInHorizontally(initialOffsetX = { it }),
                 exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
             ) {
-                IconButton(onClick = { navController.navigate(Screen.Settings.route) }) {
+                IconButton(onClick = { navController.navigate(Screen.Settings) }) {
                     Icon(
                         imageVector = Icons.Filled.Settings,
                         contentDescription = stringResource(id = R.string.screen_settings),
@@ -79,11 +84,12 @@ fun HomeTopAppBar(navController: NavHostController) {
     )
 }
 
-private fun getScreenTitle(route: String?): Int? {
-    return when (route) {
-        Screen.Home.route -> R.string.app_name
-        Screen.History.route -> R.string.screen_history
-        Screen.Settings.route -> R.string.screen_settings
+private fun getScreenTitle(route: NavDestination?): Int? {
+    return when {
+        null == route -> null
+        route.hasRoute<Screen.Home>() -> R.string.app_name
+        route.hasRoute<Screen.History>() -> R.string.screen_history
+        route.hasRoute<Screen.Settings>() -> R.string.screen_settings
         else -> null
     }
 }

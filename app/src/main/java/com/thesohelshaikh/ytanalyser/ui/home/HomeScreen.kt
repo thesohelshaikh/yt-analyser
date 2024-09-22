@@ -8,11 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.thesohelshaikh.ytanalyser.data.model.UserData
 import com.thesohelshaikh.ytanalyser.ui.details.DetailsScreen
 import com.thesohelshaikh.ytanalyser.ui.history.HistoryScreen
@@ -24,7 +23,7 @@ fun MyApp(
     receivedUrl: String?,
     userData: UserData,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.Home.route
+    startDestination: Screen = Screen.Home
 ) {
     AppTheme(userData.shouldUseDarkTheme()) {
         HomeScreen(
@@ -39,7 +38,7 @@ fun MyApp(
 fun HomeScreen(
     receivedUrl: String?,
     navController: NavHostController,
-    startDestination: String,
+    startDestination: Screen,
 ) {
     Scaffold(
         topBar = {
@@ -49,7 +48,7 @@ fun HomeScreen(
             HomeBottomBar(
                 navController
             ) { index ->
-                navController.navigate(homeTabs[index].screen.route) {
+                navController.navigate(homeTabs[index].screen) {
                     // Pop up to the start destination of the graph to
                     // avoid building up a large stack of destinations
                     // on the back stack as users select items
@@ -73,7 +72,7 @@ fun HomeScreen(
 private fun AppNavHost(
     receivedUrl: String?,
     navController: NavHostController,
-    startDestination: String,
+    startDestination: Screen,
     contentPadding: PaddingValues
 ) {
     NavHost(
@@ -81,45 +80,31 @@ private fun AppNavHost(
         startDestination = startDestination,
         modifier = Modifier.padding(contentPadding)
     ) {
-        composable(Screen.Home.route) {
+        composable<Screen.Home> {
             HomeContent(
                 receivedUrl = receivedUrl,
                 onClickAnalyse = {
-                    navController.navigate("details/$it")
+                    navController.navigate(Screen.Details(it))
                 },
                 onViewHistory = {
-                    navController.navigate(Screen.History.route)
+                    navController.navigate(Screen.History)
                 }
             )
         }
-        composable(
-            Screen.Details.route,
-            arguments = listOf(
-                navArgument("videoId") {
-                    type = NavType.StringType
-                }
-            )
-        ) { backStackEntry ->
+        composable<Screen.Details> { backStackEntry ->
             DetailsScreen(
-                backStackEntry.arguments?.getString("videoId") ?: ""
+                backStackEntry.toRoute<Screen.Details>().videoId
             )
         }
-        composable(Screen.History.route) {
+        composable<Screen.History> {
             HistoryScreen(onVideoClick = {
-                navController.navigate("details/$it")
+                navController.navigate(Screen.Details(it))
             })
         }
-        composable(Screen.Settings.route) {
+        composable<Screen.Settings> {
             SettingsScreen()
         }
     }
-}
-
-sealed class Screen(val route: String) {
-    object Home : Screen("home")
-    object Details : Screen("details/{videoId}")
-    object History : Screen("history")
-    object Settings : Screen("settings")
 }
 
 @Preview
@@ -129,7 +114,7 @@ fun HomeScreenPreview() {
         HomeScreen(
             receivedUrl = "",
             navController = rememberNavController(),
-            startDestination = Screen.Home.route
+            startDestination = Screen.Home
         )
     }
 }
